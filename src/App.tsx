@@ -16,6 +16,8 @@ function App(): JSX.Element {
 
   // Refs for scroll-up elements
   const scrollUpRefs = [useRef<HTMLHeadingElement>(null), useRef<HTMLHeadingElement>(null), useRef<HTMLParagraphElement>(null)];
+  // Ref for the logo image
+  const logoRef = useRef<HTMLImageElement>(null);
 
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
@@ -90,6 +92,45 @@ function App(): JSX.Element {
       triggers.push(trigger);
     });
 
+    /**
+     * Animate logo: scale down and rotate after hero section scroll-up animations are over.
+     * The logo remains vertically centered and pressed to the left.
+     */
+    const logoEl = logoRef.current;
+    if (logoEl && elements[2]) {
+      // Set initial state: vertically centered, left-aligned
+      gsap.set(logoEl, { scale: 1, rotate: 0, x: 0, y: 0 });
+      // Animate after last scroll-up element
+      const lastScrollUpEnd = {
+        trigger: elements[2],
+        start: "top center", // matches the end of the last scroll-up animation
+        end: "+=400", // over 400px scroll
+        scrub: true,
+        onUpdate: (self: ScrollTrigger) => {
+          const progress = self.progress;
+          // Scale from 1 to 0.6, rotate from 0 to -30deg
+          const scale = 1 - 0.4 * progress;
+          const rotate = -30 * progress;
+          // Move logo further to the left (e.g., -40px at full progress)
+          const x = -100 * progress;
+          // Keep logo vertically centered: top 50% minus half its height
+          // Since it's fixed with top-1/2 and -translate-y-1/2, y should remain 0
+          const y = -200 * progress;
+          gsap.to(logoEl, {
+            scale,
+            rotate,
+            x,
+            y,
+            overwrite: "auto",
+            duration: 0.1,
+            ease: "linear"
+          });
+        }
+      };
+      const logoTrigger = ScrollTrigger.create(lastScrollUpEnd);
+      triggers.push(logoTrigger);
+    }
+
     // Cleanup function: kill ScrollTriggers and cancel animation frame
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
@@ -104,17 +145,55 @@ function App(): JSX.Element {
     };
   }, []);
 
+  // Robust vertical centering for logo: ensures correct position on load, resize, and before GSAP animation
+  useEffect(() => {
+    const logoEl = logoRef.current;
+    if (logoEl) {
+      /**
+       * Handler to center the logo vertically in the viewport using GSAP.
+       * Ensures pixel-perfect positioning regardless of image load timing.
+       */
+      const handlePositioning = (): void => {
+        const viewportHeight = window.innerHeight;
+        const logoHeight = logoEl.offsetHeight;
+        const top = (viewportHeight - logoHeight) / 2;
+        gsap.set(logoEl, {
+          position: "fixed",
+          top,
+          left: "3rem", // Tailwind's left-12
+          x: 0,
+          y: 0,
+        });
+      };
+      // If already loaded (from cache), run immediately
+      if (logoEl.complete) {
+        handlePositioning();
+      } else {
+        logoEl.addEventListener("load", handlePositioning);
+      }
+      // Recalculate on window resize
+      window.addEventListener("resize", handlePositioning);
+      // Cleanup listeners on unmount
+      return () => {
+        logoEl.removeEventListener("load", handlePositioning);
+        window.removeEventListener("resize", handlePositioning);
+      };
+    }
+    return undefined;
+  }, []);
+
   return (
     <div className="app-root w-full scroll-area relative min-h-[800vh] bg-gradient-to-tr from-neutral-900 to-neutral-800">
       {/* Fixed Logo */}
       <img
+        ref={logoRef}
         src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
         alt="Goldenes Dreieck mit Spiralensymbol Logo"
-        className="fixed top-1/2 left-12 -translate-y-1/2 w-[500px] max-w-[30vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
+        className="fixed left-12 w-[500px] max-w-[30vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
         style={{ zIndex: 20 }}
       />
       {/* Scrollable Content */}
-      <section className="w-[50vw] ml-[40vw] min-h-screen flex items-center justify-center">
+      <section ref={heroRef} className="w-[50vw] ml-[40vw] min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-start justify-center flex-1 max-w-3xl mx-auto px-4 py-32">
           {/* Animated scroll-up elements with refs */}
           <h1 ref={scrollUpRefs[0]} className="text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG</h1>
