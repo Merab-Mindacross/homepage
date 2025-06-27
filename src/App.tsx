@@ -1,4 +1,4 @@
-import { useRef, useEffect, type JSX } from "react";
+import { useRef, useEffect, type JSX, useState } from "react";
 import { gsap } from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -18,6 +18,11 @@ function App(): JSX.Element {
   const scrollUpRefs = [useRef<HTMLHeadingElement>(null), useRef<HTMLHeadingElement>(null), useRef<HTMLParagraphElement>(null)];
   // Ref for the logo image
   const logoRef = useRef<HTMLImageElement>(null);
+
+  // State to control when to show the Qualitätsmanagement section
+  const [showQM, setShowQM] = useState<boolean>(false);
+  const qmTitleRef = useRef<HTMLHeadingElement>(null);
+  const qmPointsRef = useRef<HTMLUListElement>(null);
 
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
@@ -125,6 +130,10 @@ function App(): JSX.Element {
             duration: 0.1,
             ease: "linear"
           });
+        },
+        onLeave: () => {
+          // When logo animation is done, show QM section
+          setShowQM(true);
         }
       };
       const logoTrigger = ScrollTrigger.create(lastScrollUpEnd);
@@ -182,6 +191,18 @@ function App(): JSX.Element {
     return undefined;
   }, []);
 
+  // Animate fade-in for QM section when it appears
+  useEffect(() => {
+    if (showQM) {
+      if (qmTitleRef.current) {
+        gsap.fromTo(qmTitleRef.current, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
+      }
+      if (qmPointsRef.current) {
+        gsap.fromTo(qmPointsRef.current, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: "power2.out" });
+      }
+    }
+  }, [showQM]);
+
   return (
     <div className="app-root w-full scroll-area relative min-h-[800vh] bg-gradient-to-tr from-neutral-900 to-neutral-800">
       {/* Fixed Logo */}
@@ -203,6 +224,19 @@ function App(): JSX.Element {
       </section>
       {/* Add extra content to enable scrolling */}
       <div className="h-[120vh]" />
+      {/* Qualitätsmanagement Section: Fades in after logo animation */}
+      {showQM && (
+        <section className="w-full flex flex-col items-center justify-center py-32 bg-transparent">
+          <h2 ref={qmTitleRef} className="text-4xl font-bold text-gray-100 mb-6 opacity-0">Qualitätsmanagement</h2>
+          <ul ref={qmPointsRef} className="text-2xl text-gray-200 space-y-4 opacity-0">
+            <li>• Prozessoptimierung und Effizienzsteigerung</li>
+            <li>• Lieferantenentwicklung und -bewertung</li>
+            <li>• Qualitätsaudits und Zertifizierungen</li>
+            <li>• Fehler- und Reklamationsmanagement</li>
+            <li>• Schulung und Sensibilisierung von Teams</li>
+          </ul>
+        </section>
+      )}
     </div>
   );
 }
