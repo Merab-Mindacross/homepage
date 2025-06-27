@@ -184,19 +184,18 @@ function App(): JSX.Element {
 
   const qualityRef = useRef<HTMLElement>(null);
   useEffect(() => {
-    const qualityEl = qualityRef.current;
-    if (qualityEl) {
-      gsap.set(qualityEl, { opacity: 0, y: 40 });
+    const qualityEl = document.querySelector<HTMLElement>(".fade-in");
+    if (qualityEl && qualityRef.current) {
+      gsap.set(qualityEl, { opacity: 0 });
       ScrollTrigger.create({
-        trigger: qualityEl,
-        start: "top 80%",
+        trigger: qualityRef.current,
+        start: "top 40%",
         end: "top 10%",
         onUpdate: (self) => {
           const progress = self.progress;
           gsap.to(qualityEl, {
             opacity: progress,
             duration: 0.1,
-            top: 190 ,
             ease: "linear"
           });
         }
@@ -222,8 +221,8 @@ function App(): JSX.Element {
           <p ref={scrollUpRefs[2]} className="text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management in der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
         </div>
       </section>
-      <section className="w-full min-h-[60vh] relative z-30" ref={qualityRef}>
-        <h1 className="fixed left-[calc(3rem+280px)] font-bold text-5xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none" style={{ top: 190 }}>QUALITÄTSMANAGEMENT</h1>
+      <section className=" w-[50vw] min-h-[60vh] relative z-30 fixed top-0 left-0" ref={qualityRef}>
+        <h1 className="fixed left-[calc(3rem+280px)] top-[190px] font-bold text-5xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in" >QUALITÄTSMANAGEMENT</h1>
       </section>
 
       <div className="h-[120vh]" />
