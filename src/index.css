@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Remove font-family and color overrides, let Tailwind handle */
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fff;
+  color: #e5e7eb; /* Tailwind's gray-200 */
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Remove h1, button, and other custom styles, use Tailwind only */
+
+
+
+

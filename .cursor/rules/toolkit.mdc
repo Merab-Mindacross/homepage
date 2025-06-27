@@ -1,0 +1,12 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+im using the following techstack and libraries:
+- react
+- Vite
+- tailwind
+- gsap
+- sctolltrigger
+- pnpm
