@@ -1,8 +1,9 @@
-import { useRef, useEffect, type JSX } from "react";
+import { useRef, useEffect, type JSX, type ReactNode } from "react";
 import { gsap } from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./App.css";
+import { InfoCard, type CardProps } from "./components/InfoCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -183,6 +184,9 @@ function App(): JSX.Element {
   }, []);
 
   const qualityRef = useRef<HTMLElement>(null);
+  const infoCardsRef = useRef<HTMLDivElement>(null);
+  const qualityTitleRef = useRef<HTMLHeadingElement>(null);
+
   useEffect(() => {
     const qualityEl = document.querySelector<HTMLElement>(".fade-in");
     if (qualityEl && qualityRef.current) {
@@ -202,6 +206,74 @@ function App(): JSX.Element {
       });
     }
   }, []);
+
+  // Animation für InfoCards und Titel
+  useEffect(() => {
+    const infoCardsEl = infoCardsRef.current;
+    const titleEl = qualityTitleRef.current;
+    const sectionEl = qualityRef.current;
+
+    if (!infoCardsEl || !titleEl || !sectionEl) return;
+
+    // 1. Titel: Fade in (bevor die Karten erscheinen)
+    gsap.set(titleEl, { opacity: 0 });
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: "top 60%", // Titel beginnt zu erscheinen, wenn Section 60% vom Viewport erreicht
+      end: "top 0%",   // Titel ist voll sichtbar
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.to(titleEl, { opacity: progress, duration: 0.1, overwrite: "auto" });
+      }
+    });
+
+    // 2. InfoCards: Fade in (erst nach Titel fully visible)
+    gsap.set(infoCardsEl, { opacity: 0, y: 50 });
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: "top 0%", // Karten beginnen zu erscheinen, wenn Titel voll sichtbar
+      end: "top -40%",   // Karten sind voll sichtbar
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const opacity = progress;
+        gsap.to(infoCardsEl, { opacity, duration: 0.1, overwrite: "auto" });
+      }
+    });
+
+    // 3. InfoCards: Fade out (nachdem sie voll sichtbar waren)
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: "top -90%", // Karten beginnen zu verschwinden
+      end: "top -110%",  // Karten sind komplett weg
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const opacity = 1 - progress;
+        gsap.to(infoCardsEl, { opacity, duration: 0.1, overwrite: "auto" });
+      }
+    });
+
+    // 4. Titel: Fade out (erst nach Karten fade out)
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: "top -110%", // Titel beginnt zu verschwinden, wenn Karten weg sind
+      end: "top -130%",   // Titel ist komplett weg
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const opacity = 1 - progress;
+        gsap.to(titleEl, { opacity, duration: 0.1, overwrite: "auto" });
+      }
+    });
+
+    // Cleanup
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
   return (
     <div className="app-root w-full scroll-area relative min-h-[800vh] bg-gradient-to-tr from-neutral-900 to-neutral-800">
       {/* Fixed Logo */}
@@ -221,8 +293,61 @@ function App(): JSX.Element {
           <p ref={scrollUpRefs[2]} className="text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management in der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
         </div>
       </section>
-      <section className=" w-[50vw] min-h-[60vh] relative z-30 fixed top-0 left-0" ref={qualityRef}>
-        <h1 className="fixed left-[calc(3rem+280px)] top-[190px] font-bold text-5xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in" >QUALITÄTSMANAGEMENT</h1>
+      <section
+        className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
+        ref={qualityRef}
+      >
+        <h1
+          ref={qualityTitleRef}
+          className="fixed left-[calc(3rem+280px)] top-[190px] font-bold text-5xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in"
+        >
+          QUALITÄTSMANAGEMENT
+        </h1>
+        <div className="h-[500px]" />
+        {/*
+          InfoCards-Container ist jetzt fixed, unterhalb des Titels positioniert.
+          Die Position (top) ist so gewählt, dass die Karten unter dem Titel erscheinen.
+          Die ml- und w-Styles bleiben für das Layout erhalten.
+        */}
+        <div
+          ref={infoCardsRef}
+          className="fixed left-[calc(3rem+280px)] top-[270px] flex flex-row gap-8 w-auto items-stretch z-40"
+          style={{ maxWidth: "calc(100vw - 3rem - 280px - 2rem)" }}
+        >
+          <InfoCard
+            title="Interne Qualität"
+            icon={
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            }
+            points={[
+              "Kontinuierliche Verbesserungsprozesse",
+              "Interne Audits",
+              "Mitarbeiterschulungen"
+            ]}
+            className="max-w-[600px] min-w-[220px]"
+          />
+          <InfoCard
+            title="Kundenqualität"
+            icon={
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M7 15l-2 2a2 2 0 002.83 2.83l2-2" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M17 15l2 2a2 2 0 01-2.83 2.83l-2-2" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M8 13l4 4 4-4" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 17V7" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            }
+            points={[
+              "Erfüllung von Kundenanforderungen",
+              "Lieferzuverlässigkeit",
+              "Serviceorientierung"
+            ]}
+            className="max-w-[600px] min-w-[220px]"
+          />
+        </div>
+        {/* Ende Info-Box */}
       </section>
 
       <div className="h-[120vh]" />
