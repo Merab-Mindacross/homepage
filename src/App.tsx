@@ -73,9 +73,9 @@ function App(): JSX.Element {
     const elements = scrollUpRefs.map((ref) => ref.current);
     // Animation parameters for each element
     const yOffsets = [0, 40, 80]; // px, initial offset for each element
-    const yMoveFactors = [120, 180, 240]; // px, how much each element moves up
-    const fadeStart = 0.2; // Start fading after 20% scroll
-    const fadeEnd = 0.8; // Fully faded at 80% scroll
+    const yMoveFactors = [0.5, 0.2, 0.1]; // px, how much each element moves up
+    const fadeStart = 0.1; 
+    const fadeEnd = 0.5; 
     const triggers: ScrollTrigger[] = [];
 
     elements.forEach((el, i) => {
@@ -85,8 +85,8 @@ function App(): JSX.Element {
       // Animate on scroll
       const trigger = ScrollTrigger.create({
         trigger: el,
-        start: "top 80%", // when element top hits 80% viewport
-        end: "top 10%",   // when element top hits 10% viewport
+        start: "top 25%", 
+        end: "top 30%",   
         scrub: true,
         onUpdate: (self) => {
           // Progress: 0 (start) to 1 (end)
@@ -116,8 +116,8 @@ function App(): JSX.Element {
       // Animate after last scroll-up element
       const lastScrollUpEnd = {
         trigger: elements[2],
-        start: "top center", // matches the end of the last scroll-up animation
-        end: "+=400", // over 400px scroll
+        start: "top 30%", // matches the end of the last scroll-up animation
+        end: "+=300", // over 400px scroll
         scrub: true,
         onUpdate: (self: ScrollTrigger) => {
           const progress = self.progress;
