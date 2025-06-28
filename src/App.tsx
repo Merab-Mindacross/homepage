@@ -27,6 +27,11 @@ function App(): JSX.Element {
   const prozessTitleRef = useRef<HTMLHeadingElement>(null);
   const prozessCardsRef = useRef<HTMLDivElement>(null);
 
+  // Refs for Lieferantenaufbau section
+  const lieferantenRef = useRef<HTMLElement>(null);
+  const lieferantenTitleRef = useRef<HTMLHeadingElement>(null);
+  const lieferantenCardsRef = useRef<HTMLDivElement>(null);
+
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
     // Apply the same gradient background to the body for consistent overscroll appearance
@@ -377,6 +382,90 @@ function App(): JSX.Element {
     };
   }, []);
 
+  // Animate triangle logo rotation between Prozessmanagement and Lieferantenaufbau
+  useEffect(() => {
+    const logoEl = logoRef.current;
+    const prozessEl = prozessRef.current;
+    const lieferantenEl = lieferantenRef.current;
+    if (!logoEl || !prozessEl || !lieferantenEl) return;
+
+    // Set base rotation to match the end of previous rotation (e.g., -150deg)
+    const baseRotation = -150;
+    // Rotate by additional -60deg between these sections
+    const rotationTrigger = ScrollTrigger.create({
+      trigger: lieferantenEl,
+      start: "top bottom",
+      end: "top 80%",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const rotate = baseRotation + (-120 * progress);
+        gsap.to(logoEl, { rotate, duration: 0.1, overwrite: "auto" });
+      }
+    });
+    return () => {
+      rotationTrigger.kill();
+    };
+  }, []);
+
+  // Animation für LIEFERANTENAUFBAU Titel und InfoCards (analog zu vorherigen Sections)
+  useEffect(() => {
+    const titleEl = lieferantenTitleRef.current;
+    const cardsEl = lieferantenCardsRef.current;
+    const sectionEl = lieferantenRef.current;
+    if (!titleEl || !cardsEl || !sectionEl) return;
+
+    // 1. Titel: Fade in
+    gsap.set(titleEl, { opacity: 0 });
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: "top 80%",
+      end: "top center",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.to(titleEl, { opacity: progress, duration: 0.1, overwrite: "auto" });
+      }
+    });
+    // 2. InfoCards: Fade in
+    gsap.set(cardsEl, { opacity: 0 });
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: "top center",
+      end: "top 20%",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.to(cardsEl, { opacity: progress, duration: 0.1, overwrite: "auto" });
+      }
+    });
+    // 3. InfoCards: Fade out
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: "top -40%",
+      end: "top -60%",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.to(cardsEl, { opacity: 1 - progress, duration: 0.1, overwrite: "auto" });
+      }
+    });
+    // 4. Titel: Fade out
+    ScrollTrigger.create({
+      trigger: sectionEl,
+      start: "top -60%",
+      end: "top -80%",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.to(titleEl, { opacity: 1 - progress, duration: 0.1, overwrite: "auto" });
+      }
+    });
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
   return (
     <div className="app-root w-full scroll-area relative min-h-[800vh] bg-gradient-to-tr from-neutral-900 to-neutral-800">
       {/* Fixed Logo */}
@@ -504,8 +593,60 @@ function App(): JSX.Element {
         </div>
         <div className="h-[500px]" />
       </section>
-     
-     
+      <div className="h-[800px]" />
+      
+      {/* Neue Section: LIEFERANTENAUFBAU als animierter Bereich */}
+      <section
+        ref={lieferantenRef}
+        className="w-full min-h-[100vh] relative z-10 bg-transparent"
+      >
+        <div className="h-[200px]" />
+        <h1
+          ref={lieferantenTitleRef}
+          className="fixed left-[calc(3rem+280px)] top-[180px] text-5xl font-bold text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none z-50"
+        >
+          LIEFERANTENAUFBAU
+        </h1>
+        <div
+          ref={lieferantenCardsRef}
+          className="fixed left-[calc(3rem+280px)] top-[270px] flex flex-row gap-8 w-auto items-stretch z-40"
+          style={{ maxWidth: "calc(100vw - 3rem - 280px - 2rem)" }}
+        >
+          <InfoCard
+            title="Lieferantensuche"
+            icon={
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#d6ba6d" strokeWidth="2" />
+                <path d="M8 12h8" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            }
+            points={[
+              "Marktrecherche",
+              "Anfrage- und Angebotsmanagement",
+              "Erstqualifizierung"
+            ]}
+            className="max-w-[600px] min-w-[220px]"
+          />
+          <InfoCard
+            title="Lieferantenentwicklung"
+            icon={
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="6" y="6" width="12" height="12" rx="3" stroke="#d6ba6d" strokeWidth="2" />
+                <path d="M12 9v6M9 12h6" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            }
+            points={[
+              "Auditierung",
+              "Qualitätssteigerung",
+              "Partnerschaftsaufbau"
+            ]}
+            className="max-w-[600px] min-w-[220px]"
+          />
+        </div>
+        <div className="h-[500px]" />
+      </section>
+      <div className="h-[1500px]" />
+      
       <div className="h-[120vh]" />
     </div>
   );
