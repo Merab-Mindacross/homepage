@@ -649,15 +649,16 @@ function App(): JSX.Element {
       
       <div className="h-[300px]" />
       {/* Persönliche "Me"-Seite für Merab */}
-      <section className="flex w-full min-h-[120vh] relative z-10  flex items-center justify-center py-24 bg-neutral-700/70 relative">
-      <img
-            src="/src/assets/PhotoshopVorschau_Bild.png"
-            alt="Merab Torodadze Portrait"
-            className="w-auto h-[120vh] object-cover absolute top-0 -left-10 z-[10000]"
-            style={{ minWidth: "260px", maxWidth: "100%" }}
-          />
+      <section className="backdrop-blur-md flex w-full min-h-[120vh] relative z-50  flex items-center justify-center py-24 bg-neutral-700/70 relative">
+        <img
+          src="/src/assets/PhotoshopVorschau_Bild.png"
+          alt="Merab Torodadze Portrait"
+          /* z-50 ensures this image is above the logo (z-20) and other content */
+          className="w-auto h-[120vh] object-cover absolute top-0 -left-26 z-50"
+          style={{ minWidth: "260px", maxWidth: "100%" }}
+        />
         {/* Bild links, groß */}
-        <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl mx-auto gap-12 bg-neutral-700/70 rounded-3xl shadow-2xl p-8 border border-[#d6ba6d]/30 max-w-[800px]">
+        <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl mx-auto gap-12 bg-neutral-700/70 rounded-3xl shadow-2xl p-8 border border-[#d6ba6d]/30 max-w-[800px] ml-[40vw]">
           
           {/* Info rechts */}
           <div className="flex-1 flex flex-col justify-center items-start gap-6 px-2 ">
