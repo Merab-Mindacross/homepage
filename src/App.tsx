@@ -686,10 +686,21 @@ function App(): JSX.Element {
       </section>
 
       {/* NOS Placeholder Section */}
-      <section className="w-full min-h-[60vh] flex items-center justify-center bg-neutral-800/80 relative z-10" id="nos">
+      <section className="w-full min-h-[100vh] flex items-center justify-center bg-neutral-800/80 relative z-10" id="nos">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-gray-200 mb-4">NOS</h2>
-          <p className="text-lg text-gray-400">Hier entsteht in Kürze ein neuer Bereich.</p>
+          <div className="h-[500px]"></div>
+          <h2 className="text-5xl font-regular mb-4 drop-shadow-2xl text-shadow-gold text-[#d6ba6d]">MINDACROSS</h2>
+          <p className="text-m text-[#d6ba6d]/70">KLARHEIT. STRUKTUR. HANDLUNGSKRAFT</p>
+          {/* CTA Button: Jetzt Kontakt aufnehmen */}
+          <div className="mt-10">
+            <a
+              href="/kontakt"
+              className="inline-block px-8 py-4 rounded-full bg-[#d6ba6d] text-neutral-900 font-bold text-lg shadow-lg hover:bg-[#e7c97a] focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2 transition-colors duration-200"
+              aria-label="Jetzt Kontakt aufnehmen"
+            >
+              Jetzt Kontakt aufnehmen
+            </a>
+          </div>
         </div>
       </section>
 
