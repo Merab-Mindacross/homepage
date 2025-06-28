@@ -32,6 +32,9 @@ function App(): JSX.Element {
   const lieferantenTitleRef = useRef<HTMLHeadingElement>(null);
   const lieferantenCardsRef = useRef<HTMLDivElement>(null);
 
+  // Ref for the CTA button in the NOS section
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
     // Apply the same gradient background to the body for consistent overscroll appearance
@@ -470,6 +473,48 @@ function App(): JSX.Element {
     };
   }, []);
 
+  // Animate logo when CTA button reaches center of viewport
+  useEffect(() => {
+    const logoEl = logoRef.current;
+    const ctaEl = ctaRef.current;
+    if (!logoEl || !ctaEl) return;
+
+    /**
+     * ScrollTrigger: When CTA button reaches center, move logo to center, scale to 500px height, rotate to 0deg
+     */
+    const trigger = ScrollTrigger.create({
+      trigger: ctaEl,
+      start: "center center",
+      end: "+=200",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        // Move logo to center of viewport
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        // Centered position: left = (vw - 500) / 2, top = (vh - 500) / 2
+        const left = 48 + ((vw - 500) / 2 - 48) * progress; // 48px = 3rem (initial left)
+        const top = (vh - 500) / 2 * progress;
+        // Scale logo to 500px height (assuming original height is logoEl.offsetHeight)
+        const scale = 1 + ((500 / (logoEl.offsetHeight || 1)) - 1) * progress;
+        // Rotate to 0deg
+        const rotate = -30 * (1 - progress); // assuming previous rotation was -30deg
+        gsap.to(logoEl, {
+          left,
+          top,
+          scale,
+          rotate,
+          overwrite: "auto",
+          duration: 0.1,
+          ease: "linear"
+        });
+      }
+    });
+    return () => {
+      trigger.kill();
+    };
+  }, []);
+
   return (
     <div className="app-root w-full scroll-area relative min-h-[800vh] bg-gradient-to-tr from-neutral-900 to-neutral-800">
       {/* Fixed Logo */}
@@ -685,8 +730,8 @@ function App(): JSX.Element {
         </div>
       </section>
 
-      {/* NOS Placeholder Section */}
-      <section className="w-full min-h-[100vh] flex items-center justify-center bg-neutral-800/80 relative z-10" id="nos">
+      {/* cta section */}
+      <section className="w-full min-h-[100vh] flex items-center justify-center bg-neutral-800/80 relative z-10" id="nos" ref={ctaRef}>
         <div className="text-center">
           <div className="h-[500px]"></div>
           <h2 className="text-5xl font-regular mb-4 drop-shadow-2xl text-shadow-gold text-[#d6ba6d]">MINDACROSS</h2>
@@ -694,6 +739,7 @@ function App(): JSX.Element {
           {/* CTA Button: Jetzt Kontakt aufnehmen */}
           <div className="mt-10">
             <a
+              ref={ctaRef}
               href="/kontakt"
               className="inline-block px-8 py-4 rounded-full bg-[#d6ba6d] text-neutral-900 font-bold text-lg shadow-lg hover:bg-[#e7c97a] focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2 transition-colors duration-200"
               aria-label="Jetzt Kontakt aufnehmen"
