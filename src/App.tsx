@@ -462,7 +462,7 @@ function App(): JSX.Element {
         <div className="h-[200px]" />
         <h1
           ref={prozessTitleRef}
-          className="fixed text-5xl font-bold text-[#d6ba6d] ml-[calc(3rem+280px)] mt-12 z-50"
+          className="fixed left-[calc(3rem+280px)] top-[170px] text-5xl font-bold text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none z-50"
         >
           PROZESSMANAGEMENT
         </h1>
