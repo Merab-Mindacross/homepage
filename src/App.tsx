@@ -72,9 +72,10 @@ function App(): JSX.Element {
      */
     const elements = scrollUpRefs.map((ref) => ref.current);
     // Animation parameters for each element
-    const yOffsets = [0, 40, 80]; // px, initial offset for each element
-    const yMoveFactors = [0.5, 0.2, 0.1]; // px, how much each element moves up
-    const fadeStart = 0.1; 
+    const yOffsets = [0, 0, 20]; // px, initial offset for each element
+    const yMoveFactors = [100, 60 , 40]; // px, how much each element moves up
+    const yScaleFactors = [1.3, 1.2, 1.1]; // px, how much each element scales up
+    const fadeStart = 0; 
     const fadeEnd = 0.5; 
     const triggers: ScrollTrigger[] = [];
 
@@ -84,22 +85,25 @@ function App(): JSX.Element {
       gsap.set(el, { y: yOffsets[i], opacity: 1 });
       // Animate on scroll
       const trigger = ScrollTrigger.create({
-        trigger: el,
-        start: "top 25%", 
-        end: "top 30%",   
+        trigger: heroRef.current,
+        start: "top -1%", 
+        end: "+=300",   
         scrub: true,
         onUpdate: (self) => {
           // Progress: 0 (start) to 1 (end)
           const progress = self.progress;
           // Move up at different rates
           const y = yOffsets[i] - yMoveFactors[i] * progress;
+          // Calculate the scale based on yScaleFactors and progress
+          const scale = 1 + (yScaleFactors[i] - 1) * progress;
+          // const scale = yScaleFactors[i] * progress;
           // Fade out between fadeStart and fadeEnd
           let opacity = 1;
           if (progress > fadeStart) {
-            opacity = 1.5 - (progress - fadeStart) / (fadeEnd - fadeStart);
+            opacity = 1 - (progress - fadeStart) / (fadeEnd - fadeStart);
             if (opacity < 0) opacity = 0;
           }
-          gsap.to(el, { y, opacity, overwrite: "auto", duration: 0.1, ease: "linear" });
+          gsap.to(el, { y, opacity, scale, overwrite: "auto", duration: 0.1, ease: "linear" });
         },
       });
       triggers.push(trigger);
@@ -478,7 +482,7 @@ function App(): JSX.Element {
       />
       {/* Scrollable Content */}
       <section ref={heroRef} className="w-[50vw] ml-[40vw] min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-start justify-center flex-1 max-w-3xl mx-auto px-4 py-32">
+        <div className="flex flex-col items-start justify-center flex-1 max-w-3xl mx-auto px-4 py-8">
           {/* Animated scroll-up elements with refs */}
           <h1 ref={scrollUpRefs[0]} className="text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG</h1>
           <h1 ref={scrollUpRefs[1]} className="text-5xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
