@@ -20,6 +20,9 @@ function App(): JSX.Element {
   // Ref for the logo image
   const logoRef = useRef<HTMLImageElement>(null);
 
+  // Ref for the next section (e.g., Prozessmanagement)
+  const prozessRef = useRef<HTMLElement>(null);
+
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
     // Apply the same gradient background to the body for consistent overscroll appearance
@@ -274,6 +277,51 @@ function App(): JSX.Element {
     };
   }, []);
 
+  // Animate triangle logo rotation between QUALITÄTSMANAGEMENT and PROZESSMANAGEMENT
+  useEffect(() => {
+    const logoEl = logoRef.current;
+    const qualitaetEl = qualityRef.current;
+    const prozessEl = prozessRef.current;
+    if (!logoEl || !qualitaetEl || !prozessEl) return;
+
+    // --- CONTINUOUS ROTATION LOGIC ---
+    // 1. Determine the base rotation from the previous animation (e.g., -30deg at the end of QUALITÄTSMANAGEMENT fade out)
+    //    If you have a previous ScrollTrigger that rotates the logo, set its end value here.
+    //    For this example, let's assume the logo is at -30deg after the previous animation.
+    const baseRotation = -30; // Adjust this value to match the end rotation of the previous animation
+
+    // 2. ScrollTrigger for rotating the logo by an additional -60deg (for a total of -90deg)
+    const rotationTrigger = ScrollTrigger.create({
+      trigger: prozessEl,
+      start: "top bottom", // Start when Prozessmanagement section enters viewport
+      end: "top top",      // End when Prozessmanagement section reaches top
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        // Continue rotation from baseRotation, add -60deg over the scroll
+        const rotate = baseRotation + (-120 * progress);
+        gsap.to(logoEl, { rotate, duration: 0.1, overwrite: "auto" });
+      }
+    });
+
+    return () => {
+      rotationTrigger.kill();
+    };
+  }, []);
+  useEffect(() => {
+    const prozessEl = prozessRef.current;
+    if (prozessEl) {
+      ScrollTrigger.create({
+        trigger: prozessEl,
+        start: "top top",
+        end: "bottom center",
+        onUpdate: (self) => {
+          const progress = self.progress;
+          gsap.to(prozessEl, { opacity: 1 - progress , duration: 0.1, overwrite: "auto" });
+        }
+      });
+    }
+  }, []);
   return (
     <div className="app-root w-full scroll-area relative min-h-[800vh] bg-gradient-to-tr from-neutral-900 to-neutral-800">
       {/* Fixed Logo */}
@@ -293,6 +341,7 @@ function App(): JSX.Element {
           <p ref={scrollUpRefs[2]} className="text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management in der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
         </div>
       </section>
+      {/* Qualitätsmanagement */}
       <section
         className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
         ref={qualityRef}
@@ -349,7 +398,47 @@ function App(): JSX.Element {
         </div>
         {/* Ende Info-Box */}
       </section>
+      <div className="h-[1500px]" />
+      {/* Neue Section: PROZESSMANAGEMENT als Platzhalter */}
+      <section
+        ref={prozessRef}
+        className="w-full min-h-[100vh] relative z-10 bg-transparent"
+      >
+        <div className="h-[200px]" />
+        <h1 className="fixed text-5xl font-bold text-[#d6ba6d] ml-[calc(3rem+280px)] mt-12">PROZESSMANAGEMENT</h1>
+        <div className="h-[500px]" />
+        <div className="flex flex-row gap-8 w-auto items-stretch z-40">
+          <InfoCard
+            title="Prozessoptimierung"
+            icon={
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            }
+            points={[
+              "Kontinuierliche Verbesserungsprozesse",
+              "Interne Audits",
+              "Mitarbeiterschulungen"
+            ]}
+          />
+          <InfoCard
+            title="Prozessoptimierung"
+            icon={
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            }
+            points={[
+              "Kontinuierliche Verbesserungsprozesse",
+              "Interne Audits",
+              "Mitarbeiterschulungen"
+            ]}
+          />  
+        </div>
 
+      </section>
+     
+     
       <div className="h-[120vh]" />
     </div>
   );
