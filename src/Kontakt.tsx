@@ -27,43 +27,65 @@ export default function Kontakt(): JSX.Element {
       // Fetch the image as base64
       fetch("/src/assets/DSC01521.jpg")
         .then(async (res) => {
-          const blob = await res.blob();
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            let base64 = (reader.result as string).split(",")[1];
-            // Remove any data:image/jpeg;base64, prefix (shouldn't be present, but just in case)
-            if (base64.startsWith("data:image")) {
-              base64 = base64.substring(base64.indexOf(",") + 1);
+          const img = document.createElement("img");
+          img.src = URL.createObjectURL(await res.blob());
+          img.onload = () => {
+            // Create a canvas to crop/zoom the image
+            const canvas = document.createElement("canvas");
+            const size = 512; // vCard image size (square, large for quality)
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+              // Calculate cropping: zoom in (e.g. 1.4x), focus higher (head above center)
+              const zoom = 1.4;
+              const srcW = img.naturalWidth / zoom;
+              const srcH = img.naturalHeight / zoom;
+              const srcX = (img.naturalWidth - srcW) / 2;
+              // Move crop up: e.g. 30% from top
+              const srcY = (img.naturalHeight - srcH) * 0.3;
+              ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, size, size);
+              canvas.toBlob((croppedBlob) => {
+                if (!croppedBlob) return;
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  let base64 = (reader.result as string).split(",")[1];
+                  // Remove any data:image/jpeg;base64, prefix (shouldn't be present, but just in case)
+                  if (base64.startsWith("data:image")) {
+                    base64 = base64.substring(base64.indexOf(",") + 1);
+                  }
+                  // Split base64 into lines of max 75 chars (RFC 6350)
+                  const base64Lines: string[] = [];
+                  for (let i = 0; i < base64.length; i += 75) {
+                    base64Lines.push(base64.substring(i, i + 75));
+                  }
+                  // Insert PHOTO property (first line with property, rest indented by a space)
+                  const photoProp = [
+                    "PHOTO;ENCODING=b;TYPE=JPEG:" + base64Lines[0],
+                    ...base64Lines.slice(1).map((line) => " " + line)
+                  ];
+                  // Insert photoProp before END:VCARD
+                  const vcardWithPhoto = vcard.slice(0, 6).concat(photoProp).concat(vcard.slice(6));
+                  const vcardBlob = new Blob([vcardWithPhoto.join("\r\n")], { type: "text/vcard" });
+                  const url = URL.createObjectURL(vcardBlob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "Merab_Torodadze.vcf";
+                  document.body.appendChild(a);
+                  a.click();
+                  setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    // Remove vcard=true from the URL after download
+                    const urlObj = new URL(window.location.href);
+                    urlObj.searchParams.delete("vcard");
+                    window.history.replaceState({}, document.title, urlObj.pathname + urlObj.search);
+                  }, 100);
+                };
+                reader.readAsDataURL(croppedBlob);
+              }, "image/jpeg", 0.92);
             }
-            // Split base64 into lines of max 75 chars (RFC 6350)
-            const base64Lines: string[] = [];
-            for (let i = 0; i < base64.length; i += 75) {
-              base64Lines.push(base64.substring(i, i + 75));
-            }
-            // Insert PHOTO property (first line with property, rest indented by a space)
-            const photoProp = [
-              "PHOTO;ENCODING=b;TYPE=JPEG:" + base64Lines[0],
-              ...base64Lines.slice(1).map((line) => " " + line)
-            ];
-            // Insert photoProp before END:VCARD
-            const vcardWithPhoto = vcard.slice(0, 6).concat(photoProp).concat(vcard.slice(6));
-            const vcardBlob = new Blob([vcardWithPhoto.join("\r\n")], { type: "text/vcard" });
-            const url = URL.createObjectURL(vcardBlob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "Merab_Torodadze.vcf";
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => {
-              document.body.removeChild(a);
-              URL.revokeObjectURL(url);
-              // Remove vcard=true from the URL after download
-              const urlObj = new URL(window.location.href);
-              urlObj.searchParams.delete("vcard");
-              window.history.replaceState({}, document.title, urlObj.pathname + urlObj.search);
-            }, 100);
           };
-          reader.readAsDataURL(blob);
         });
     }
   }, []);
@@ -74,7 +96,8 @@ export default function Kontakt(): JSX.Element {
         <img
           src="/src/assets/DSC01521.jpg"
           alt="Merab Torodadze Portrait"
-          className="w-40 h-40 object-cover rounded-full mb-6 border-4 border-[#d6ba6d]/60 shadow-lg"
+          className="w-64 h-64 object-cover object-[50%_30%] rounded-full mb-6 border-4 border-[#d6ba6d]/60 shadow-lg mx-auto"
+          style={{ display: "block" }}
         />
         <h1 className="text-3xl font-bold text-[#d6ba6d] mb-2">Kontakt</h1>
         <h2 className="text-xl font-semibold text-gray-200 mb-2">Merab Torodadze</h2>
