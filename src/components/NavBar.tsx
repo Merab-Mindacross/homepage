@@ -85,20 +85,22 @@ export default function NavBar(): JSX.Element {
       aria-label="Hauptnavigation"
     >
       <div className="max-w-6xl mx-auto px-4 py-2 flex flex-row items-center gap-6">
-        {/* Logo as home/hero link */}
-        <a
-          href="/"
-          onClick={handleLogoClick}
-          className="flex items-center mr-2 focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2"
-          aria-label="Zur Startseite scrollen"
-        >
-          <img
-            src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
-            alt="Logo"
-            className="h-10 w-10 rounded-xl bg-white/10 shadow"
-            style={{ minWidth: 40, minHeight: 40 }}
-          />
-        </a>
+        {/* Logo as home/hero link (only show if not on main route) */}
+        {location.pathname !== "/" && (
+          <a
+            href="/"
+            onClick={handleLogoClick}
+            className="flex items-center mr-2 focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2"
+            aria-label="Zur Startseite scrollen"
+          >
+            <img
+              src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
+              alt="Logo"
+              className="h-10 w-10 rounded-xl bg-white/10 shadow"
+              style={{ minWidth: 40, minHeight: 40 }}
+            />
+          </a>
+        )}
         {/* Section links */}
         {sectionLinks.map((link) => (
           <a
