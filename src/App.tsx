@@ -142,7 +142,7 @@ function App(): JSX.Element {
           const progress = self.progress;
           // Scale from 1 to 0.6, rotate from 0 to -30deg
           const scale = 1 - 0.4 * progress;
-          const rotate = -30 * progress;
+          const rotate = -60 * progress;
           // Move logo further to the left (e.g., -40px at full progress)
           const x = -100 * progress;
           // Keep logo vertically centered: top 50% minus half its height
@@ -298,7 +298,7 @@ function App(): JSX.Element {
     // 1. Determine the base rotation from the previous animation (e.g., -30deg at the end of QUALITÄTSMANAGEMENT fade out)
     //    If you have a previous ScrollTrigger that rotates the logo, set its end value here.
     //    For this example, let's assume the logo is at -30deg after the previous animation.
-    const baseRotation = -30; // Adjust this value to match the end rotation of the previous animation
+    const baseRotation = -60; // Adjust this value to match the end rotation of the previous animation
 
     // 2. ScrollTrigger for rotating the logo by an additional -60deg (for a total of -90deg)
     const rotationTrigger = ScrollTrigger.create({
@@ -390,7 +390,7 @@ function App(): JSX.Element {
     if (!logoEl || !prozessEl || !lieferantenEl) return;
 
     // Set base rotation to match the end of previous rotation (e.g., -150deg)
-    const baseRotation = -150;
+    const baseRotation = -180;
     // Rotate by additional -60deg between these sections
     const rotationTrigger = ScrollTrigger.create({
       trigger: lieferantenEl,
@@ -550,55 +550,54 @@ function App(): JSX.Element {
               className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
               ref={qualityRef}
             >
-              <h1
-                ref={qualityTitleRef}
-                className="fixed left-[calc(3rem+280px)] top-[190px] font-bold text-5xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in"
-              >
-                QUALITÄTSMANAGEMENT
-              </h1>
+              <div className="fixed left-6 top-[400px] w-[300px] flex items-center justify-center" ref={qualityTitleRef}>
+                <h1
+                  
+                  className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in"
+                >
+                  QUALITÄTSMANAGEMENT
+                </h1>
+              </div>
+              
               <div className="h-[500px]" />
-              {/*
-                InfoCards-Container ist jetzt fixed, unterhalb des Titels positioniert.
-                Die Position (top) ist so gewählt, dass die Karten unter dem Titel erscheinen.
-                Die ml- und w-Styles bleiben für das Layout erhalten.
-              */}
-              <div
-                ref={infoCardsRef}
-                className="fixed left-[calc(3rem+280px)] top-[270px] flex flex-row gap-8 w-auto items-stretch z-40"
-                style={{ maxWidth: "calc(100vw - 3rem - 280px - 2rem)" }}
-              >
-                <InfoCard
-                  title="Interne Qualität"
-                  icon={
+              {/* Elegant, non-card layout for quality topics */}
+              <div className="fixed right-0 top-0 w-2/3 min-h-[500px] flex flex-col gap-12 justify-center pr-24 pt-12" ref={infoCardsRef}>
+                {/* Interne Qualität */}
+                <div className="flex flex-row items-start gap-6">
+                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
                       <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
-                  }
-                  points={[
-                    "Kontinuierliche Verbesserungsprozesse",
-                    "Interne Audits",
-                    "Mitarbeiterschulungen"
-                  ]}
-                  className="max-w-[600px] min-w-[220px]"
-                />
-                <InfoCard
-                  title="Kundenqualität"
-                  icon={
+                  </span>
+                  <div>
+                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Interne Qualität</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                      <li>Kontinuierliche Verbesserungsprozesse</li>
+                      <li>Interne Audits</li>
+                      <li>Mitarbeiterschulungen</li>
+                    </ul>
+                  </div>
+                </div>
+                {/* Kundenqualität */}
+                <div className="flex flex-row items-start gap-6">
+                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path d="M7 15l-2 2a2 2 0 002.83 2.83l2-2" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M17 15l2 2a2 2 0 01-2.83 2.83l-2-2" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M8 13l4 4 4-4" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M12 17V7" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                  }
-                  points={[
-                    "Erfüllung von Kundenanforderungen",
-                    "Lieferzuverlässigkeit",
-                    "Serviceorientierung"
-                  ]}
-                  className="max-w-[600px] min-w-[220px]"
-                />
+                  </span>
+                  <div>
+                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Kundenqualität</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                      <li>Erfüllung von Kundenanforderungen</li>
+                      <li>Lieferzuverlässigkeit</li>
+                      <li>Serviceorientierung</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
               {/* Ende Info-Box */}
             </section>
