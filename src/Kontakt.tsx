@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * Kontakt page (German contact page)
@@ -8,9 +8,12 @@ import { useEffect } from "react";
  * @returns {JSX.Element} Kontakt content
  */
 export default function Kontakt(): JSX.Element {
+  // Prevent double vCard download
+  const downloadInProgress = useRef(false);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("vcard") === "true") {
+    if (params.get("vcard") === "true" && !downloadInProgress.current) {
+      downloadInProgress.current = true;
       // vCard content (iPhone compatible, with image)
       const vcard = [
         "BEGIN:VCARD",
@@ -80,6 +83,7 @@ export default function Kontakt(): JSX.Element {
                     const urlObj = new URL(window.location.href);
                     urlObj.searchParams.delete("vcard");
                     window.history.replaceState({}, document.title, urlObj.pathname + urlObj.search);
+                    downloadInProgress.current = false;
                   }, 100);
                 };
                 reader.readAsDataURL(croppedBlob);
