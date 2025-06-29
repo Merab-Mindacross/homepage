@@ -19,7 +19,7 @@ function App(): JSX.Element {
   const scrollUpRefs = [useRef<HTMLHeadingElement>(null), useRef<HTMLHeadingElement>(null), useRef<HTMLParagraphElement>(null)];
   // Ref for the logo image
   const logoRef = useRef<HTMLImageElement>(null);
-
+  const logoRefStatic = useRef<HTMLImageElement>(null);
   // Ref for the next section (e.g., Prozessmanagement)
   const prozessRef = useRef<HTMLElement>(null);
 
@@ -34,9 +34,6 @@ function App(): JSX.Element {
 
   // Ref for the CTA button in the NOS section
   const ctaRef = useRef<HTMLAnchorElement>(null);
-
-  // Ref for the CTA section (MINDACROSS parallax)
-  const mindacrossSectionRef = useRef<HTMLElement>(null);
 
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
@@ -109,7 +106,7 @@ function App(): JSX.Element {
             opacity = 1 - (progress - fadeStart) / (fadeEnd - fadeStart);
             if (opacity < 0) opacity = 0;
           }
-          gsap.to(el, { y, opacity, scale, overwrite: "auto", duration: 0.1, ease: "linear" });
+          gsap.to(el, { y, opacity, scale, overwrite: "auto", duration: 0.1, ease: "power2.out" });
         },
       });
       triggers.push(trigger);
@@ -127,7 +124,7 @@ function App(): JSX.Element {
       const lastScrollUpEnd = {
         trigger: elements[2],
         start: "top 30%", // matches the end of the last scroll-up animation
-        end: "+=300", // over 400px scroll
+        end: "+=100", // over 100px scroll
         scrub: true,
         onUpdate: (self: ScrollTrigger) => {
           const progress = self.progress;
@@ -146,7 +143,7 @@ function App(): JSX.Element {
             y,
             overwrite: "auto",
             duration: 0.1,
-            ease: "linear"
+            ease: "sine.out"
           });
         }
       };
@@ -209,26 +206,7 @@ function App(): JSX.Element {
   const infoCardsRef = useRef<HTMLDivElement>(null);
   const qualityTitleRef = useRef<HTMLHeadingElement>(null);
 
-  // Fade in QUALITÄTSMANAGEMENT
-  useEffect(() => {
-    const qualityEl = document.querySelector<HTMLElement>(".fade-in");
-    if (qualityEl && qualityRef.current) {
-      gsap.set(qualityEl, { opacity: 0 });
-      ScrollTrigger.create({
-        trigger: qualityRef.current,
-        start: "top 40%",
-        end: "top 10%",
-        onUpdate: (self) => {
-          const progress = self.progress;
-          gsap.to(qualityEl, {
-            opacity: progress,
-            duration: 0.1,
-            ease: "linear"
-          });
-        }
-      });
-    }
-  }, []);
+  
 
   // Animation für InfoCards und Titel
   useEffect(() => {
@@ -242,8 +220,8 @@ function App(): JSX.Element {
     gsap.set(titleEl, { opacity: 0 });
     ScrollTrigger.create({
       trigger: sectionEl,
-      start: "top 60%", // Titel beginnt zu erscheinen, wenn Section 60% vom Viewport erreicht
-      end: "top 0%",   // Titel ist voll sichtbar
+      start: "top 70%", // Titel beginnt zu erscheinen, wenn Section 60% vom Viewport erreicht
+      end: "top 60%",   // Titel ist voll sichtbar
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -255,8 +233,8 @@ function App(): JSX.Element {
     gsap.set(infoCardsEl, { opacity: 0, y: 50 });
     ScrollTrigger.create({
       trigger: sectionEl,
-      start: "top 0%", // Karten beginnen zu erscheinen, wenn Titel voll sichtbar
-      end: "top -40%",   // Karten sind voll sichtbar
+      start: "top 60%", // Karten beginnen zu erscheinen, wenn Titel voll sichtbar
+      end: "top 50%",   // Karten sind voll sichtbar
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -268,8 +246,8 @@ function App(): JSX.Element {
     // 3. InfoCards: Fade out (nachdem sie voll sichtbar waren)
     ScrollTrigger.create({
       trigger: sectionEl,
-      start: "top -90%", // Karten beginnen zu verschwinden
-      end: "top -110%",  // Karten sind komplett weg
+      start: "top 30%", // Karten beginnen zu verschwinden
+      end: "top 20%",  // Karten sind komplett weg
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -281,8 +259,8 @@ function App(): JSX.Element {
     // 4. Titel: Fade out (erst nach Karten fade out)
     ScrollTrigger.create({
       trigger: sectionEl,
-      start: "top -110%", // Titel beginnt zu verschwinden, wenn Karten weg sind
-      end: "top -130%",   // Titel ist komplett weg
+      start: "top 20%", // Titel beginnt zu verschwinden, wenn Karten weg sind
+      end: "top 10%",   // Titel ist komplett weg
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -320,7 +298,7 @@ function App(): JSX.Element {
         const progress = self.progress;
         // Continue rotation from baseRotation, add -60deg over the scroll
         const rotate = baseRotation + (-120 * progress);
-        gsap.to(logoEl, { rotate, duration: 0.1, overwrite: "auto" });
+        gsap.to(logoEl, { rotate, duration: 0.1, overwrite: "auto", ease: "power2.out" });
       }
     });
 
@@ -488,7 +466,7 @@ function App(): JSX.Element {
     const trigger = ScrollTrigger.create({
       trigger: ctaEl,
       start: "top 80%",
-      end: "+=100",
+      end: "+=200",
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -507,47 +485,27 @@ function App(): JSX.Element {
     };
   }, []);
 
-  // Parallax curtain effect for MINDACROSS section
   useEffect(() => {
-    const mindacrossEl = mindacrossSectionRef.current;
-    // The section above (Me/Portrait section)
-    const prevSection = document.querySelector(
-      ".backdrop-blur-md.flex.w-full.min-h-[120vh]"
-    ) as HTMLElement | null;
-    if (!mindacrossEl || !prevSection) return;
+    const ctaEl = ctaRef.current;
+    if ( !ctaEl) return;
 
-    // Pin the MINDACROSS section while the previous section scrolls out
-    const pinTrigger = ScrollTrigger.create({
-      trigger: mindacrossEl,
-      start: "top bottom",
-      end: "top top",
-      pin: true,
-      pinSpacing: false,
-      scrub: true
-    });
-
-    // Curtain effect: animate the previous section's clip-path to reveal MINDACROSS
-    const curtainTrigger = ScrollTrigger.create({
-      trigger: mindacrossEl,
-      start: "top bottom",
-      end: "top top",
+    const trigger = ScrollTrigger.create({
+      trigger: ctaEl,
+      start: "top center",
+      end: "top 20%",
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
-        // Animate a curtain opening from the top (clip-path polygon)
-        // 0% progress: full section visible; 100%: fully clipped
-        const clip = `polygon(0% ${100 * progress}%, 100% ${100 * progress}%, 100% 100%, 0% 100%)`;
-        prevSection.style.clipPath = clip;
-        (prevSection.style as CSSStyleDeclaration & { webkitClipPath?: string }).webkitClipPath = clip;
+        gsap.to(ctaEl, {
+          opacity: 0 + progress,
+          overwrite: "auto",
+          duration: 0.1,
+          ease: "power2.out"
+        });
       }
     });
-
-    // Cleanup
     return () => {
-      pinTrigger.kill();
-      curtainTrigger.kill();
-      prevSection.style.clipPath = "";
-      (prevSection.style as CSSStyleDeclaration & { webkitClipPath?: string }).webkitClipPath = "";
+      trigger.kill();
     };
   }, []);
 
@@ -627,7 +585,7 @@ function App(): JSX.Element {
         </div>
         {/* Ende Info-Box */}
       </section>
-      <div className="h-[1500px]" />
+      <div className="h-350px]" />
       {/* Neue Section: PROZESSMANAGEMENT als animierter Bereich */}
       <section
         ref={prozessRef}
@@ -767,13 +725,10 @@ function App(): JSX.Element {
       </section>
 
       {/* cta section */}
-      <section
-        ref={mindacrossSectionRef}
-        className="w-full min-h-[95vh] flex items-center justify-center bg-neutral-800/80 relative z-50"
-        id="nos"
-      >
-        <div className="text-center flex flex-col items-center justify-center">
+      <section className="w-full min-h-[95vh] flex items-center justify-center bg-neutral-800/80 relative z-10 opacity-0" id="nos" ref={ctaRef}>
+        <div className=" fixed bottom-[200px] text-center flex flex-col items-center justify-center">
           <img
+            ref={logoRefStatic}
             src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
             alt="Goldenes Dreieck mit Spiralensymbol"
             className="h-[300px] w-auto"
