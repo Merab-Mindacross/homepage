@@ -20,20 +20,34 @@ export default function NavBar(): JSX.Element {
     { id: "about", label: "Über mich" },
   ];
 
-  // Scroll to section handler
+  // Scroll to section handler with fixed offset for animation completion
   function handleSectionClick(id: string) {
     return (e: React.MouseEvent) => {
       e.preventDefault();
+      // Define offsets for each section based on GSAP animation end points
+      // These values are determined by the animation triggers in App.tsx
+      // and should match the point where the title and info cards are fully visible
+      const sectionOffsets: Record<string, number> = {
+        quality: 600, // After title and cards fade in (title: 70%->60%, cards: 60%->50%)
+        prozess: 700, // After title and cards fade in (title: 80%->70%, cards: 70%->60%)
+        lieferanten: 700, // After title and cards fade in (title: 80%->70%, cards: 70%->60%)
+        about: 0 // No offset for about section
+      };
+      const offset = sectionOffsets[id] ?? 0;
+      const scrollToSection = () => {
+        const el = document.getElementById(id);
+        if (el) {
+          // Calculate the top position and add the offset
+          const rect = el.getBoundingClientRect();
+          const scrollTop = window.scrollY + rect.top - offset;
+          window.scrollTo({ top: scrollTop, behavior: "smooth" });
+        }
+      };
       if (location.pathname !== "/") {
         navigate("/", { replace: false });
-        // Wait for navigation, then scroll
-        setTimeout(() => {
-          const el = document.getElementById(id);
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }, 100);
+        setTimeout(scrollToSection, 100);
       } else {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
+        scrollToSection();
       }
     };
   }
@@ -64,7 +78,7 @@ export default function NavBar(): JSX.Element {
         return el ? { id: s.id, top: el.getBoundingClientRect().top + window.scrollY } : null;
       }).filter(Boolean) as { id: string; top: number }[];
       const current = offsets.reduce((acc, cur) => {
-        if (scrollY + 120 >= cur.top) return cur.id;
+        if (scrollY + 500 >= cur.top) return cur.id;
         return acc;
       }, "");
       setActiveSection(current);
@@ -81,7 +95,7 @@ export default function NavBar(): JSX.Element {
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-neutral-900/70 border-b border-[#d6ba6d]/20 shadow-lg"
+      className="fixed top-0 left-0 w-full z-1000 backdrop-blur-md bg-neutral-900/70 border-b border-[#d6ba6d]/20 shadow-lg"
       aria-label="Hauptnavigation"
     >
       <div className="max-w-6xl mx-auto px-4 py-2 flex flex-row items-center gap-6">
