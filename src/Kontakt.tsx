@@ -1,13 +1,63 @@
 import type { JSX } from "react";
+import { useEffect } from "react";
 
 /**
  * Kontakt page (German contact page)
+ * - Checks for vcard=true in the search query and triggers vCard download (iPhone compatible, with image)
+ * - Displays Merab's image, fully rounded
  * @returns {JSX.Element} Kontakt content
  */
 export default function Kontakt(): JSX.Element {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("vcard") === "true") {
+      // vCard content (iPhone compatible, with image)
+      const vcard = [
+        "BEGIN:VCARD",
+        "VERSION:3.0",
+        "FN:Merab Torodadze",
+        "N:Torodadze;Merab;;;",
+        "EMAIL;TYPE=INTERNET;TYPE=WORK:Tedoradze.merab@web.de",
+        "TEL;TYPE=CELL:+49 177 7376989",
+        "PHOTO;ENCODING=b;TYPE=JPEG:data:image/jpeg;base64,",
+        // The image will be appended below
+        "END:VCARD"
+      ];
+      // Fetch the image as base64
+      fetch("/src/assets/DSC01521.jpg")
+        .then(async (res) => {
+          const blob = await res.blob();
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64 = (reader.result as string).split(",")[1];
+            // Insert the base64 image into the vCard
+            const vcardWithPhoto = vcard.slice();
+            vcardWithPhoto[7] = `PHOTO;ENCODING=b;TYPE=JPEG:${base64}`;
+            const vcardBlob = new Blob([vcardWithPhoto.join("\r\n")], { type: "text/vcard" });
+            const url = URL.createObjectURL(vcardBlob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Merab_Torodadze.vcf";
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            }, 100);
+          };
+          reader.readAsDataURL(blob);
+        });
+    }
+  }, []);
+
   return (
     <main className="min-h-screen bg-neutral-900 text-gray-100 flex flex-col items-center justify-center px-4 py-16">
       <div className="max-w-xl w-full bg-neutral-800/90 rounded-2xl shadow-2xl border border-[#d6ba6d]/40 p-8 flex flex-col items-center">
+        <img
+          src="/src/assets/DSC01521.jpg"
+          alt="Merab Torodadze Portrait"
+          className="w-40 h-40 object-cover rounded-full mb-6 border-4 border-[#d6ba6d]/60 shadow-lg"
+        />
         <h1 className="text-3xl font-bold text-[#d6ba6d] mb-6">Kontakt</h1>
         <p className="mb-4 text-lg">Sie können mich gerne per E-Mail oder Telefon erreichen:</p>
         <div className="flex flex-col gap-4 items-center">
@@ -20,6 +70,12 @@ export default function Kontakt(): JSX.Element {
             <a href="tel:+491777376989" className="text-[#d6ba6d] text-lg font-medium hover:underline">+49 177 7376989</a>
           </div>
         </div>
+        <a
+          href="?vcard=true"
+          className="mt-8 inline-block px-6 py-3 rounded-full bg-[#d6ba6d] text-neutral-900 font-bold text-base shadow-lg hover:bg-[#e7c97a] focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2 transition-colors duration-200"
+        >
+          vCard herunterladen
+        </a>
       </div>
     </main>
   );
