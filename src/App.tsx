@@ -35,6 +35,9 @@ function App(): JSX.Element {
   // Ref for the CTA button in the NOS section
   const ctaRef = useRef<HTMLAnchorElement>(null);
 
+  // Ref for the CTA section (MINDACROSS parallax)
+  const mindacrossSectionRef = useRef<HTMLElement>(null);
+
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
     // Apply the same gradient background to the body for consistent overscroll appearance
@@ -504,6 +507,50 @@ function App(): JSX.Element {
     };
   }, []);
 
+  // Parallax curtain effect for MINDACROSS section
+  useEffect(() => {
+    const mindacrossEl = mindacrossSectionRef.current;
+    // The section above (Me/Portrait section)
+    const prevSection = document.querySelector(
+      ".backdrop-blur-md.flex.w-full.min-h-[120vh]"
+    ) as HTMLElement | null;
+    if (!mindacrossEl || !prevSection) return;
+
+    // Pin the MINDACROSS section while the previous section scrolls out
+    const pinTrigger = ScrollTrigger.create({
+      trigger: mindacrossEl,
+      start: "top bottom",
+      end: "top top",
+      pin: true,
+      pinSpacing: false,
+      scrub: true
+    });
+
+    // Curtain effect: animate the previous section's clip-path to reveal MINDACROSS
+    const curtainTrigger = ScrollTrigger.create({
+      trigger: mindacrossEl,
+      start: "top bottom",
+      end: "top top",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        // Animate a curtain opening from the top (clip-path polygon)
+        // 0% progress: full section visible; 100%: fully clipped
+        const clip = `polygon(0% ${100 * progress}%, 100% ${100 * progress}%, 100% 100%, 0% 100%)`;
+        prevSection.style.clipPath = clip;
+        (prevSection.style as CSSStyleDeclaration & { webkitClipPath?: string }).webkitClipPath = clip;
+      }
+    });
+
+    // Cleanup
+    return () => {
+      pinTrigger.kill();
+      curtainTrigger.kill();
+      prevSection.style.clipPath = "";
+      (prevSection.style as CSSStyleDeclaration & { webkitClipPath?: string }).webkitClipPath = "";
+    };
+  }, []);
+
   return (
     <div className="app-root w-full scroll-area relative min-h-[800vh] bg-gradient-to-tr from-neutral-900 to-neutral-800">
       {/* Fixed Logo */}
@@ -720,7 +767,11 @@ function App(): JSX.Element {
       </section>
 
       {/* cta section */}
-      <section className="w-full min-h-[95vh] flex items-center justify-center bg-neutral-800/80 relative z-10" id="nos" ref={ctaRef}>
+      <section
+        ref={mindacrossSectionRef}
+        className="w-full min-h-[95vh] flex items-center justify-center bg-neutral-800/80 relative z-50"
+        id="nos"
+      >
         <div className="text-center flex flex-col items-center justify-center">
           <img
             src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
