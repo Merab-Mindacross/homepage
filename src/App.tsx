@@ -8,6 +8,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Impressum from "./Impressum";
 import Datenschutz from "./Datenschutz";
 import Terms from "./Terms";
+import Kontakt from "./Kontakt";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -773,13 +774,13 @@ function App(): JSX.Element {
                 LinkedIn
               </a>
             </nav>
-            <div className="text-xs text-gray-500 mt-2">&copy; {new Date().getFullYear()} Merab Torodadze. All rights reserved.</div>
           </footer>
         </div>
       } />
       <Route path="/impressum" element={<Impressum />} />
       <Route path="/datenschutz" element={<Datenschutz />} />
       <Route path="/terms" element={<Terms />} />
+      <Route path="/kontakt" element={<Kontakt />} />
     </Routes>
   );
 }
