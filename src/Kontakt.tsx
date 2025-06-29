@@ -55,6 +55,10 @@ export default function Kontakt(): JSX.Element {
             setTimeout(() => {
               document.body.removeChild(a);
               URL.revokeObjectURL(url);
+              // Remove vcard=true from the URL after download
+              const urlObj = new URL(window.location.href);
+              urlObj.searchParams.delete("vcard");
+              window.history.replaceState({}, document.title, urlObj.pathname + urlObj.search);
             }, 100);
           };
           reader.readAsDataURL(blob);
