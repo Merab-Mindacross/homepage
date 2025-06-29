@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import Footer from "./components/Footer";
 
 /**
  * Terms and Services (AGB & Nutzungsbedingungen) page in German
@@ -18,6 +19,7 @@ export default function Terms(): JSX.Element {
         <p className="mb-2">Wir übernehmen keine Haftung für die Richtigkeit und Vollständigkeit der bereitgestellten Informationen.</p>
         <p className="mt-6 text-xs text-gray-400">Dies ist ein Platzhalter für AGB & Nutzungsbedingungen. Bitte ersetzen Sie die Angaben durch Ihre echten rechtlichen Hinweise.</p>
       </div>
+      <Footer />
     </main>
   );
 } 

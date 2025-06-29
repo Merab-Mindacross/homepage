@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import Footer from "./components/Footer";
 
 /**
  * Datenschutz page (German privacy policy)
@@ -18,6 +19,7 @@ export default function Datenschutz(): JSX.Element {
         <p className="mb-2">Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Kontaktieren Sie uns hierzu unter info@merab-torodadze.de.</p>
         <p className="mt-6 text-xs text-gray-400">Dies ist eine Platzhalter-Datenschutzerklärung. Bitte ersetzen Sie die Angaben durch Ihre echten Datenschutzinformationen.</p>
       </div>
+      <Footer />
     </main>
   );
 } 

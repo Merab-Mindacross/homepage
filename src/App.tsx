@@ -10,6 +10,7 @@ import Datenschutz from "./Datenschutz";
 import Terms from "./Terms";
 import Kontakt from "./Kontakt";
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -765,22 +766,7 @@ function App(): JSX.Element {
             </section>
 
             {/* Footer with legal and social links */}
-            <footer className="w-full py-6 flex flex-col items-center justify-center bg-neutral-900/90 border-t border-neutral-700 mt-0">
-              <nav className="flex flex-wrap gap-6 items-center justify-center text-sm">
-                <a href="/impressum" className="text-gray-400 hover:text-[#d6ba6d] transition-colors" target="_blank" rel="noopener noreferrer">Impressum</a>
-                <a href="/datenschutz" className="text-gray-400 hover:text-[#d6ba6d] transition-colors" target="_blank" rel="noopener noreferrer">Datenschutz</a>
-                <a href="/terms" className="text-gray-400 hover:text-[#d6ba6d] transition-colors" target="_blank" rel="noopener noreferrer">AGB</a>
-                <a href="/kontakt" className="text-gray-400 hover:text-[#d6ba6d] transition-colors" target="_blank" rel="noopener noreferrer">Kontakt</a>
-                <a href="https://www.youtube.com/" className="text-gray-400 hover:text-[#d6ba6d] transition-colors flex items-center gap-1" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" className="inline-block align-text-bottom"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.107-2.12C19.228 3.5 12 3.5 12 3.5s-7.228 0-9.391.566A2.994 2.994 0 0 0 .502 6.186C0 8.36 0 12 0 12s0 3.64.502 5.814a2.994 2.994 0 0 0 2.107 2.12C4.772 20.5 12 20.5 12 20.5s7.228 0 9.391-.566a2.994 2.994 0 0 0 2.107-2.12C24 15.64 24 12 24 12s0-3.64-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                  YouTube
-                </a>
-                <a href="https://www.linkedin.com/" className="text-gray-400 hover:text-[#d6ba6d] transition-colors flex items-center gap-1" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" className="inline-block align-text-bottom"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.966 0-1.75-.79-1.75-1.76 0-.97.784-1.76 1.75-1.76s1.75.79 1.75 1.76c0 .97-.784 1.76-1.75 1.76zm15.5 11.27h-3v-5.604c0-1.337-.025-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.76 1.379-1.561 2.838-1.561 3.036 0 3.6 2.001 3.6 4.601v5.593z"/></svg>
-                  LinkedIn
-                </a>
-              </nav>
-            </footer>
+            <Footer />
           </div>
         } />
         <Route path="/impressum" element={<Impressum />} />

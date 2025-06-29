@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import Footer from "./components/Footer";
 
 /**
  * Impressum page (German legal disclosure)
@@ -15,6 +16,7 @@ export default function Impressum(): JSX.Element {
         <p className="mb-2">Umsatzsteuer-ID: DE123456789</p>
         <p className="mt-6 text-xs text-gray-400">Dies ist ein Platzhalter-Impressum. Bitte ersetzen Sie die Angaben durch Ihre echten Kontaktdaten und rechtlichen Hinweise.</p>
       </div>
+      <Footer />
     </main>
   );
 } 

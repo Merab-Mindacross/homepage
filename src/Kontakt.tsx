@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import { useEffect, useRef } from "react";
+import Footer from "./components/Footer";
 
 /**
  * Kontakt page (German contact page)
@@ -119,6 +120,7 @@ export default function Kontakt(): JSX.Element {
           vCard herunterladen
         </a>
       </div>
+      <Footer />
     </main>
   );
 } 
