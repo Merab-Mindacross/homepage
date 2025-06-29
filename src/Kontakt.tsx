@@ -90,8 +90,8 @@ export default function Kontakt(): JSX.Element {
   }, []);
 
   return (
-    <main className="min-h-screen bg-neutral-900 text-gray-100 flex flex-col items-center justify-center px-4 py-16">
-      <div className="max-w-xl w-full bg-neutral-800/90 rounded-2xl shadow-2xl border border-[#d6ba6d]/40 p-8 flex flex-col items-start">
+    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0">
+      <div className="max-w-xl w-full bg-neutral-800/90 rounded-2xl shadow-2xl border border-[#d6ba6d]/40 p-8 flex flex-col items-start mx-auto mt-16">
         <img
           src="/src/assets/DSC01521.jpg"
           alt="Merab Torodadze Portrait"

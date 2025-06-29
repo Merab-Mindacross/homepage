@@ -7,8 +7,8 @@ import Footer from "./components/Footer";
  */
 export default function Terms(): JSX.Element {
   return (
-    <main className="min-h-screen bg-neutral-900 text-gray-100 flex flex-col items-center justify-center px-4 py-16">
-      <div className="max-w-2xl w-full bg-neutral-800/90 rounded-2xl shadow-2xl border border-[#d6ba6d]/40 p-8">
+    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0">
+      <div className="max-w-2xl w-full bg-neutral-800/90 rounded-2xl shadow-2xl border border-[#d6ba6d]/40 p-8 mx-auto mt-16">
         <h1 className="text-3xl font-bold text-[#d6ba6d] mb-6">AGB & Nutzungsbedingungen</h1>
         <p className="mb-4">Mit der Nutzung dieser Website erkennen Sie die folgenden Allgemeinen Geschäftsbedingungen (AGB) und Nutzungsbedingungen an.</p>
         <h2 className="text-xl font-semibold mt-6 mb-2">1. Geltungsbereich</h2>
