@@ -1,10 +1,10 @@
 import { useRef, useEffect, type JSX } from "react";
-import { Routes, Route } from "react-router-dom";
 import { gsap } from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./App.css";
 import { InfoCard } from "./components/InfoCard";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Impressum from "./Impressum";
 import Datenschutz from "./Datenschutz";
 import Terms from "./Terms";
@@ -17,6 +17,10 @@ gsap.registerPlugin(ScrollTrigger);
  * Subheadline: Interim Management in der Schnittstelle von Qualität, Prozessen und Lieferanten.
  */
 function App(): JSX.Element {
+  const location = useLocation();
+  // Only run animation logic on main page
+  const isMainPage = location.pathname === "/";
+
   const heroRef = useRef<HTMLElement>(null);
 
   // Refs for scroll-up elements
@@ -41,6 +45,7 @@ function App(): JSX.Element {
 
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
+    if (!isMainPage) return;
     // Apply the same gradient background to the body for consistent overscroll appearance
     const body = document.body;
     const prevClass = body.className;
@@ -167,7 +172,7 @@ function App(): JSX.Element {
       // Cleanup: kill triggers
       triggers.forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isMainPage]);
 
   // Robust vertical centering for logo: ensures correct position on load, resize, and before GSAP animation
   useEffect(() => {
@@ -204,7 +209,7 @@ function App(): JSX.Element {
       };
     }
     return undefined;
-  }, []);
+  }, [isMainPage]);
 
   const qualityRef = useRef<HTMLElement>(null);
   const infoCardsRef = useRef<HTMLDivElement>(null);
@@ -277,7 +282,7 @@ function App(): JSX.Element {
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isMainPage]);
 
   // Animate triangle logo rotation between QUALITÄTSMANAGEMENT and PROZESSMANAGEMENT
   useEffect(() => {
@@ -309,7 +314,7 @@ function App(): JSX.Element {
     return () => {
       rotationTrigger.kill();
     };
-  }, []);
+  }, [isMainPage]);
 
 
   // Animation für PROZESSMANAGEMENT Titel und InfoCards (analog zu QUALITÄTSMANAGEMENT)
@@ -372,7 +377,7 @@ function App(): JSX.Element {
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isMainPage]);
 
   // Animate triangle logo rotation between Prozessmanagement and Lieferantenaufbau
   useEffect(() => {
@@ -398,7 +403,7 @@ function App(): JSX.Element {
     return () => {
       rotationTrigger.kill();
     };
-  }, []);
+  }, [isMainPage]);
 
   // Animation für LIEFERANTENAUFBAU Titel und InfoCards (analog zu vorherigen Sections)
   useEffect(() => {
@@ -456,7 +461,7 @@ function App(): JSX.Element {
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isMainPage]);
 
   // Animate logo when CTA button reaches center of viewport
   useEffect(() => {
@@ -487,7 +492,7 @@ function App(): JSX.Element {
     return () => {
       trigger.kill();
     };
-  }, []);
+  }, [isMainPage]);
 
   useEffect(() => {
     const ctaEl = ctaRef.current;
@@ -511,7 +516,7 @@ function App(): JSX.Element {
     return () => {
       trigger.kill();
     };
-  }, []);
+  }, [isMainPage]);
 
   return (
     <Routes>
@@ -768,6 +773,7 @@ function App(): JSX.Element {
                 LinkedIn
               </a>
             </nav>
+            <div className="text-xs text-gray-500 mt-2">&copy; {new Date().getFullYear()} Merab Torodadze. All rights reserved.</div>
           </footer>
         </div>
       } />
