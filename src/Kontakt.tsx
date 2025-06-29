@@ -17,6 +17,8 @@ export default function Kontakt(): JSX.Element {
         "VERSION:3.0",
         "FN:Merab Torodadze",
         "N:Torodadze;Merab;;;",
+        "TITLE:Geschäftsführer, Interim Manager",
+        "ORG:Interim Management",
         "EMAIL;TYPE=INTERNET;TYPE=WORK:Tedoradze.merab@web.de",
         "TEL;TYPE=CELL:+49 177 7376989",
         // PHOTO will be inserted below
@@ -74,8 +76,10 @@ export default function Kontakt(): JSX.Element {
           alt="Merab Torodadze Portrait"
           className="w-40 h-40 object-cover rounded-full mb-6 border-4 border-[#d6ba6d]/60 shadow-lg"
         />
-        <h1 className="text-3xl font-bold text-[#d6ba6d] mb-6">Kontakt</h1>
-        <p className="mb-4 text-lg">Sie können mich gerne per E-Mail oder Telefon erreichen:</p>
+        <h1 className="text-3xl font-bold text-[#d6ba6d] mb-2">Kontakt</h1>
+        <h2 className="text-xl font-semibold text-gray-200 mb-2">Merab Torodadze</h2>
+        <div className="text-base text-[#d6ba6d] font-medium mb-2">Geschäftsführer &amp; Interim Manager</div>
+        <p className="mb-4 text-lg text-gray-300 text-center">Ich unterstütze Unternehmen als Interim Manager und Geschäftsführer mit Fokus auf Qualität, Prozesse und Lieferanten. Kontaktieren Sie mich gerne für eine unverbindliche Beratung.</p>
         <div className="flex flex-col gap-4 items-center">
           <div className="flex items-center gap-3">
             <svg width="24" height="24" fill="none" stroke="#d6ba6d" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M16 2v4H8V2"/><path d="M12 18h.01"/></svg>
