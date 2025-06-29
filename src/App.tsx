@@ -484,26 +484,15 @@ function App(): JSX.Element {
      */
     const trigger = ScrollTrigger.create({
       trigger: ctaEl,
-      start: "center center",
-      end: "+=200",
+      start: "top 80%",
+      end: "+=100",
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
+        const opacity = 1 - progress;
         // Move logo to center of viewport
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        // Centered position: left = (vw - 500) / 2, top = (vh - 500) / 2
-        const left = 48 + ((vw - 500) / 2 - 48) * progress; // 48px = 3rem (initial left)
-        const top = (vh - 500) / 2 * progress;
-        // Scale logo to 500px height (assuming original height is logoEl.offsetHeight)
-        const scale = 1 + ((500 / (logoEl.offsetHeight || 1)) - 1) * progress;
-        // Rotate to 0deg
-        const rotate = -30 * (1 - progress); // assuming previous rotation was -30deg
         gsap.to(logoEl, {
-          left,
-          top,
-          scale,
-          rotate,
+          opacity,
           overwrite: "auto",
           duration: 0.1,
           ease: "linear"
@@ -731,11 +720,15 @@ function App(): JSX.Element {
       </section>
 
       {/* cta section */}
-      <section className="w-full min-h-[100vh] flex items-center justify-center bg-neutral-800/80 relative z-10" id="nos" ref={ctaRef}>
-        <div className="text-center">
-          <div className="h-[500px]"></div>
-          <h2 className="text-5xl font-regular mb-4 drop-shadow-2xl text-shadow-gold text-[#d6ba6d]">MINDACROSS</h2>
-          <p className="text-m text-[#d6ba6d]/70">KLARHEIT. STRUKTUR. HANDLUNGSKRAFT</p>
+      <section className="w-full min-h-[95vh] flex items-center justify-center bg-neutral-800/80 relative z-10" id="nos" ref={ctaRef}>
+        <div className="text-center flex flex-col items-center justify-center">
+          <img
+            src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
+            alt="Goldenes Dreieck mit Spiralensymbol"
+            className="h-[300px] w-auto"
+          />
+          <h2 className="text-5xl  mb-4 drop-shadow-2xl text-shadow-gold text-[#d6ba6d]">MINDACROSS</h2>
+          <p className="text-m text-[#b89a5a]/90">KLARHEIT. STRUKTUR. HANDLUNGSKRAFT</p>
           {/* CTA Button: Jetzt Kontakt aufnehmen */}
           <div className="mt-10">
             <a
