@@ -1,6 +1,8 @@
 import type { JSX } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 /**
  * NavBar: Fixed navigation bar with backdrop blur, logo, and section scroll links.
@@ -11,6 +13,8 @@ export default function NavBar(): JSX.Element {
   const navigate = useNavigate();
   // Track which section is active for highlight
   const [activeSection, setActiveSection] = useState<string>("");
+  // Ref for the nav element to animate
+  const navRef = useRef<HTMLElement>(null);
 
   // Section navigation logic
   const sectionLinks = [
@@ -28,9 +32,9 @@ export default function NavBar(): JSX.Element {
       // These values are determined by the animation triggers in App.tsx
       // and should match the point where the title and info cards are fully visible
       const sectionOffsets: Record<string, number> = {
-        quality: 600, // After title and cards fade in (title: 70%->60%, cards: 60%->50%)
-        prozess: 700, // After title and cards fade in (title: 80%->70%, cards: 70%->60%)
-        lieferanten: 700, // After title and cards fade in (title: 80%->70%, cards: 70%->60%)
+        quality: 400, // After title and cards fade in (title: 70%->60%, cards: 60%->50%)
+        prozess: 300, // After title and cards fade in (title: 80%->70%, cards: 70%->60%)
+        lieferanten: 300, // After title and cards fade in (title: 80%->70%, cards: 70%->60%)
         about: 0 // No offset for about section
       };
       const offset = sectionOffsets[id] ?? 0;
@@ -93,18 +97,66 @@ export default function NavBar(): JSX.Element {
     { to: "/kontakt", label: "Kontakt" },
   ];
 
+  // Animate NavBar show/hide on main page scroll (after hero, hide with CTA)
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+    const navEl = navRef.current;
+    if (!navEl) return;
+    // Set initial state: hidden and moved up
+    gsap.set(navEl, { y: -80, opacity: 0 });
+    // Show after hero section (after scroll-up animation, ~300px)
+    const showTrigger = ScrollTrigger.create({
+      trigger: "section#quality", // after hero
+      start: "top 500px", // when quality section is 100px from top
+      end: "+=100", // fade in over 100px
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.to(navEl, {
+          y: -80 + 80 * progress,
+          opacity: progress,
+          duration: 0.1,
+          overwrite: "auto",
+          ease: "power2.out"
+        });
+      }
+    });
+    // Hide with CTA section (same timing as CTA fade out)
+    const hideTrigger = ScrollTrigger.create({
+      trigger: "#nos", // CTA section
+      start: "top 70%", // match CTA fade out start
+      end: "top 20%", // match CTA fade out end
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        gsap.to(navEl, {
+          y: 80 * -progress,
+          opacity: 1 - progress,
+          duration: 0.1,
+          overwrite: "auto",
+          ease: "power2.out"
+        });
+      }
+    });
+    return () => {
+      showTrigger.kill();
+      hideTrigger.kill();
+    };
+  }, [location.pathname]);
+
   return (
     <nav
+      ref={navRef}
       className="fixed top-0 left-0 w-full z-1000 backdrop-blur-md bg-neutral-900/70 border-b border-[#d6ba6d]/20 shadow-lg"
       aria-label="Hauptnavigation"
     >
-      <div className="max-w-6xl mx-auto px-4 py-2 flex flex-row items-center gap-6">
+      <div className={`max-w-6xl mx-auto px-4 py-2 flex flex-row items-center gap-6 ${location.pathname === "/" ? " ml-24" : ""}`}>
         {/* Logo as home/hero link (only show if not on main route) */}
         {location.pathname !== "/" && (
           <a
             href="/"
             onClick={handleLogoClick}
-            className="flex items-center mr-2 focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2"
+            className="flex items-center mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2"
             aria-label="Zur Startseite scrollen"
           >
             <img
@@ -115,13 +167,18 @@ export default function NavBar(): JSX.Element {
             />
           </a>
         )}
+        {/* Placeholder for logo space on main page to keep links aligned */}
+        {location.pathname === "/" && (
+          <div style={{ width: 40, minWidth: 88, height: 40, marginRight: 8 }} aria-hidden="true" />
+        )}
         {/* Section links */}
         {sectionLinks.map((link) => (
           <a
             key={link.id}
             href={`#${link.id}`}
             onClick={handleSectionClick(link.id)}
-            className={`text-base px-3 py-1 rounded transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
+            // Only show focus ring when using keyboard (not on mouse click)
+            className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
             aria-current={activeSection === link.id ? "page" : undefined}
           >
             {link.label}
@@ -133,7 +190,8 @@ export default function NavBar(): JSX.Element {
           <Link
             key={link.to}
             to={link.to}
-            className={`text-base px-3 py-1 rounded transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+            // Only show focus ring when using keyboard (not on mouse click)
+            className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
             aria-current={location.pathname === link.to ? "page" : undefined}
           >
             {link.label}
