@@ -17,7 +17,7 @@ export default function Kontakt(): JSX.Element {
         "VERSION:3.0",
         "FN:Merab Torodadze",
         "N:Torodadze;Merab;;;",
-        "TITLE:Geschäftsführer, Interim Manager",
+        "TITLE:Interim Manager",
         "ORG:Interim Management",
         "EMAIL;TYPE=INTERNET;TYPE=WORK:Tedoradze.merab@web.de",
         "TEL;TYPE=CELL:+49 177 7376989",
@@ -70,7 +70,7 @@ export default function Kontakt(): JSX.Element {
 
   return (
     <main className="min-h-screen bg-neutral-900 text-gray-100 flex flex-col items-center justify-center px-4 py-16">
-      <div className="max-w-xl w-full bg-neutral-800/90 rounded-2xl shadow-2xl border border-[#d6ba6d]/40 p-8 flex flex-col items-center">
+      <div className="max-w-xl w-full bg-neutral-800/90 rounded-2xl shadow-2xl border border-[#d6ba6d]/40 p-8 flex flex-col items-start">
         <img
           src="/src/assets/DSC01521.jpg"
           alt="Merab Torodadze Portrait"
@@ -78,9 +78,9 @@ export default function Kontakt(): JSX.Element {
         />
         <h1 className="text-3xl font-bold text-[#d6ba6d] mb-2">Kontakt</h1>
         <h2 className="text-xl font-semibold text-gray-200 mb-2">Merab Torodadze</h2>
-        <div className="text-base text-[#d6ba6d] font-medium mb-2">Geschäftsführer &amp; Interim Manager</div>
-        <p className="mb-4 text-lg text-gray-300 text-center">Ich unterstütze Unternehmen als Interim Manager und Geschäftsführer mit Fokus auf Qualität, Prozesse und Lieferanten. Kontaktieren Sie mich gerne für eine unverbindliche Beratung.</p>
-        <div className="flex flex-col gap-4 items-center">
+        <div className="text-base text-[#d6ba6d] font-medium mb-2">Interim Manager</div>
+        <p className="mb-4 text-lg text-gray-300">Ich begleite Unternehmen als Interim Manager mit Fokus auf Qualität, Prozesse und Lieferanten. Kontaktieren Sie mich für ein unverbindliches Gespräch.</p>
+        <div className="flex flex-col gap-4 items-start">
           <div className="flex items-center gap-3">
             <svg width="24" height="24" fill="none" stroke="#d6ba6d" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M16 2v4H8V2"/><path d="M12 18h.01"/></svg>
             <a href="mailto:Tedoradze.merab@web.de" className="text-[#d6ba6d] text-lg font-medium hover:underline">Tedoradze.merab@web.de</a>
@@ -93,6 +93,7 @@ export default function Kontakt(): JSX.Element {
         <a
           href="?vcard=true"
           className="mt-8 inline-block px-6 py-3 rounded-full bg-[#d6ba6d] text-neutral-900 font-bold text-base shadow-lg hover:bg-[#e7c97a] focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2 transition-colors duration-200"
+          style={{ alignSelf: "flex-start" }}
         >
           vCard herunterladen
         </a>
