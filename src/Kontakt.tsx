@@ -19,8 +19,7 @@ export default function Kontakt(): JSX.Element {
         "N:Torodadze;Merab;;;",
         "EMAIL;TYPE=INTERNET;TYPE=WORK:Tedoradze.merab@web.de",
         "TEL;TYPE=CELL:+49 177 7376989",
-        "PHOTO;ENCODING=b;TYPE=JPEG:data:image/jpeg;base64,",
-        // The image will be appended below
+        // PHOTO will be inserted below
         "END:VCARD"
       ];
       // Fetch the image as base64
@@ -29,10 +28,23 @@ export default function Kontakt(): JSX.Element {
           const blob = await res.blob();
           const reader = new FileReader();
           reader.onloadend = () => {
-            const base64 = (reader.result as string).split(",")[1];
-            // Insert the base64 image into the vCard
-            const vcardWithPhoto = vcard.slice();
-            vcardWithPhoto[7] = `PHOTO;ENCODING=b;TYPE=JPEG:${base64}`;
+            let base64 = (reader.result as string).split(",")[1];
+            // Remove any data:image/jpeg;base64, prefix (shouldn't be present, but just in case)
+            if (base64.startsWith("data:image")) {
+              base64 = base64.substring(base64.indexOf(",") + 1);
+            }
+            // Split base64 into lines of max 75 chars (RFC 6350)
+            const base64Lines: string[] = [];
+            for (let i = 0; i < base64.length; i += 75) {
+              base64Lines.push(base64.substring(i, i + 75));
+            }
+            // Insert PHOTO property (first line with property, rest indented by a space)
+            const photoProp = [
+              "PHOTO;ENCODING=b;TYPE=JPEG:" + base64Lines[0],
+              ...base64Lines.slice(1).map((line) => " " + line)
+            ];
+            // Insert photoProp before END:VCARD
+            const vcardWithPhoto = vcard.slice(0, 6).concat(photoProp).concat(vcard.slice(6));
             const vcardBlob = new Blob([vcardWithPhoto.join("\r\n")], { type: "text/vcard" });
             const url = URL.createObjectURL(vcardBlob);
             const a = document.createElement("a");
