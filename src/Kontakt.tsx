@@ -21,7 +21,6 @@ export default function Kontakt(): JSX.Element {
         "FN:Merab Torodadze",
         "N:Torodadze;Merab;;;",
         "TITLE:Interim Manager",
-        "ORG:Interim Management",
         "EMAIL;TYPE=INTERNET;TYPE=WORK:Tedoradze.merab@web.de",
         "TEL;TYPE=CELL:+49 177 7376989",
         // PHOTO will be inserted below
@@ -33,41 +32,37 @@ export default function Kontakt(): JSX.Element {
           const img = document.createElement("img");
           img.src = URL.createObjectURL(await res.blob());
           img.onload = () => {
-            // Create a canvas to crop/zoom the image
+            // Create a canvas to crop/zoom the image (keep aspect ratio, crop to square, focus top center)
+            const size = 512; // vCard image size (square)
             const canvas = document.createElement("canvas");
-            const size = 512; // vCard image size (square, large for quality)
             canvas.width = size;
             canvas.height = size;
             const ctx = canvas.getContext("2d");
             if (ctx) {
-              // Calculate cropping: zoom in (e.g. 1.4x), focus higher (head above center)
-              const zoom = 1.4;
-              const srcW = img.naturalWidth / zoom;
-              const srcH = img.naturalHeight / zoom;
-              const srcX = (img.naturalWidth - srcW) / 2;
-              // Move crop up: e.g. 30% from top
-              const srcY = (img.naturalHeight - srcH) * 0.3;
-              ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, size, size);
+              // Calculate cropping: crop to square, focus on top center
+              const minDim = Math.min(img.naturalWidth, img.naturalHeight);
+              const cropWidth = minDim;
+              const cropHeight = minDim;
+              const cropX = (img.naturalWidth - cropWidth) / 2;
+              // Move crop up: start a bit higher (e.g. 10% from top)
+              const cropY = Math.max(0, (img.naturalHeight - cropHeight) * 0.1);
+              ctx.drawImage(img, cropX, cropY, cropWidth, cropHeight, 0, 0, size, size);
               canvas.toBlob((croppedBlob) => {
                 if (!croppedBlob) return;
                 const reader = new FileReader();
                 reader.onloadend = () => {
                   let base64 = (reader.result as string).split(",")[1];
-                  // Remove any data:image/jpeg;base64, prefix (shouldn't be present, but just in case)
                   if (base64.startsWith("data:image")) {
                     base64 = base64.substring(base64.indexOf(",") + 1);
                   }
-                  // Split base64 into lines of max 75 chars (RFC 6350)
                   const base64Lines: string[] = [];
                   for (let i = 0; i < base64.length; i += 75) {
                     base64Lines.push(base64.substring(i, i + 75));
                   }
-                  // Insert PHOTO property (first line with property, rest indented by a space)
                   const photoProp = [
                     "PHOTO;ENCODING=b;TYPE=JPEG:" + base64Lines[0],
                     ...base64Lines.slice(1).map((line) => " " + line)
                   ];
-                  // Insert photoProp before END:VCARD
                   const vcardWithPhoto = vcard.slice(0, 6).concat(photoProp).concat(vcard.slice(6));
                   const vcardBlob = new Blob([vcardWithPhoto.join("\r\n")], { type: "text/vcard" });
                   const url = URL.createObjectURL(vcardBlob);
@@ -79,7 +74,6 @@ export default function Kontakt(): JSX.Element {
                   setTimeout(() => {
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    // Remove vcard=true from the URL after download
                     const urlObj = new URL(window.location.href);
                     urlObj.searchParams.delete("vcard");
                     window.history.replaceState({}, document.title, urlObj.pathname + urlObj.search);
