@@ -88,7 +88,9 @@ function App(): JSX.Element {
      */
     const elements = scrollUpRefs.map((ref) => ref.current);
     // Animation parameters for each element
-    const yOffsets = [-100, -100, -80]; // px, initial offset for each element
+    // Responsive yOffsets for mobile/desktop
+    const isMobile = window.innerWidth <= 768;
+    const yOffsets = isMobile ? [-40, -40, -20] : [-100, -100, -80]; // px, initial offset for each element
     const yMoveFactors = [100, 60 , 40]; // px, how much each element moves up
     const yScaleFactors = [1.3, 1.2, 1.1]; // px, how much each element scales up
     const fadeStart = 0; 
@@ -639,16 +641,16 @@ function App(): JSX.Element {
               ref={prozessRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed top-[calc(50vh+10vw)] w-[calc(35vw)] flex items-center justify-center" ref={prozessTitleRef}>
+              <div className="fixed md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] w-full top-24 flex items-center justify-center" ref={prozessTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   PROZESSMANAGEMENT
                 </h1>
               </div>
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for prozess topics */}
-              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12 pointer-events-none" ref={prozessCardsRef}>
+              <div className="fixed md:right-0 md:top-0 md:w-3/5 md:min-h-[100vh] w-full top-44 left-0 min-h-[60vh] flex flex-col gap-8 md:gap-12 justify-center md:pr-24 md:pt-12 pointer-events-none" ref={prozessCardsRef}>
                 {/* Prozessoptimierung */}
-                <div className="flex flex-row items-start gap-6">
+                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <rect x="4" y="4" width="16" height="16" rx="4" stroke="#d6ba6d" strokeWidth="2" />
@@ -656,8 +658,8 @@ function App(): JSX.Element {
                     </svg>
                   </span>
                   <div>
-                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Prozessoptimierung</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                    <h2 className="text-lg md:text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Prozessoptimierung</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Ablaufanalysen</li>
                       <li>Effizienzsteigerung</li>
                       <li>Digitalisierung von Prozessen</li>
@@ -665,7 +667,7 @@ function App(): JSX.Element {
                   </div>
                 </div>
                 {/* Lieferantenmanagement */}
-                <div className="flex flex-row items-start gap-6">
+                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <circle cx="12" cy="12" r="7" stroke="#d6ba6d" strokeWidth="2" />
@@ -673,8 +675,8 @@ function App(): JSX.Element {
                     </svg>
                   </span>
                   <div>
-                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantenmanagement</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                    <h2 className="text-lg md:text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantenmanagement</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Lieferantenauswahl</li>
                       <li>Entwicklung & Bewertung</li>
                       <li>Risikomanagement</li>
@@ -690,16 +692,16 @@ function App(): JSX.Element {
               ref={lieferantenRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed top-[calc(50vh+10vw)] w-[calc(35vw)] flex items-center justify-center" ref={lieferantenTitleRef}>
+              <div className="fixed md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] w-full top-24 flex items-center justify-center" ref={lieferantenTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   LIEFERANTENAUFBAU
                 </h1>
               </div>
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for lieferanten topics */}
-              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12 pointer-events-none" ref={lieferantenCardsRef}>
+              <div className="fixed md:right-0 md:top-0 md:w-3/5 md:min-h-[100vh] w-full top-44 left-0 min-h-[60vh] flex flex-col gap-8 md:gap-12 justify-center md:pr-24 md:pt-12 pointer-events-none" ref={lieferantenCardsRef}>
                 {/* Lieferantensuche */}
-                <div className="flex flex-row items-start gap-6">
+                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#d6ba6d" strokeWidth="2" />
@@ -707,8 +709,8 @@ function App(): JSX.Element {
                     </svg>
                   </span>
                   <div>
-                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantensuche</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                    <h2 className="text-lg md:text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantensuche</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Marktrecherche</li>
                       <li>Anfrage- und Angebotsmanagement</li>
                       <li>Erstqualifizierung</li>
@@ -716,7 +718,7 @@ function App(): JSX.Element {
                   </div>
                 </div>
                 {/* Lieferantenentwicklung */}
-                <div className="flex flex-row items-start gap-6">
+                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <rect x="6" y="6" width="12" height="12" rx="3" stroke="#d6ba6d" strokeWidth="2" />
@@ -724,8 +726,8 @@ function App(): JSX.Element {
                     </svg>
                   </span>
                   <div>
-                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantenentwicklung</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                    <h2 className="text-lg md:text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantenentwicklung</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Auditierung</li>
                       <li>Qualitätssteigerung</li>
                       <li>Partnerschaftsaufbau</li>
