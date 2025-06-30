@@ -566,7 +566,7 @@ function App(): JSX.Element {
             {/* Fixed Logo */}
             <img
               ref={logoRef}
-              src="/src/assets/logo_Merab_centered.png"
+              src="/logo_Merab_centered.png"
               alt="Goldenes Dreieck mit Spiralensymbol Logo"
               className="fixed  w-[60vw] md:w-[35vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
               style={{ zIndex: 20 }}
@@ -756,7 +756,7 @@ function App(): JSX.Element {
             <section id="about" className="backdrop-blur-md flex w-full h-auto md:min-h-[120vh] relative z-50 flex-col md:flex-row items-center justify-center py-12 md:py-24 bg-neutral-700/70">
               {/* Portrait image: smaller and above card on mobile, left on desktop */}
               <img
-                src="/src/assets/PhotoshopVorschau_Bild.png"
+                src="/PhotoshopVorschau_Bild.png"
                 alt="Merab Torodadze Portrait"
                 className="relative mx-auto mb-4 md:mb-0 md:mr-8 w-40 h-40 md:w-auto md:h-[120vh] object-cover rounded-2xl shadow-lg md:absolute md:top-0 md:-left-26 z-50"
                 style={{ minWidth: "120px", maxWidth: "100%" }}
@@ -788,7 +788,7 @@ function App(): JSX.Element {
               <div className=" fixed bottom-[30vh] md:bottom-[200px] text-center flex flex-col items-center justify-center">
                 <img
                   ref={logoRefStatic}
-                  src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
+                  src="/Goldenes Dreieck mit Spiralensymbol.png"
                   alt="Goldenes Dreieck mit Spiralensymbol"
                   className="h-[200px] md:h-[400px] w-auto"
                 />

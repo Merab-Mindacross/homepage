@@ -223,7 +223,7 @@ export default function NavBar(): JSX.Element {
               aria-label="Zur Startseite scrollen"
             >
               <img
-                src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
+                src="/Goldenes Dreieck mit Spiralensymbol.png"
                 alt="Logo"
                 className="h-10 w-10 rounded-xl bg-white/10 shadow"
                 style={{ minWidth: 40, minHeight: 40 }}
