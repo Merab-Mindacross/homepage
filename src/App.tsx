@@ -3,7 +3,6 @@ import { gsap } from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./App.css";
-import { InfoCard } from "./components/InfoCard";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Impressum from "./Impressum";
 import Datenschutz from "./Datenschutz";
@@ -13,7 +12,9 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
-
+const viewportWidth = window.innerWidth;
+const viewportHeight = window.innerHeight;
+const isMobileViewport = viewportWidth <= 768;
 /**
  * App component: Only a hero section with parallax-ready background image.
  * Headline: Kurzfristige Verstärkung mit langfristigem Effekt.
@@ -153,6 +154,24 @@ function App(): JSX.Element {
           });
         }
       };
+      if(isMobileViewport) {
+        lastScrollUpEnd.onUpdate = (self) => {
+          const progress = self.progress;
+          // Scale from 1 to 0.6, rotate from 0 to -30deg
+          const y = -50 * progress;
+          const scale = 1 - 0.4 * progress;
+          const rotate = -60 * progress;
+          gsap.to(logoEl, {
+            y,
+            scale,
+            rotate,
+            overwrite: "auto",
+            duration: 0.1,
+            ease: "sine.out"
+          });
+        }
+      }
+
       const logoTrigger = ScrollTrigger.create(lastScrollUpEnd);
       triggers.push(logoTrigger);
     }
@@ -180,11 +199,11 @@ function App(): JSX.Element {
        * Ensures pixel-perfect positioning regardless of image load timing.
        */
       const handlePositioning = (): void => {
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+        
+
         const logoWidth = logoEl.offsetWidth;
         const logoHeight = logoEl.offsetHeight;
-        if (viewportWidth <= 768) {
+        if (isMobileViewport) {
           // Mobile: horizontally centered, near the top
           gsap.set(logoEl, {
             position: "fixed",
@@ -558,7 +577,7 @@ function App(): JSX.Element {
               className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
               ref={qualityRef}
             >
-              <div className="fixed top-[calc(50vh+10vw)] w-[calc(35vw)] flex items-center justify-center" ref={qualityTitleRef}>
+              <div className="fixed top-1/2 w-full top-[calc(60vw-50px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={qualityTitleRef}>
                 <h1
                   
                   className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in"
@@ -569,18 +588,21 @@ function App(): JSX.Element {
               
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for quality topics */}
-              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12 pointer-events-none" ref={infoCardsRef}>
+              <div className="fixed right-0 top-[calc(60vw-60px)] md:top-0 w-full md:w-3/5 md:min-h-[100vh] flex flex-col md:gap-12 justify-center md:pr-24 pt-12 pointer-events-none" ref={infoCardsRef}>
                 {/* Interne Qualität */}
-                <div className="flex flex-row items-start gap-6">
-                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
+                <div className="flex flex-row items-start gap-6 m-6">
+                  
+                  <div>
+                    <div className="flex flex-row items-center gap-2">
+                    <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
                       <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
                   </span>
-                  <div>
-                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Interne Qualität</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                  <h2 className="text-sm font-semibold md:text-2xl font-regular md:text-[#d6ba6d] tracking-tight mb-2">Interne Qualität</h2>
+                    </div>
+                    <ul className="ms-2 list-disc list-inside text-gray-100 text-sm md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Kontinuierliche Verbesserungsprozesse</li>
                       <li>Interne Audits</li>
                       <li>Mitarbeiterschulungen</li>
@@ -588,18 +610,19 @@ function App(): JSX.Element {
                   </div>
                 </div>
                 {/* Kundenqualität */}
-                <div className="flex flex-row items-start gap-6">
-                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
+                <div className="flex flex-row items-start m-6">
+                  
+                  <div>
+                    <div className="flex flex-row items-center gap-2">
+                    <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M7 15l-2 2a2 2 0 002.83 2.83l2-2" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M17 15l2 2a2 2 0 01-2.83 2.83l-2-2" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M8 13l4 4 4-4" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M12 17V7" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
+                      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
                   </span>
-                  <div>
-                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Kundenqualität</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                  <h2 className="text-sm font-semibold md:text-2xl font-regular md:text-[#d6ba6d] tracking-tight mb-2">Kundenqualität</h2>
+                    </div>
+                    <ul className="ms-2 list-disc list-inside text-gray-100 text-sm md:text-lg leading-relaxed space-y-2 pl-2 ">
                       <li>Erfüllung von Kundenanforderungen</li>
                       <li>Lieferzuverlässigkeit</li>
                       <li>Serviceorientierung</li>

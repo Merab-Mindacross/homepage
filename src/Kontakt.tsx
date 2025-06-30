@@ -90,7 +90,7 @@ export default function Kontakt(): JSX.Element {
   }, []);
 
   return (
-    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0">
+    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0 mt-24">
       <div className="mx-auto mt-16 max-w-xl w-full flex flex-col items-start">
         <img
           src="/src/assets/DSC01521.jpg"

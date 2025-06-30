@@ -8,13 +8,11 @@
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
-  background-color: #fff;
   color: #e5e7eb; /* Tailwind's gray-200 */
   min-width: 320px;
   min-height: 100vh;
+  background-color: #131313; /* DarkGray */
 }
-
-/* Remove h1, button, and other custom styles, use Tailwind only */
 
 
 

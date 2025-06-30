@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
  */
 export default function Datenschutz(): JSX.Element {
   return (
-    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0">
+    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0 mt-12">
       <div className="mx-auto mt-16 max-w-2xl w-full">
         <h1 className="text-3xl font-bold text-[#d6ba6d] mb-6">Datenschutzerklärung</h1>
         <p className="mb-4">Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Nachfolgend informieren wir Sie über die Erhebung, Verarbeitung und Nutzung Ihrer Daten im Rahmen dieser Website.</p>
