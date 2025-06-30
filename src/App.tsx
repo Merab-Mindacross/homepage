@@ -1,4 +1,4 @@
-import { useRef, useEffect, type JSX } from "react";
+import { useRef, useEffect, type JSX, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -199,6 +199,21 @@ function App(): JSX.Element {
     };
   }, [isMainPage]);
 
+  // Set --vh variable for mobile viewport height compensation
+  useEffect(() => {
+    function setViewportHeightVar() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    setViewportHeightVar();
+    window.addEventListener('resize', setViewportHeightVar);
+    window.addEventListener('orientationchange', setViewportHeightVar);
+    return () => {
+      window.removeEventListener('resize', setViewportHeightVar);
+      window.removeEventListener('orientationchange', setViewportHeightVar);
+    };
+  }, []);
+
   // Robust vertical centering for logo: ensures correct position on load, resize, and before GSAP animation
   useEffect(() => {
     const logoEl = logoRef.current;
@@ -208,15 +223,15 @@ function App(): JSX.Element {
        * Ensures pixel-perfect positioning regardless of image load timing.
        */
       const handlePositioning = (): void => {
-        
-
         const logoWidth = logoEl.offsetWidth;
         const logoHeight = logoEl.offsetHeight;
         if (isMobileViewport) {
-          // Mobile: horizontally centered, near the top
+          // Mobile: horizontally centered, near the top, using --vh for robust viewport height
+          const vh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vh')) || (window.innerHeight * 0.01);
+          const top = 2 * vh; // 2vh
           gsap.set(logoEl, {
             position: "fixed",
-            top: "2rem",
+            top,
             left: (viewportWidth - logoWidth) / 2,
             x: 0,
             y: 0,
