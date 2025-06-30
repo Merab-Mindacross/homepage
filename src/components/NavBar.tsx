@@ -244,18 +244,27 @@ export default function NavBar(): JSX.Element {
           className="fixed top-4 left-4 z-[1100] w-12 h-12 rounded-full bg-neutral-900/60 border border-[#d6ba6d]/60 shadow-xl backdrop-blur-lg flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] transition-all"
           style={{ backdropFilter: "blur(16px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}
         >
-          {/* Centered Burger SVG */}
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", margin: "auto" }}>
-            <rect y="5" width="28" height="3" rx="1.5" fill="#d6ba6d" />
-            <rect y="12.5" width="28" height="3" rx="1.5" fill="#d6ba6d" />
-            <rect y="20" width="28" height="3" rx="1.5" fill="#d6ba6d" />
-          </svg>
+          {/* Burger or X SVG depending on menu state */}
+          {mobileMenuOpen ? (
+            // X (close) icon
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", margin: "auto" }}>
+              <line x1="6" y1="6" x2="22" y2="22" stroke="#d6ba6d" strokeWidth="3" strokeLinecap="round" />
+              <line x1="22" y1="6" x2="6" y2="22" stroke="#d6ba6d" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+          ) : (
+            // Burger icon
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", margin: "auto" }}>
+              <rect y="5" width="28" height="3" rx="1.5" fill="#d6ba6d" />
+              <rect y="12.5" width="28" height="3" rx="1.5" fill="#d6ba6d" />
+              <rect y="20" width="28" height="3" rx="1.5" fill="#d6ba6d" />
+            </svg>
+          )}
         </button>
-        {/* Expandable menu (top right) */}
+        {/* Expandable menu (top left, stick to left) */}
         {mobileMenuOpen && (
           <div className="fixed inset-0 z-[1099] bg-black/10" onClick={() => setMobileMenuOpen(false)}>
             <nav
-              className="fixed top-4 right-4 min-w-[160px] max-w-[80vw] bg-neutral-900/60 rounded-2xl shadow-xl border border-[#d6ba6d]/60 p-3 flex flex-col gap-2 backdrop-blur-xl animate-fade-in-up"
+              className="fixed top-4 left-4 min-w-[160px] max-w-[80vw] bg-neutral-900/60 rounded-2xl shadow-xl border border-[#d6ba6d]/60 p-3 pt-12 flex flex-col gap-2 backdrop-blur-xl animate-fade-in-up"
               aria-label="Mobile Navigation"
               style={{ backdropFilter: "blur(16px)" }}
               onClick={(e) => e.stopPropagation()}
