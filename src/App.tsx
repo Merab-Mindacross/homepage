@@ -561,7 +561,7 @@ function App(): JSX.Element {
               
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for quality topics */}
-              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12" ref={infoCardsRef}>
+              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12 pointer-events-none" ref={infoCardsRef}>
                 {/* Interne Qualität */}
                 <div className="flex flex-row items-start gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
@@ -615,7 +615,7 @@ function App(): JSX.Element {
               </div>
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for prozess topics */}
-              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12" ref={prozessCardsRef}>
+              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12 pointer-events-none" ref={prozessCardsRef}>
                 {/* Prozessoptimierung */}
                 <div className="flex flex-row items-start gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
@@ -666,7 +666,7 @@ function App(): JSX.Element {
               </div>
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for lieferanten topics */}
-              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12" ref={lieferantenCardsRef}>
+              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12 pointer-events-none" ref={lieferantenCardsRef}>
                 {/* Lieferantensuche */}
                 <div className="flex flex-row items-start gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
