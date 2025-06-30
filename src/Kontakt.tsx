@@ -28,7 +28,7 @@ export default function Kontakt(): JSX.Element {
         "END:VCARD"
       ];
       // Fetch the image as base64
-      fetch("/src/assets/DSC01521.jpg")
+      fetch("/DSC01521.jpg")
         .then(async (res) => {
           const img = document.createElement("img");
           img.src = URL.createObjectURL(await res.blob());
@@ -93,7 +93,7 @@ export default function Kontakt(): JSX.Element {
     <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0 mt-24">
       <div className="mx-auto mt-16 max-w-xl w-full flex flex-col items-start">
         <img
-          src="/src/assets/DSC01521.jpg"
+          src="/DSC01521.jpg"
           alt="Merab Torodadze Portrait"
           className="w-64 h-64 object-cover object-[50%_30%] rounded-full mb-6 border-4 border-[#d6ba6d]/60 shadow-lg mx-auto"
           style={{ display: "block" }}

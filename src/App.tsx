@@ -753,25 +753,32 @@ function App(): JSX.Element {
             </section>
             
             {/* Persönliche "Me"-Seite für Merab */}
-            <section id="about" className="backdrop-blur-md flex w-full h-[130vh] md:h-[120vh] relative z-50  flex items-center justify-center py-24 bg-neutral-700/70 relative">
+            <section id="about" className="backdrop-blur-md flex w-full h-auto md:min-h-[120vh] relative z-50 flex-col md:flex-row items-center justify-center py-12 md:py-24 bg-neutral-700/70">
+              {/* Portrait image: smaller and above card on mobile, left on desktop */}
               <img
                 src="/src/assets/PhotoshopVorschau_Bild.png"
                 alt="Merab Torodadze Portrait"
-                /* z-50 ensures this image is above the logo (z-20) and other content */
-                className="h-[130vh] w-auto md:h-[120vh] object-cover absolute top-0  md:-left-26 z-50"
-                style={{ minWidth: "260px" }}
+                className="relative mx-auto mb-4 md:mb-0 md:mr-8 w-40 h-40 md:w-auto md:h-[120vh] object-cover rounded-2xl shadow-lg md:absolute md:top-0 md:-left-26 z-50"
+                style={{ minWidth: "120px", maxWidth: "100%" }}
               />
-              {/* card, groß */}
-              <div className=" absolute md:static bottom-0 z-50 m-4 p-4 w-[calc(100vw-5rem)] backdrop-blur-md md:static flex flex-col md:flex-row items-center justify-center w-full md:max-w-2xl md:mx-auto gap-12 bg-neutral-700/70 rounded-3xl shadow-2xl md:p-8 border border-[#d6ba6d]/30 max-w-[800px] md:ml-[40vw] md:mr-12">
-                
-                {/* Info rechts */}
-                <div className="md:static flex-1 flex flex-col justify-center items-start gap-6 px-2 ">
-                  <h1 className="text-xl md:text-5xl font-extrabold text-[#d6ba6d] drop-shadow-gold md:mb-2">Merab Torodadze</h1>
-                  <h2 className="text-lg md:text-2xl font-semibold text-gray-200 md:mb-4">Interim Manager</h2>
-                  <p className="text-sm md:text-lg text-gray-300 max-w-xl mb-4">
+              {/* Card: below image on mobile, right on desktop */}
+              <div className="relative z-10 w-full max-w-md md:max-w-6xl mx-auto bg-neutral-700/70 rounded-3xl shadow-2xl p-6 md:p-8 border border-[#d6ba6d]/30 flex flex-col gap-6 md:gap-12 md:ml-[40vw] md:static md:flex-row md:items-center md:justify-center">
+                <div className="flex-1 flex flex-col justify-center items-start gap-4 md:gap-6 px-2">
+                  <h1 className="text-2xl md:text-5xl font-extrabold text-[#d6ba6d] drop-shadow-gold mb-1 md:mb-2">Merab Torodadze</h1>
+                  <h2 className="text-base md:text-2xl font-semibold text-gray-200 mb-2 md:mb-4">Interim Manager</h2>
+                  <p className="text-sm md:text-lg text-gray-300 max-w-xl mb-2 md:mb-4">
                     Ich unterstütze Unternehmen als Interim Manager an der Schnittstelle von Qualität, Prozessen und Lieferanten. Mit langjähriger Erfahrung, analytischem Denken und Hands-on-Mentalität bringe ich kurzfristige Verstärkung mit langfristigem Effekt.
                   </p>
-                  
+                  <div className="flex flex-col gap-2 mt-2 md:mt-4">
+                    <div className="flex items-center gap-3">
+                      <svg width="24" height="24" fill="none" stroke="#d6ba6d" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M16 2v4H8V2"/><path d="M12 18h.01"/></svg>
+                      <a href="mailto:merab@PhotoshopVorschau_Bild.png" className="text-[#d6ba6d] text-base md:text-lg font-medium hover:underline">merab@PhotoshopVorschau_Bild.png</a>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <svg width="24" height="24" fill="none" stroke="#d6ba6d" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92V19a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h2.09a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.34a2 2 0 0 1-.45 2.11l-.27.27a16 16 0 0 0 6.29 6.29l.27-.27a2 2 0 0 1 2.11-.45c.74.32 1.53.55 2.34.68A2 2 0 0 1 21 16.91z"/></svg>
+                      <a href="tel:+491234567890" className="text-[#d6ba6d] text-base md:text-lg font-medium hover:underline">+49 123 4567890</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
