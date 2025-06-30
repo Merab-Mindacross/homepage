@@ -15,6 +15,8 @@ export default function NavBar(): JSX.Element {
   const [activeSection, setActiveSection] = useState<string>("");
   // Ref for the nav element to animate
   const navRef = useRef<HTMLElement>(null);
+  // State for mobile menu
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   // Section navigation logic
   const sectionLinks = [
@@ -144,60 +146,120 @@ export default function NavBar(): JSX.Element {
     };
   }, [location.pathname]);
 
+  // Responsive: show floating burger on mobile, full nav on desktop
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+
   return (
-    <nav
-      ref={navRef}
-      className="fixed top-0 left-0 w-full z-1000 backdrop-blur-md bg-neutral-900/70 border-b border-[#d6ba6d]/20 shadow-lg"
-      aria-label="Hauptnavigation"
-    >
-      <div className={`max-w-6xl mx-auto px-4 py-2 flex flex-row items-center gap-6 ${location.pathname === "/" ? " ml-24" : ""}`}>
-        {/* Logo as home/hero link (only show if not on main route) */}
-        {location.pathname !== "/" && (
-          <a
-            href="/"
-            onClick={handleLogoClick}
-            className="flex items-center mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2"
-            aria-label="Zur Startseite scrollen"
-          >
-            <img
-              src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
-              alt="Logo"
-              className="h-10 w-10 rounded-xl bg-white/10 shadow"
-              style={{ minWidth: 40, minHeight: 40 }}
-            />
-          </a>
+    <>
+      {/* Desktop NavBar */}
+      <nav
+        ref={navRef}
+        className={`fixed top-0 left-0 w-full z-1000 backdrop-blur-md bg-neutral-900/70 border-b border-[#d6ba6d]/20 shadow-lg hidden md:block`}
+        aria-label="Hauptnavigation"
+      >
+        <div className={`max-w-6xl mx-auto px-4 py-2 flex flex-row items-center gap-6 ${location.pathname === "/" ? " ml-24" : ""}`}>
+          {/* Logo as home/hero link (only show if not on main route) */}
+          {location.pathname !== "/" && (
+            <a
+              href="/"
+              onClick={handleLogoClick}
+              className="flex items-center mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2"
+              aria-label="Zur Startseite scrollen"
+            >
+              <img
+                src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
+                alt="Logo"
+                className="h-10 w-10 rounded-xl bg-white/10 shadow"
+                style={{ minWidth: 40, minHeight: 40 }}
+              />
+            </a>
+          )}
+          {/* Placeholder for logo space on main page to keep links aligned */}
+          {location.pathname === "/" && (
+            <div style={{ width: 40, minWidth: 88, height: 40, marginRight: 8 }} aria-hidden="true" />
+          )}
+          {/* Section links */}
+          {sectionLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={handleSectionClick(link.id)}
+              // Only show focus ring when using keyboard (not on mouse click)
+              className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
+              aria-current={activeSection === link.id ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+          <span className="flex-1" />
+          {/* Other nav links */}
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              // Only show focus ring when using keyboard (not on mouse click)
+              className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+              aria-current={location.pathname === link.to ? "page" : undefined}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </nav>
+      {/* Mobile Floating Burger Button */}
+      <div className="md:hidden">
+        {/* Floating button */}
+        <button
+          type="button"
+          aria-label={mobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
+          onClick={() => setMobileMenuOpen((open) => !open)}
+          className="fixed bottom-6 right-6 z-[1100] w-16 h-16 rounded-full bg-neutral-900/70 border-4 border-[#d6ba6d] shadow-xl backdrop-blur-lg flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] transition-all"
+        >
+          {/* Burger SVG */}
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect y="8" width="36" height="4" rx="2" fill="#d6ba6d" />
+            <rect y="16" width="36" height="4" rx="2" fill="#d6ba6d" />
+            <rect y="24" width="36" height="4" rx="2" fill="#d6ba6d" />
+          </svg>
+        </button>
+        {/* Expandable menu */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-[1099] bg-black/40 flex items-end justify-end" onClick={() => setMobileMenuOpen(false)}>
+            <nav
+              className="w-64 bg-neutral-900/95 rounded-tl-3xl rounded-tr-3xl shadow-2xl border-t-4 border-[#d6ba6d] p-8 flex flex-col gap-6 backdrop-blur-xl animate-fade-in-up"
+              aria-label="Mobile Navigation"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {sectionLinks.map((link) => (
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  onClick={(e) => {
+                    handleSectionClick(link.id)(e);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`text-lg font-semibold px-3 py-2 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                  aria-current={activeSection === link.id ? "page" : undefined}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <hr className="my-2 border-[#d6ba6d]/30" />
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`text-lg font-semibold px-3 py-2 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                  aria-current={location.pathname === link.to ? "page" : undefined}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
         )}
-        {/* Placeholder for logo space on main page to keep links aligned */}
-        {location.pathname === "/" && (
-          <div style={{ width: 40, minWidth: 88, height: 40, marginRight: 8 }} aria-hidden="true" />
-        )}
-        {/* Section links */}
-        {sectionLinks.map((link) => (
-          <a
-            key={link.id}
-            href={`#${link.id}`}
-            onClick={handleSectionClick(link.id)}
-            // Only show focus ring when using keyboard (not on mouse click)
-            className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
-            aria-current={activeSection === link.id ? "page" : undefined}
-          >
-            {link.label}
-          </a>
-        ))}
-        <span className="flex-1" />
-        {/* Other nav links */}
-        {navLinks.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            // Only show focus ring when using keyboard (not on mouse click)
-            className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
-            aria-current={location.pathname === link.to ? "page" : undefined}
-          >
-            {link.label}
-          </Link>
-        ))}
       </div>
-    </nav>
+    </>
   );
 } 
