@@ -87,7 +87,7 @@ function App(): JSX.Element {
      */
     const elements = scrollUpRefs.map((ref) => ref.current);
     // Animation parameters for each element
-    const yOffsets = [0, 0, 20]; // px, initial offset for each element
+    const yOffsets = [-100, -100, -80]; // px, initial offset for each element
     const yMoveFactors = [100, 60 , 40]; // px, how much each element moves up
     const yScaleFactors = [1.3, 1.2, 1.1]; // px, how much each element scales up
     const fadeStart = 0; 
@@ -143,9 +143,6 @@ function App(): JSX.Element {
           // Scale from 1 to 0.6, rotate from 0 to -30deg
           const scale = 1 - 0.4 * progress;
           const rotate = -60 * progress;
-          // Keep logo vertically centered: top 50% minus half its height
-          // Since it's fixed with top-1/2 and -translate-y-1/2, y should remain 0
-          const y = -50 * progress;
           gsap.to(logoEl, {
             scale,
             rotate,
@@ -543,16 +540,16 @@ function App(): JSX.Element {
               ref={logoRef}
               src="/src/assets/logo_Merab_centered.png"
               alt="Goldenes Dreieck mit Spiralensymbol Logo"
-              className="fixed  w-[35vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
+              className="fixed  w-[60vw] md:w-[35vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
               style={{ zIndex: 20 }}
             />
             {/* Scrollable Content */}
-            <section ref={heroRef} className=" md:ml-[35vw] min-h-screen flex items-center justify-start ">
+            <section ref={heroRef} className="m-4 w-100vw md:ml-[35vw] min-h-screen flex items-end md:items-center justify-start ">
               <div className="flex flex-col items-start justify-center flex-1 w-full py-8">
                 {/* Animated scroll-up elements with refs */}
-                <h1 ref={scrollUpRefs[0]} className="text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
-                <h1 ref={scrollUpRefs[1]} className="text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
-                <p ref={scrollUpRefs[2]} className="text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management in der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
+                <h1 ref={scrollUpRefs[0]} className="text-xl md:text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
+                <h1 ref={scrollUpRefs[1]} className="text-3xl md:text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
+                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management in der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
               </div>
             </section>
             {/* Qualitätsmanagement */}
