@@ -204,7 +204,6 @@ export default function NavBar(): JSX.Element {
   }, [mobileMenuOpen, burgerVisible]);
 
   // Responsive: show floating burger on mobile, full nav on desktop
-  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
 
   return (
     <>

@@ -97,7 +97,7 @@ function App(): JSX.Element {
     const xMoveFactors = isMobile ? [0, 0, 0] : [0, 0, 0]; 
     const scaleFactors = [1.3, 1.2, 1.1]; // scale for both
     const fadeStart = 0; 
-    const fadeEnd = isMobile ? 0.3 : 0.5; 
+    const fadeEnd = isMobile ? 0.4 : 0.5; 
     const triggers: ScrollTrigger[] = [];
 
     elements.forEach((el, i) => {
@@ -758,7 +758,7 @@ function App(): JSX.Element {
                 src="/src/assets/PhotoshopVorschau_Bild.png"
                 alt="Merab Torodadze Portrait"
                 /* z-50 ensures this image is above the logo (z-20) and other content */
-                className="h-[130vh] w-auto md:h-[120vh] object-cover absolute top-0 -left-12 md:-left-26 z-50"
+                className="h-[130vh] w-auto md:h-[120vh] object-cover absolute top-0  md:-left-26 z-50"
                 style={{ minWidth: "260px" }}
               />
               {/* card, groß */}
