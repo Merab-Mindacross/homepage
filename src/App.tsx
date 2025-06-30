@@ -143,16 +143,13 @@ function App(): JSX.Element {
           // Scale from 1 to 0.6, rotate from 0 to -30deg
           const scale = 1 - 0.4 * progress;
           const rotate = -60 * progress;
-          // Move logo further to the left (e.g., -40px at full progress)
-          const x = -100 * progress;
           // Keep logo vertically centered: top 50% minus half its height
           // Since it's fixed with top-1/2 and -translate-y-1/2, y should remain 0
           const y = -50 * progress;
           gsap.to(logoEl, {
             scale,
             rotate,
-            x,
-            y,
+            
             overwrite: "auto",
             duration: 0.1,
             ease: "sine.out"
@@ -192,7 +189,7 @@ function App(): JSX.Element {
         gsap.set(logoEl, {
           position: "fixed",
           top,
-          left: "3rem", // Tailwind's left-12
+          left: "0", // Tailwind's left-12
           x: 0,
           y: 0,
         });
@@ -246,7 +243,7 @@ function App(): JSX.Element {
     ScrollTrigger.create({
       trigger: sectionEl,
       start: "top 60%", // Karten beginnen zu erscheinen, wenn Titel voll sichtbar
-      end: "top 50%",   // Karten sind voll sichtbar
+      end: "top 58%",   // Karten sind voll sichtbar
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -345,7 +342,7 @@ function App(): JSX.Element {
     ScrollTrigger.create({
       trigger: sectionEl,
       start: "top 70%",
-      end: "top 60%",
+      end: "top 68%",
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -432,7 +429,7 @@ function App(): JSX.Element {
     ScrollTrigger.create({
       trigger: sectionEl,
       start: "top 70%",
-      end: "top 60%",
+      end: "top 68%",
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -477,8 +474,8 @@ function App(): JSX.Element {
      */
     const trigger = ScrollTrigger.create({
       trigger: ctaEl,
-      start: "top 80%",
-      end: "+=200",
+      start: "top 90%",
+      end: "+=10",
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -526,21 +523,21 @@ function App(): JSX.Element {
       <NavBar />
       <Routes>
         <Route path="/" element={
-          <div className="app-root w-full scroll-area relative min-h-[300vh] bg-gradient-to-tr from-neutral-900 to-neutral-800">
+          <div className="app-root w-full scroll-area relative min-h-[300vh] bg-gradient-to-tr from-neutral-900 to-neutral-800 overflow-hidden">
             {/* Fixed Logo */}
             <img
               ref={logoRef}
               src="/src/assets/logo_Merab_centered.png"
               alt="Goldenes Dreieck mit Spiralensymbol Logo"
-              className="fixed left-12 w-[600px] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
+              className="fixed left-12 w-[35vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
               style={{ zIndex: 20 }}
             />
             {/* Scrollable Content */}
-            <section ref={heroRef} className="w-[50vw] ml-[40vw] min-h-screen flex items-center justify-center">
-              <div className="flex flex-col items-start justify-center flex-1 max-w-3xl mx-auto px-4 py-8">
+            <section ref={heroRef} className=" ml-[35vw] min-h-screen flex items-center justify-start ">
+              <div className="flex flex-col items-start justify-center flex-1 w-full py-8">
                 {/* Animated scroll-up elements with refs */}
-                <h1 ref={scrollUpRefs[0]} className="text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG</h1>
-                <h1 ref={scrollUpRefs[1]} className="text-5xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
+                <h1 ref={scrollUpRefs[0]} className="text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
+                <h1 ref={scrollUpRefs[1]} className="text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
                 <p ref={scrollUpRefs[2]} className="text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management in der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
               </div>
             </section>
@@ -550,7 +547,7 @@ function App(): JSX.Element {
               className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
               ref={qualityRef}
             >
-              <div className="fixed left-16 top-[calc(50vh+120px)] w-[360px] flex items-center justify-center" ref={qualityTitleRef}>
+              <div className="fixed top-[calc(50vh+10vw)] w-[calc(35vw)] flex items-center justify-center" ref={qualityTitleRef}>
                 <h1
                   
                   className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in"
@@ -608,7 +605,7 @@ function App(): JSX.Element {
               ref={prozessRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed left-16 top-[calc(50vh+120px)] w-[360px] flex items-center justify-center" ref={prozessTitleRef}>
+              <div className="fixed top-[calc(50vh+10vw)] w-[calc(35vw)] flex items-center justify-center" ref={prozessTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   PROZESSMANAGEMENT
                 </h1>
@@ -659,7 +656,7 @@ function App(): JSX.Element {
               ref={lieferantenRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed left-16 top-[calc(50vh+120px)] w-[360px] flex items-center justify-center" ref={lieferantenTitleRef}>
+              <div className="fixed top-[calc(50vh+10vw)] w-[calc(35vw)] flex items-center justify-center" ref={lieferantenTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   LIEFERANTENAUFBAU
                 </h1>
