@@ -10,7 +10,6 @@ import Terms from "./Terms";
 import Kontakt from "./Kontakt";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-import { useLayoutEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 const viewportWidth = window.innerWidth;
