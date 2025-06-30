@@ -1,4 +1,4 @@
-import { useRef, useEffect, type JSX, useLayoutEffect } from "react";
+import { useRef, useEffect, type JSX } from "react";
 import { gsap } from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
