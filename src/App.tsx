@@ -10,6 +10,7 @@ import Terms from "./Terms";
 import Kontakt from "./Kontakt";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import { useLayoutEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 const viewportWidth = window.innerWidth;
@@ -103,11 +104,11 @@ function App(): JSX.Element {
     elements.forEach((el, i) => {
       if (!el) return;
       // Set initial position
-      gsap.set(el, { y: yOffsets[i], x: xOffsets[i], opacity: 1 });
+      // gsap.set(el, { y: yOffsets[i], x: xOffsets[i], opacity: 1 });
       // Animate on scroll
       const trigger = ScrollTrigger.create({
         trigger: heroRef.current,
-        start: "top -1%",
+        start: "top top",
         end: "+=300",
         scrub: true,
         onUpdate: (self) => {
@@ -588,7 +589,7 @@ function App(): JSX.Element {
             />
             {/* Scrollable Content */}
             <section ref={heroRef} className="m-4 w-100vw md:ml-[35vw] min-h-screen flex items-end md:items-center justify-start ">
-              <div className="flex flex-col items-start justify-center flex-1 w-full py-8">
+              <div className="flex flex-col items-start justify-center flex-1 w-full py-8 mb-20">
                 {/* Animated scroll-up elements with refs */}
                 <h1 ref={scrollUpRefs[0]} className="text-xl md:text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
                 <h1 ref={scrollUpRefs[1]} className="text-3xl md:text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
