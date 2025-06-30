@@ -602,29 +602,27 @@ function App(): JSX.Element {
               {/* Elegant, non-card layout for quality topics */}
               <div className="fixed right-0 top-[calc(60vw-60px)] md:top-0 w-full md:w-3/5 md:min-h-[100vh] flex flex-col md:gap-12 justify-center md:pr-24 pt-12 pointer-events-none" ref={infoCardsRef}>
                 {/* Interne Qualität */}
-                <div className="flex flex-row items-start gap-6 m-6">
-                  
-                  <div>
-                    <div className="flex flex-row items-center gap-2">
+                <div className="flex flex-col items-start gap-4 md:gap-6 m-6">
+                 
+                  <div className="flex flex-row items-center gap-2">
                     <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
                       <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
-                  </span>
-                  <h2 className="text-sm font-regular md:text-2xl text-[#d6ba6d] tracking-tight">Interne Qualität</h2>
-                    </div>
+                    </span>
+                    <h2 className="text-sm font-regular md:text-2xl text-[#d6ba6d] tracking-tight">Interne Qualität</h2>
+                  </div>
                     <ul className="ms-2 list-disc list-inside text-gray-100 text-sm md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Kontinuierliche Verbesserungsprozesse</li>
                       <li>Interne Audits</li>
                       <li>Mitarbeiterschulungen</li>
                     </ul>
-                  </div>
                 </div>
                 {/* Kundenqualität */}
-                <div className="flex flex-row items-start m-6">
+                <div className="flex flex-col items-start gap-4 md:gap-6 m-6">
                   
-                  <div>
+                  
                     <div className="flex flex-row items-center gap-2">
                       <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -640,7 +638,6 @@ function App(): JSX.Element {
                       <li>Serviceorientierung</li>
                     </ul>
                   </div>
-                </div>
               </div>
               {/* Ende Info-Box */}
             </section>
@@ -660,7 +657,7 @@ function App(): JSX.Element {
               {/* Elegant, non-card layout for prozess topics */}
               <div className="fixed right-0 top-[calc(60vw-60px)] md:top-0 w-full md:w-3/5 md:min-h-[100vh] flex flex-col md:gap-12 justify-center md:pr-24 pt-12 pointer-events-none" ref={prozessCardsRef}>
                 {/* Prozessoptimierung */}
-                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6 m-6">
+                <div className="flex flex-col items-start gap-4 md:gap-6 m-6">
                 <div className="flex flex-row items-center gap-2">
                       <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -679,7 +676,7 @@ function App(): JSX.Element {
                   </div>
                 </div>
                 {/* Lieferantenmanagement */}
-                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6 m-6">
+                <div className="flex flex-col items-start gap-4 md:gap-6 m-6">
                 <div className="flex flex-row items-center gap-2">
                       <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -713,18 +710,20 @@ function App(): JSX.Element {
               </div>
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for lieferanten topics */}
-              <div className="fixed md:right- md:top-0 md:w-3/5 md:min-h-[100vh] w-full top-44 left-0 min-h-[60vh] flex flex-col gap-8 md:gap-12 justify-center md:pr-24 md:pt-12 pointer-events-none" ref={lieferantenCardsRef}>
+              <div className="fixed right-0 top-[calc(60vw-60px)] md:top-0 w-full md:w-3/5 md:min-h-[100vh] flex flex-col md:gap-12 justify-center md:pr-24 pt-12 pointer-events-none"  ref={lieferantenCardsRef}>
                 {/* Lieferantensuche */}
-                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
-                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#d6ba6d" strokeWidth="2" />
-                      <path d="M8 12h8" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </span>
+                <div className="flex flex-col items-start gap-4 md:gap-6 m-6">
+                  <div className="flex flex-row items-center gap-2">
+                    <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#d6ba6d" strokeWidth="2" />
+                        <path d="M8 12h8" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                    </span>
+                    <h2 className="text-sm font-regular md:text-2xl text-[#d6ba6d] tracking-tight">Lieferantensuche</h2>
+                  </div>
                   <div>
-                    <h2 className="text-lg md:text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantensuche</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
+                    <ul className="text-sm list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Marktrecherche</li>
                       <li>Anfrage- und Angebotsmanagement</li>
                       <li>Erstqualifizierung</li>
@@ -732,16 +731,18 @@ function App(): JSX.Element {
                   </div>
                 </div>
                 {/* Lieferantenentwicklung */}
-                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
-                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <rect x="6" y="6" width="12" height="12" rx="3" stroke="#d6ba6d" strokeWidth="2" />
-                      <path d="M12 9v6M9 12h6" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </span>
+                <div className="flex flex-col items-start gap-4 md:gap-6 m-6">
+                  <div className="flex flex-row items-center gap-2">
+                    <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect x="6" y="6" width="12" height="12" rx="3" stroke="#d6ba6d" strokeWidth="2" />
+                        <path d="M12 9v6M9 12h6" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                    </span>
+                    <h2 className="text-sm font-regular md:text-2xl text-[#d6ba6d] tracking-tight">Lieferantenentwicklung</h2>
+                  </div>
                   <div>
-                    <h2 className="text-lg md:text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantenentwicklung</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
+                    <ul className="text-sm list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Auditierung</li>
                       <li>Qualitätssteigerung</li>
                       <li>Partnerschaftsaufbau</li>
