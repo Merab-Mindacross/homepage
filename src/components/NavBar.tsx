@@ -17,8 +17,12 @@ export default function NavBar(): JSX.Element {
   const navRef = useRef<HTMLElement>(null);
   // State for mobile menu
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  // State for burger button visibility (hide menu if button is hidden)
+  const [burgerVisible, setBurgerVisible] = useState<boolean>(false);
   // Ref for mobile burger button for animation
   const mobileBurgerRef = useRef<HTMLButtonElement>(null);
+  // Ref for mobile menu panel (for animation)
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Section navigation logic
   const sectionLinks = [
@@ -135,7 +139,12 @@ export default function NavBar(): JSX.Element {
             opacity: progress,
             duration: 0.1,
             overwrite: "auto",
-            ease: "power2.out"
+            ease: "power2.out",
+            onUpdate: () => {
+              // Set burgerVisible state based on opacity
+              const computedOpacity = gsap.getProperty(burgerBtn, "opacity");
+              setBurgerVisible(typeof computedOpacity === "number" ? computedOpacity > 0.01 : false);
+            }
           });
         }
       }
@@ -162,7 +171,11 @@ export default function NavBar(): JSX.Element {
             opacity: 1 - progress,
             duration: 0.1,
             overwrite: "auto",
-            ease: "power2.out"
+            ease: "power2.out",
+            onUpdate: () => {
+              const computedOpacity = gsap.getProperty(burgerBtn, "opacity");
+              setBurgerVisible(typeof computedOpacity === "number" ? computedOpacity > 0.01 : false);
+            }
           });
         }
       }
@@ -172,6 +185,23 @@ export default function NavBar(): JSX.Element {
       hideTrigger.kill();
     };
   }, [location.pathname]);
+
+  // Animate mobile menu panel in/out when burgerVisible changes
+  useEffect(() => {
+    const menuEl = mobileMenuRef.current;
+    if (!menuEl) return;
+    if (mobileMenuOpen && burgerVisible) {
+      // Slide in from left
+      gsap.fromTo(
+        menuEl,
+        { x: -64, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
+      );
+    } else {
+      // Slide out further left and fade out, with a smoother ease and longer duration
+      gsap.to(menuEl, { x: -200, opacity: 0, duration: 0.45, ease: "expo.inOut" });
+    }
+  }, [mobileMenuOpen, burgerVisible]);
 
   // Responsive: show floating burger on mobile, full nav on desktop
   const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
@@ -261,10 +291,11 @@ export default function NavBar(): JSX.Element {
           )}
         </button>
         {/* Expandable menu (top left, stick to left) */}
-        {mobileMenuOpen && (
+        {mobileMenuOpen && burgerVisible && (
           <div className="fixed inset-0 z-[1099] bg-black/10" onClick={() => setMobileMenuOpen(false)}>
             <nav
-              className="fixed top-4 left-4 min-w-[160px] max-w-[80vw] bg-neutral-900/60 rounded-2xl shadow-xl border border-[#d6ba6d]/60 p-3 pt-12 flex flex-col gap-2 backdrop-blur-xl animate-fade-in-up"
+              ref={mobileMenuRef}
+              className="fixed top-4 left-4 min-w-[160px] max-w-[80vw] bg-neutral-900/60 rounded-2xl shadow-xl border border-[#d6ba6d]/60 p-3 pt-12 flex flex-col gap-2 backdrop-blur-xl"
               aria-label="Mobile Navigation"
               style={{ backdropFilter: "blur(16px)" }}
               onClick={(e) => e.stopPropagation()}
