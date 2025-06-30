@@ -17,6 +17,8 @@ export default function NavBar(): JSX.Element {
   const navRef = useRef<HTMLElement>(null);
   // State for mobile menu
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  // Ref for mobile burger button for animation
+  const mobileBurgerRef = useRef<HTMLButtonElement>(null);
 
   // Section navigation logic
   const sectionLinks = [
@@ -106,6 +108,11 @@ export default function NavBar(): JSX.Element {
     if (!navEl) return;
     // Set initial state: hidden and moved up
     gsap.set(navEl, { y: -80, opacity: 0 });
+    // Set initial state for mobile burger button (hidden and moved up)
+    const burgerBtn = mobileBurgerRef.current;
+    if (burgerBtn) {
+      gsap.set(burgerBtn, { y: -60, opacity: 0 });
+    }
     // Show after hero section (after scroll-up animation, ~300px)
     const showTrigger = ScrollTrigger.create({
       trigger: "section#quality", // after hero
@@ -121,6 +128,16 @@ export default function NavBar(): JSX.Element {
           overwrite: "auto",
           ease: "power2.out"
         });
+        // Animate burger button in sync
+        if (burgerBtn) {
+          gsap.to(burgerBtn, {
+            y: -60 + 60 * progress,
+            opacity: progress,
+            duration: 0.1,
+            overwrite: "auto",
+            ease: "power2.out"
+          });
+        }
       }
     });
     // Hide with CTA section (same timing as CTA fade out)
@@ -138,6 +155,16 @@ export default function NavBar(): JSX.Element {
           overwrite: "auto",
           ease: "power2.out"
         });
+        // Animate burger button out in sync
+        if (burgerBtn) {
+          gsap.to(burgerBtn, {
+            y: 60 * -progress,
+            opacity: 1 - progress,
+            duration: 0.1,
+            overwrite: "auto",
+            ease: "power2.out"
+          });
+        }
       }
     });
     return () => {
@@ -206,28 +233,31 @@ export default function NavBar(): JSX.Element {
           ))}
         </div>
       </nav>
-      {/* Mobile Floating Burger Button */}
+      {/* Mobile Burger Button and Menu (Top Left) */}
       <div className="md:hidden">
-        {/* Floating button */}
+        {/* Top-left floating burger button with animation and perfect centering */}
         <button
+          ref={mobileBurgerRef}
           type="button"
           aria-label={mobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
           onClick={() => setMobileMenuOpen((open) => !open)}
-          className="fixed bottom-6 right-6 z-[1100] w-16 h-16 rounded-full bg-neutral-900/70 border-4 border-[#d6ba6d] shadow-xl backdrop-blur-lg flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] transition-all"
+          className="fixed top-4 left-4 z-[1100] w-12 h-12 rounded-full bg-neutral-900/60 border border-[#d6ba6d]/60 shadow-xl backdrop-blur-lg flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] transition-all"
+          style={{ backdropFilter: "blur(16px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}
         >
-          {/* Burger SVG */}
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect y="8" width="36" height="4" rx="2" fill="#d6ba6d" />
-            <rect y="16" width="36" height="4" rx="2" fill="#d6ba6d" />
-            <rect y="24" width="36" height="4" rx="2" fill="#d6ba6d" />
+          {/* Centered Burger SVG */}
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", margin: "auto" }}>
+            <rect y="5" width="28" height="3" rx="1.5" fill="#d6ba6d" />
+            <rect y="12.5" width="28" height="3" rx="1.5" fill="#d6ba6d" />
+            <rect y="20" width="28" height="3" rx="1.5" fill="#d6ba6d" />
           </svg>
         </button>
-        {/* Expandable menu */}
+        {/* Expandable menu (top right) */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 z-[1099] bg-black/40 flex items-end justify-end" onClick={() => setMobileMenuOpen(false)}>
+          <div className="fixed inset-0 z-[1099] bg-black/10" onClick={() => setMobileMenuOpen(false)}>
             <nav
-              className="w-64 bg-neutral-900/95 rounded-tl-3xl rounded-tr-3xl shadow-2xl border-t-4 border-[#d6ba6d] p-8 flex flex-col gap-6 backdrop-blur-xl animate-fade-in-up"
+              className="fixed top-4 right-4 min-w-[160px] max-w-[80vw] bg-neutral-900/60 rounded-2xl shadow-xl border border-[#d6ba6d]/60 p-3 flex flex-col gap-2 backdrop-blur-xl animate-fade-in-up"
               aria-label="Mobile Navigation"
+              style={{ backdropFilter: "blur(16px)" }}
               onClick={(e) => e.stopPropagation()}
             >
               {sectionLinks.map((link) => (
@@ -238,18 +268,18 @@ export default function NavBar(): JSX.Element {
                     handleSectionClick(link.id)(e);
                     setMobileMenuOpen(false);
                   }}
-                  className={`text-lg font-semibold px-3 py-2 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                  className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
                   aria-current={activeSection === link.id ? "page" : undefined}
                 >
                   {link.label}
                 </a>
               ))}
-              <hr className="my-2 border-[#d6ba6d]/30" />
+              <hr className="my-1 border-[#d6ba6d]/20" />
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`text-lg font-semibold px-3 py-2 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                  className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
                   aria-current={location.pathname === link.to ? "page" : undefined}
                   onClick={() => setMobileMenuOpen(false)}
                 >
