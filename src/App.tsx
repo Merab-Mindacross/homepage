@@ -90,9 +90,12 @@ function App(): JSX.Element {
     // Animation parameters for each element
     // Responsive yOffsets for mobile/desktop
     const isMobile = window.innerWidth <= 768;
-    const yOffsets = isMobile ? [-40, -40, -20] : [-100, -100, -80]; // px, initial offset for each element
-    const yMoveFactors = [100, 60 , 40]; // px, how much each element moves up
-    const yScaleFactors = [1.3, 1.2, 1.1]; // px, how much each element scales up
+    // For mobile, animate in x direction (left), for desktop in y (up)
+    const yOffsets = isMobile ? [0, 0, 0] : [-100, -100, -80]; // px, initial y offset for desktop
+    const xOffsets = isMobile ? [0, 0,0] : [0, 0, 0]; // px, initial x offset for mobile
+    const yMoveFactors = isMobile ? [-100, -80, -50] : [100, 60, 40]; 
+    const xMoveFactors = isMobile ? [300, 200, 100] : [0, 0, 0]; 
+    const scaleFactors = [1.3, 1.2, 1.1]; // scale for both
     const fadeStart = 0; 
     const fadeEnd = 0.5; 
     const triggers: ScrollTrigger[] = [];
@@ -100,28 +103,32 @@ function App(): JSX.Element {
     elements.forEach((el, i) => {
       if (!el) return;
       // Set initial position
-      gsap.set(el, { y: yOffsets[i], opacity: 1 });
+      gsap.set(el, { y: yOffsets[i], x: xOffsets[i], opacity: 1 });
       // Animate on scroll
       const trigger = ScrollTrigger.create({
         trigger: heroRef.current,
-        start: "top -1%", 
-        end: "+=300",   
+        start: "top -1%",
+        end: "+=300",
         scrub: true,
         onUpdate: (self) => {
           // Progress: 0 (start) to 1 (end)
           const progress = self.progress;
-          // Move up at different rates
+          // For mobile: move left (x), for desktop: move up (y)
           const y = yOffsets[i] - yMoveFactors[i] * progress;
-          // Calculate the scale based on yScaleFactors and progress
-          const scale = 1 + (yScaleFactors[i] - 1) * progress;
-          // const scale = yScaleFactors[i] * progress;
+          const x = xOffsets[i] - xMoveFactors[i] * progress;
+          // Calculate the scale based on scaleFactors and progress
+          const scale = 1 + (scaleFactors[i] - 1) * progress;
           // Fade out between fadeStart and fadeEnd
           let opacity = 1;
           if (progress > fadeStart) {
             opacity = 1 - (progress - fadeStart) / (fadeEnd - fadeStart);
             if (opacity < 0) opacity = 0;
           }
-          gsap.to(el, { y, opacity, scale, overwrite: "auto", duration: 0.1, ease: "power2.out" });
+          if (isMobile) {
+            gsap.to(el, { x, y: 0, opacity, scale, overwrite: "auto", duration: 0.1, ease: "power2.out" });
+          } else {
+            gsap.to(el, { y, x: 0, opacity, scale, overwrite: "auto", duration: 0.1, ease: "sine.inOut" });
+          }
         },
       });
       triggers.push(trigger);
@@ -573,6 +580,9 @@ function App(): JSX.Element {
                 <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management in der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
               </div>
             </section>
+            {isMobileViewport && (
+              <div className="h-[200px]" />
+            )}
             {/* Qualitätsmanagement */}
             <section
               id="quality"
@@ -602,7 +612,7 @@ function App(): JSX.Element {
                       <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
                   </span>
-                  <h2 className="text-sm font-semibold md:text-2xl font-regular md:text-[#d6ba6d] tracking-tight mb-2">Interne Qualität</h2>
+                  <h2 className="text-sm font-regular md:text-2xl text-[#d6ba6d] tracking-tight">Interne Qualität</h2>
                     </div>
                     <ul className="ms-2 list-disc list-inside text-gray-100 text-sm md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Kontinuierliche Verbesserungsprozesse</li>
@@ -616,13 +626,13 @@ function App(): JSX.Element {
                   
                   <div>
                     <div className="flex flex-row items-center gap-2">
-                    <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
-                      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
-                    </svg>
-                  </span>
-                  <h2 className="text-sm font-semibold md:text-2xl font-regular md:text-[#d6ba6d] tracking-tight mb-2">Kundenqualität</h2>
+                      <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
+                      </svg>
+                      </span>
+                      <h2 className="text-sm font-regular md:text-2xl text-[#d6ba6d] tracking-tight">Kundenqualität</h2>
                     </div>
                     <ul className="ms-2 list-disc list-inside text-gray-100 text-sm md:text-lg leading-relaxed space-y-2 pl-2 ">
                       <li>Erfüllung von Kundenanforderungen</li>
@@ -641,25 +651,27 @@ function App(): JSX.Element {
               ref={prozessRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] w-full top-24 flex items-center justify-center" ref={prozessTitleRef}>
+              <div className="fixed top-1/2 w-full top-[calc(60vw-50px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={prozessTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   PROZESSMANAGEMENT
                 </h1>
               </div>
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for prozess topics */}
-              <div className="fixed md:right-0 md:top-0 md:w-3/5 md:min-h-[100vh] w-full top-44 left-0 min-h-[60vh] flex flex-col gap-8 md:gap-12 justify-center md:pr-24 md:pt-12 pointer-events-none" ref={prozessCardsRef}>
+              <div className="fixed right-0 top-[calc(60vw-60px)] md:top-0 w-full md:w-3/5 md:min-h-[100vh] flex flex-col md:gap-12 justify-center md:pr-24 pt-12 pointer-events-none" ref={prozessCardsRef}>
                 {/* Prozessoptimierung */}
-                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
-                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <rect x="4" y="4" width="16" height="16" rx="4" stroke="#d6ba6d" strokeWidth="2" />
-                      <path d="M8 12h8M12 8v8" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </span>
+                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6 m-6">
+                <div className="flex flex-row items-center gap-2">
+                      <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
+                      </svg>
+                      </span>
+                      <h2 className="text-sm font-regular md:text-2xl text-[#d6ba6d] tracking-tight">Prozessoptimierung</h2>
+                    </div>
                   <div>
-                    <h2 className="text-lg md:text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Prozessoptimierung</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
+                    <ul className="text-sm list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Ablaufanalysen</li>
                       <li>Effizienzsteigerung</li>
                       <li>Digitalisierung von Prozessen</li>
@@ -667,16 +679,18 @@ function App(): JSX.Element {
                   </div>
                 </div>
                 {/* Lieferantenmanagement */}
-                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
-                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <circle cx="12" cy="12" r="7" stroke="#d6ba6d" strokeWidth="2" />
-                      <path d="M8 12h8" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </span>
+                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6 m-6">
+                <div className="flex flex-row items-center gap-2">
+                      <span className="md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="12" cy="12" r="3.5" stroke="#d6ba6d" strokeWidth="2" />
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round"/>
+                      </svg>
+                      </span>
+                      <h2 className="text-sm font-regular md:text-2xl text-[#d6ba6d] tracking-tight">Lieferantenmanagement</h2>
+                    </div>
                   <div>
-                    <h2 className="text-lg md:text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantenmanagement</h2>
-                    <ul className="list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
+                    <ul className="text-sm list-disc list-inside text-gray-100 text-base md:text-lg leading-relaxed space-y-2 pl-2">
                       <li>Lieferantenauswahl</li>
                       <li>Entwicklung & Bewertung</li>
                       <li>Risikomanagement</li>
@@ -692,14 +706,14 @@ function App(): JSX.Element {
               ref={lieferantenRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] w-full top-24 flex items-center justify-center" ref={lieferantenTitleRef}>
+              <div className="fixed top-1/2 w-full top-[calc(60vw-50px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={lieferantenTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   LIEFERANTENAUFBAU
                 </h1>
               </div>
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for lieferanten topics */}
-              <div className="fixed md:right-0 md:top-0 md:w-3/5 md:min-h-[100vh] w-full top-44 left-0 min-h-[60vh] flex flex-col gap-8 md:gap-12 justify-center md:pr-24 md:pt-12 pointer-events-none" ref={lieferantenCardsRef}>
+              <div className="fixed md:right- md:top-0 md:w-3/5 md:min-h-[100vh] w-full top-44 left-0 min-h-[60vh] flex flex-col gap-8 md:gap-12 justify-center md:pr-24 md:pt-12 pointer-events-none" ref={lieferantenCardsRef}>
                 {/* Lieferantensuche */}
                 <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
