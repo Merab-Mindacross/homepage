@@ -147,7 +147,7 @@ function App(): JSX.Element {
           const x = -100 * progress;
           // Keep logo vertically centered: top 50% minus half its height
           // Since it's fixed with top-1/2 and -translate-y-1/2, y should remain 0
-          const y = -200 * progress;
+          const y = -50 * progress;
           gsap.to(logoEl, {
             scale,
             rotate,
@@ -242,7 +242,7 @@ function App(): JSX.Element {
     });
 
     // 2. InfoCards: Fade in (erst nach Titel fully visible)
-    gsap.set(infoCardsEl, { opacity: 0, y: 50 });
+    gsap.set(infoCardsEl, { opacity: 0, y: 0 });
     ScrollTrigger.create({
       trigger: sectionEl,
       start: "top 60%", // Karten beginnen zu erscheinen, wenn Titel voll sichtbar
@@ -530,9 +530,9 @@ function App(): JSX.Element {
             {/* Fixed Logo */}
             <img
               ref={logoRef}
-              src="/src/assets/Goldenes Dreieck mit Spiralensymbol.png"
+              src="/src/assets/logo_Merab_centered.png"
               alt="Goldenes Dreieck mit Spiralensymbol Logo"
-              className="fixed left-12 w-[500px] max-w-[30vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
+              className="fixed left-12 w-[600px] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
               style={{ zIndex: 20 }}
             />
             {/* Scrollable Content */}
@@ -550,7 +550,7 @@ function App(): JSX.Element {
               className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
               ref={qualityRef}
             >
-              <div className="fixed left-6 top-[400px] w-[300px] flex items-center justify-center" ref={qualityTitleRef}>
+              <div className="fixed left-16 top-[calc(50vh+120px)] w-[360px] flex items-center justify-center" ref={qualityTitleRef}>
                 <h1
                   
                   className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in"
@@ -561,7 +561,7 @@ function App(): JSX.Element {
               
               <div className="h-[500px]" />
               {/* Elegant, non-card layout for quality topics */}
-              <div className="fixed right-0 top-0 w-2/3 min-h-[500px] flex flex-col gap-12 justify-center pr-24 pt-12" ref={infoCardsRef}>
+              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12" ref={infoCardsRef}>
                 {/* Interne Qualität */}
                 <div className="flex flex-row items-start gap-6">
                   <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
@@ -608,50 +608,49 @@ function App(): JSX.Element {
               ref={prozessRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="h-[200px]" />
-              <h1
-                ref={prozessTitleRef}
-                className="fixed left-[calc(3rem+280px)] top-[170px] text-5xl font-bold text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none z-50"
-              >
-                PROZESSMANAGEMENT
-              </h1>
-              <div
-                ref={prozessCardsRef}
-                className="fixed left-[calc(3rem+280px)] top-[270px] flex flex-row gap-8 w-auto items-stretch z-40"
-                style={{ maxWidth: "calc(100vw - 3rem - 280px - 2rem)" }}
-              >
-                <InfoCard
-                  title="Prozessoptimierung"
-                  icon={
+              <div className="fixed left-16 top-[calc(50vh+120px)] w-[360px] flex items-center justify-center" ref={prozessTitleRef}>
+                <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
+                  PROZESSMANAGEMENT
+                </h1>
+              </div>
+              <div className="h-[500px]" />
+              {/* Elegant, non-card layout for prozess topics */}
+              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12" ref={prozessCardsRef}>
+                {/* Prozessoptimierung */}
+                <div className="flex flex-row items-start gap-6">
+                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <rect x="4" y="4" width="16" height="16" rx="4" stroke="#d6ba6d" strokeWidth="2" />
                       <path d="M8 12h8M12 8v8" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
                     </svg>
-                  }
-                  points={[
-                    "Ablaufanalysen",
-                    "Effizienzsteigerung",
-                    "Digitalisierung von Prozessen"
-                  ]}
-                  className="max-w-[600px] min-w-[220px]"
-                />
-                <InfoCard
-                  title="Lieferantenmanagement"
-                  icon={
+                  </span>
+                  <div>
+                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Prozessoptimierung</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                      <li>Ablaufanalysen</li>
+                      <li>Effizienzsteigerung</li>
+                      <li>Digitalisierung von Prozessen</li>
+                    </ul>
+                  </div>
+                </div>
+                {/* Lieferantenmanagement */}
+                <div className="flex flex-row items-start gap-6">
+                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <circle cx="12" cy="12" r="7" stroke="#d6ba6d" strokeWidth="2" />
                       <path d="M8 12h8" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
                     </svg>
-                  }
-                  points={[
-                    "Lieferantenauswahl",
-                    "Entwicklung & Bewertung",
-                    "Risikomanagement"
-                  ]}
-                  className="max-w-[600px] min-w-[220px]"
-                />
+                  </span>
+                  <div>
+                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantenmanagement</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                      <li>Lieferantenauswahl</li>
+                      <li>Entwicklung & Bewertung</li>
+                      <li>Risikomanagement</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div className="h-[500px]" />
             </section>
             
             {/* Neue Section: LIEFERANTENAUFBAU als animierter Bereich */}
@@ -660,50 +659,49 @@ function App(): JSX.Element {
               ref={lieferantenRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="h-[200px]" />
-              <h1
-                ref={lieferantenTitleRef}
-                className="fixed left-[calc(3rem+280px)] top-[180px] text-5xl font-bold text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none z-50"
-              >
-                LIEFERANTENAUFBAU
-              </h1>
-              <div
-                ref={lieferantenCardsRef}
-                className="fixed left-[calc(3rem+280px)] top-[270px] flex flex-row gap-8 w-auto items-stretch z-40"
-                style={{ maxWidth: "calc(100vw - 3rem - 280px - 2rem)" }}
-              >
-                <InfoCard
-                  title="Lieferantensuche"
-                  icon={
+              <div className="fixed left-16 top-[calc(50vh+120px)] w-[360px] flex items-center justify-center" ref={lieferantenTitleRef}>
+                <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
+                  LIEFERANTENAUFBAU
+                </h1>
+              </div>
+              <div className="h-[500px]" />
+              {/* Elegant, non-card layout for lieferanten topics */}
+              <div className="fixed right-0 top-0 w-3/5 min-h-[100vh] flex flex-col gap-12 justify-center pr-24 pt-12" ref={lieferantenCardsRef}>
+                {/* Lieferantensuche */}
+                <div className="flex flex-row items-start gap-6">
+                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#d6ba6d" strokeWidth="2" />
                       <path d="M8 12h8" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
                     </svg>
-                  }
-                  points={[
-                    "Marktrecherche",
-                    "Anfrage- und Angebotsmanagement",
-                    "Erstqualifizierung"
-                  ]}
-                  className="max-w-[600px] min-w-[220px]"
-                />
-                <InfoCard
-                  title="Lieferantenentwicklung"
-                  icon={
+                  </span>
+                  <div>
+                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantensuche</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                      <li>Marktrecherche</li>
+                      <li>Anfrage- und Angebotsmanagement</li>
+                      <li>Erstqualifizierung</li>
+                    </ul>
+                  </div>
+                </div>
+                {/* Lieferantenentwicklung */}
+                <div className="flex flex-row items-start gap-6">
+                  <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <rect x="6" y="6" width="12" height="12" rx="3" stroke="#d6ba6d" strokeWidth="2" />
                       <path d="M12 9v6M9 12h6" stroke="#d6ba6d" strokeWidth="2" strokeLinecap="round" />
                     </svg>
-                  }
-                  points={[
-                    "Auditierung",
-                    "Qualitätssteigerung",
-                    "Partnerschaftsaufbau"
-                  ]}
-                  className="max-w-[600px] min-w-[220px]"
-                />
+                  </span>
+                  <div>
+                    <h2 className="text-2xl font-regular text-[#d6ba6d] tracking-tight mb-2">Lieferantenentwicklung</h2>
+                    <ul className="list-disc list-inside text-gray-100 text-lg leading-relaxed space-y-2 pl-2">
+                      <li>Auditierung</li>
+                      <li>Qualitätssteigerung</li>
+                      <li>Partnerschaftsaufbau</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div className="h-[500px]" />
             </section>
             
             {/* Persönliche "Me"-Seite für Merab */}
