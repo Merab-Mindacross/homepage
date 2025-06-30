@@ -179,20 +179,34 @@ function App(): JSX.Element {
     const logoEl = logoRef.current;
     if (logoEl) {
       /**
-       * Handler to center the logo vertically in the viewport using GSAP.
+       * Handler to center the logo: horizontally centered and near the top on mobile, vertically centered on desktop.
        * Ensures pixel-perfect positioning regardless of image load timing.
        */
       const handlePositioning = (): void => {
+        const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
+        const logoWidth = logoEl.offsetWidth;
         const logoHeight = logoEl.offsetHeight;
-        const top = (viewportHeight - logoHeight) / 2;
-        gsap.set(logoEl, {
-          position: "fixed",
-          top,
-          left: "0", // Tailwind's left-12
-          x: 0,
-          y: 0,
-        });
+        if (viewportWidth <= 768) {
+          // Mobile: horizontally centered, near the top
+          gsap.set(logoEl, {
+            position: "fixed",
+            top: "2rem",
+            left: (viewportWidth - logoWidth) / 2,
+            x: 0,
+            y: 0,
+          });
+        } else {
+          // Desktop: vertically centered, left-aligned
+          const top = (viewportHeight - logoHeight) / 2;
+          gsap.set(logoEl, {
+            position: "fixed",
+            top,
+            left: "0",
+            x: 0,
+            y: 0,
+          });
+        }
       };
       // If already loaded (from cache), run immediately
       if (logoEl.complete) {
@@ -529,11 +543,11 @@ function App(): JSX.Element {
               ref={logoRef}
               src="/src/assets/logo_Merab_centered.png"
               alt="Goldenes Dreieck mit Spiralensymbol Logo"
-              className="fixed left-12 w-[35vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
+              className="fixed  w-[35vw] h-auto rounded-2xl drop-shadow-xl bg-transparent z-20 pointer-events-none"
               style={{ zIndex: 20 }}
             />
             {/* Scrollable Content */}
-            <section ref={heroRef} className=" ml-[35vw] min-h-screen flex items-center justify-start ">
+            <section ref={heroRef} className=" md:ml-[35vw] min-h-screen flex items-center justify-start ">
               <div className="flex flex-col items-start justify-center flex-1 w-full py-8">
                 {/* Animated scroll-up elements with refs */}
                 <h1 ref={scrollUpRefs[0]} className="text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
