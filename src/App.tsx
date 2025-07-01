@@ -95,7 +95,7 @@ function App(): JSX.Element {
     // Responsive yOffsets for mobile/desktop
     const isMobile = window.innerWidth <= 768;
     // For mobile, animate in x direction (left), for desktop in y (up)
-    const yOffsets = isMobile ? [0, 0, 0] : [-100, -100, -80]; // px, initial y offset for desktop
+    const yOffsets = isMobile ? [0, 0, 0] : [0,0,0]; // px, initial y offset for desktop
     const xOffsets = isMobile ? [0, 0,0] : [0, 0, 0]; // px, initial x offset for mobile
     const yMoveFactors = isMobile ? [-150, -80, -50] : [100, 60, 40]; 
     const xMoveFactors = isMobile ? [0, 0, 0] : [0, 0, 0]; 
@@ -111,7 +111,7 @@ function App(): JSX.Element {
       // Animate on scroll
       const trigger = ScrollTrigger.create({
         trigger: heroRef.current,
-        start: "top top",
+        start: "top -1%",
         end: "+=300",
         scrub: true,
         onUpdate: (self) => {
@@ -606,7 +606,7 @@ function App(): JSX.Element {
               className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
               ref={qualityRef}
             >
-              <div className="fixed w-full top-[calc(60vw-40px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={qualityTitleRef}>
+              <div className="fixed w-full top-[calc(60vw-30px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={qualityTitleRef}>
                 <h1
                   
                   className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in"
@@ -665,7 +665,7 @@ function App(): JSX.Element {
               ref={prozessRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed w-full top-[calc(60vw-40px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={prozessTitleRef}>
+              <div className="fixed w-full top-[calc(60vw-30px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={prozessTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   PROZESSMANAGEMENT
                 </h1>
@@ -720,7 +720,7 @@ function App(): JSX.Element {
               ref={lieferantenRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed w-full top-[calc(60vw-40px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={lieferantenTitleRef}>
+              <div className="fixed w-full top-[calc(60vw-30px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={lieferantenTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   LIEFERANTENAUFBAU
                 </h1>

@@ -14,7 +14,7 @@ import gsap from "gsap";
 // const ANIMATION_DURATION_DRAW = 2; // seconds
 // const ANIMATION_DURATION_HOLD = 1; // seconds
 // const ANIMATION_DURATION_FADE = 1; // seconds
-const ANIMATION_DURATION_DRAW = 0.5; // seconds
+const ANIMATION_DURATION_DRAW = 0; // seconds
 const ANIMATION_DURATION_BLUR_OUT = 0.5; // seconds
 
 const BLUR_START = 12; // px
@@ -97,6 +97,9 @@ export const LogoIntro: React.FC = () => {
       filter: `blur(${BLUR_END}px)`,
       opacity: 0,
       duration: ANIMATION_DURATION_BLUR_OUT,
+      onStart: () => {
+        overlay.style.pointerEvents = "none";
+      },
     },
     ANIMATION_DURATION_DRAW 
   );
