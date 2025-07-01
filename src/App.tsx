@@ -10,6 +10,7 @@ import Terms from "./Terms";
 import Kontakt from "./Kontakt";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import LogoIntro from "./components/LogoIntro";
 
 gsap.registerPlugin(ScrollTrigger);
 const viewportWidth = window.innerWidth;
@@ -46,6 +47,9 @@ function App(): JSX.Element {
 
   // Ref for the CTA button in the NOS section
   const ctaRef = useRef<HTMLAnchorElement>(null);
+
+  // Only show the logo intro on the main page
+  const showLogoIntro = isMainPage;
 
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
@@ -167,11 +171,11 @@ function App(): JSX.Element {
         lastScrollUpEnd.onUpdate = (self) => {
           const progress = self.progress;
           // Scale from 1 to 0.6, rotate from 0 to -30deg
-          const y = -50 * progress;
+          // const y = -50 * progress;
           const scale = 1 - 0.4 * progress;
           const rotate = -60 * progress;
           gsap.to(logoEl, {
-            y,
+            // y,
             scale,
             rotate,
             overwrite: "auto",
@@ -217,53 +221,49 @@ function App(): JSX.Element {
   // Robust vertical centering for logo: ensures correct position on load, resize, and before GSAP animation
   useEffect(() => {
     const logoEl = logoRef.current;
-    if (logoEl) {
-      /**
-       * Handler to center the logo: horizontally centered and near the top on mobile, vertically centered on desktop.
-       * Ensures pixel-perfect positioning regardless of image load timing.
-       */
-      const handlePositioning = (): void => {
-        const logoWidth = logoEl.offsetWidth;
-        const logoHeight = logoEl.offsetHeight;
-        if (isMobileViewport) {
-          // Mobile: horizontally centered, near the top, using --vh for robust viewport height
-          const vh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vh')) || (window.innerHeight * 0.01);
-          const top = 2 * vh; // 2vh
-          gsap.set(logoEl, {
-            position: "fixed",
-            top,
-            left: (viewportWidth - logoWidth) / 2,
-            x: 0,
-            y: 0,
-          });
-        } else {
-          // Desktop: vertically centered, left-aligned
-          const top = (viewportHeight - logoHeight) / 2;
-          gsap.set(logoEl, {
-            position: "fixed",
-            top,
-            left: "0",
-            x: 0,
-            y: 0,
-          });
-        }
-      };
-      // If already loaded (from cache), run immediately
-      if (logoEl.complete) {
-        handlePositioning();
+    if (!logoEl) return;
+    // Handler to center the logo: horizontally centered and near the top on mobile, vertically centered on desktop.
+    function handlePositioning(): void {
+      if (!logoEl) return; // Defensive: check again in case of race condition
+      const logoWidth = logoEl.offsetWidth;
+      const logoHeight = logoEl.offsetHeight;
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        const vh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vh')) || (window.innerHeight * 0.01);
+        const top = 2 * vh; // 2vh
+        gsap.set(logoEl, {
+          position: "fixed",
+          top,
+          left: (window.innerWidth - logoWidth) / 2,
+          x: 0,
+          y: 0,
+        });
       } else {
-        logoEl.addEventListener("load", handlePositioning);
+        const top = (window.innerHeight - logoHeight) / 2;
+        gsap.set(logoEl, {
+          position: "fixed",
+          top,
+          left: 0,
+          x: 0,
+          y: 0,
+        });
       }
-      // Recalculate on window resize
-      window.addEventListener("resize", handlePositioning);
-      // Cleanup listeners on unmount
-      return () => {
-        logoEl.removeEventListener("load", handlePositioning);
-        window.removeEventListener("resize", handlePositioning);
-      };
     }
-    return undefined;
-  }, [isMainPage]);
+    // Run on mount, image load, and every resize/orientationchange
+    if (logoEl.complete) {
+      handlePositioning();
+    } else {
+      logoEl.addEventListener("load", handlePositioning);
+    }
+    window.addEventListener("resize", handlePositioning);
+    window.addEventListener("orientationchange", handlePositioning);
+    // Cleanup listeners on unmount
+    return () => {
+      logoEl.removeEventListener("load", handlePositioning);
+      window.removeEventListener("resize", handlePositioning);
+      window.removeEventListener("orientationchange", handlePositioning);
+    };
+  }, [logoRef, isMainPage]);
 
   const qualityRef = useRef<HTMLElement>(null);
   const infoCardsRef = useRef<HTMLDivElement>(null);
@@ -574,6 +574,8 @@ function App(): JSX.Element {
 
   return (
     <>
+      {/* LogoIntro overlay: covers the app on main page load, animates and unmounts itself */}
+      {showLogoIntro && <LogoIntro />}
       <NavBar />
       <Routes>
         <Route path="/" element={
@@ -604,7 +606,7 @@ function App(): JSX.Element {
               className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
               ref={qualityRef}
             >
-              <div className="fixed top-1/2 w-full top-[calc(60vw-50px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={qualityTitleRef}>
+              <div className="fixed w-full top-[calc(60vw-40px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={qualityTitleRef}>
                 <h1
                   
                   className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in"
@@ -663,7 +665,7 @@ function App(): JSX.Element {
               ref={prozessRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed top-1/2 w-full top-[calc(60vw-50px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={prozessTitleRef}>
+              <div className="fixed w-full top-[calc(60vw-40px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={prozessTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   PROZESSMANAGEMENT
                 </h1>
@@ -718,7 +720,7 @@ function App(): JSX.Element {
               ref={lieferantenRef}
               className="w-full min-h-[100vh] relative z-10 bg-transparent"
             >
-              <div className="fixed top-1/2 w-full top-[calc(60vw-50px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={lieferantenTitleRef}>
+              <div className="fixed w-full top-[calc(60vw-40px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={lieferantenTitleRef}>
                 <h1 className="font-regular text-xl text-[#d6ba6d] drop-shadow-2xl pointer-events-none select-none fade-in">
                   LIEFERANTENAUFBAU
                 </h1>
