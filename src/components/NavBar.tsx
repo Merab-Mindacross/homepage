@@ -30,6 +30,7 @@ export default function NavBar(): JSX.Element {
     { id: "prozess", label: "Prozessmanagement" },
     { id: "lieferanten", label: "Lieferantenaufbau" },
     { id: "about", label: "Über mich" },
+    { id: "kontakt", label: "Kontakt", to: "/kontakt" },
   ];
 
   // Scroll to section handler with fixed offset for animation completion
@@ -210,16 +211,17 @@ export default function NavBar(): JSX.Element {
       {/* Desktop NavBar */}
       <nav
         ref={navRef}
-        className={`fixed top-0 left-0 w-full z-1000 backdrop-blur-md bg-neutral-900/70 border-b border-[#d6ba6d]/20 shadow-lg hidden md:block`}
+        className="fixed left-1/2 top-2 z-1000 hidden md:block"
+        style={{ transform: "translateX(-50%)" }}
         aria-label="Hauptnavigation"
       >
-        <div className={`max-w-6xl mx-auto px-4 py-2 flex flex-row items-center gap-6 ${location.pathname === "/" ? " ml-24" : ""}`}>
+        <div className="bg-neutral-900/70 backdrop-blur-2xl rounded-2xl shadow-2xl border border-[#d6ba6d]/30 px-8 py-3 flex flex-row items-center gap-6 min-w-[420px]  mx-auto justify-center">
           {/* Logo as home/hero link (only show if not on main route) */}
           {location.pathname !== "/" && (
             <a
               href="/"
               onClick={handleLogoClick}
-              className="flex items-center mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2"
+              className="flex items-center mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 "
               aria-label="Zur Startseite scrollen"
             >
               <img
@@ -230,35 +232,29 @@ export default function NavBar(): JSX.Element {
               />
             </a>
           )}
-          {/* Placeholder for logo space on main page to keep links aligned */}
-          {location.pathname === "/" && (
-            <div style={{ width: 40, minWidth: 88, height: 40, marginRight: 8 }} aria-hidden="true" />
-          )}
+          
           {/* Section links */}
           {sectionLinks.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
-              onClick={handleSectionClick(link.id)}
-              // Only show focus ring when using keyboard (not on mouse click)
-              className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
-              aria-current={activeSection === link.id ? "page" : undefined}
-            >
-              {link.label}
-            </a>
-          ))}
-          <span className="flex-1" />
-          {/* Other nav links */}
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              // Only show focus ring when using keyboard (not on mouse click)
-              className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
-              aria-current={location.pathname === link.to ? "page" : undefined}
-            >
-              {link.label}
-            </Link>
+            link.to ? (
+              <Link
+                key={link.id}
+                to={link.to}
+                className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                aria-current={location.pathname === link.to ? "page" : undefined}
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={handleSectionClick(link.id)}
+                className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] min-w-[120px] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                aria-current={activeSection === link.id ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            )
           ))}
         </div>
       </nav>
