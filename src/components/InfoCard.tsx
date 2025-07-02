@@ -27,9 +27,9 @@ export function InfoCard({
 }: CardProps): React.JSX.Element {
   return (
     <div
-      className={`flex-1 flex flex-col items-start gap-5 bg-neutral-800/90 rounded-lg  w-full p-2 min-w-[220px] max-w-[320px] transition-all duration-300 hover:scale-[1.025] hover:shadow-gold/60 ${className}`}
+      className={`flex-1 flex flex-col items-start gap-5 bg-neutral-800/90 rounded-lg  w-full p-2 min-w-[220px] max-w-[320px] transition-all duration-300 hover:scale-[1.025] hover:shadow-gold/60 ${className} md:min-w-[520px]`}
       style={{
-        boxShadow: "0 6px 32px 0 rgba(214,186,109,0.10), 0 1.5px 8px 0 rgba(0,0,0,0.18)",
+        boxShadow: "0 6px 30px 0 rgba(214,186,109,0.05), 0 1.5px 8px 0 rgba(0,0,0,0.08)",
         ...style
       }}
     >
@@ -37,7 +37,7 @@ export function InfoCard({
         <span className="min-w-12 h-12 flex items-center justify-center rounded-full bg-[#d6ba6d]/10">
           {icon}
         </span>
-        <h2 className="text-sm font-regular  tracking-tight drop-shadow-gold">{title}</h2>
+        <h2 className="text-sm font-regular  tracking-tight drop-shadow-gold md:text-lg">{title}</h2>
       </div>
     </div>
   );

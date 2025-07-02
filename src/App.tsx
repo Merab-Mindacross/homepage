@@ -732,9 +732,9 @@ function App(): JSX.Element {
         <img
                 src="/PhotoshopVorschau_Bild.png"
           alt="Merab Torodadze Portrait"
-                className=" mx-auto mb-4 md:mb-0 md:mr-8 w-40 h-40 w-auto h-[120vh] object-cover  shadow-lg absolute top-0 md:-left-26 z-10"
+                className=" mx-auto mb-4 md:mb-0 md:mr-8 w-40 h-40 w-auto h-[120vh] object-cover  absolute top-0 md:-left-26 z-10"
                 style={{ minWidth: "120px", maxWidth: "100%" }}
-              />
+        />
               {/* Card: below image on mobile, right on desktop */}
               <div className="absolute bottom-3 backdrop-blur-md z-20 w-full max-w-[calc(100vw-2rem)] md:max-w-[33vw] mx-auto bg-neutral-700/70 rounded-3xl shadow-2xl p-6 md:p-8 border border-[#d6ba6d]/30 flex flex-col gap-6 md:gap-12 md:ml-[40vw] md:static md:flex-row md:items-center md:justify-center">
                 <div className="flex-1 flex flex-col justify-center items-start gap-4 md:gap-6 px-2">
