@@ -222,7 +222,7 @@ export default function NavBar(): JSX.Element {
         style={{ transform: "translateX(-50%)" }}
         aria-label="Hauptnavigation"
       >
-        <div className="bg-neutral-900/70 backdrop-blur-2xl rounded-2xl shadow-2xl border border-[#d6ba6d]/30 px-8 py-3 flex flex-row items-center gap-6 min-w-[420px]  mx-auto justify-center">
+        <div className="bg-neutral-900/70 backdrop-blur-md rounded-2xl shadow-2xl border border-[#d6ba6d]/30 px-8 py-3 flex flex-row items-center gap-6 min-w-[420px]  mx-auto justify-center">
           {/* Logo as home/hero link (only show if not on main route) */}
           {location.pathname !== "/" && (
             <a
@@ -234,7 +234,7 @@ export default function NavBar(): JSX.Element {
               <img
                 src="/Goldenes Dreieck mit Spiralensymbol.png"
                 alt="Logo"
-                className="h-10 w-10 rounded-xl bg-white/10 shadow"
+                className="h-10 w-10 rounded-xl "
                 style={{ minWidth: 40, minHeight: 40 }}
               />
             </a>

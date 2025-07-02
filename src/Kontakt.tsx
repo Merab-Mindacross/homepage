@@ -13,6 +13,11 @@ export default function Kontakt(): JSX.Element {
   const downloadInProgress = useRef(false);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    // Scroll smoothly to the top of the page on load
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
     if (params.get("vcard") === "true" && !downloadInProgress.current) {
       downloadInProgress.current = true;
       // vCard content (iPhone compatible, with image)
@@ -90,8 +95,8 @@ export default function Kontakt(): JSX.Element {
   }, []);
 
   return (
-    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0 mt-24">
-      <div className="mx-auto mt-16 max-w-xl w-full flex flex-col items-start">
+    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0 md:pt-24">
+      <div className="mx-auto mt-16 max-w-xl w-full flex flex-col items-start mb-12">
         <img
           src="/DSC01521.jpg"
           alt="Merab Torodadze Portrait"
