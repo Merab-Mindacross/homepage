@@ -1,4 +1,4 @@
-import { type ReactNode, type JSX } from "react";
+import { type ReactNode } from "react";
 
 /**
  * CardProps: Properties for the InfoCard component.
