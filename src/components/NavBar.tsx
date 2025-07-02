@@ -103,7 +103,7 @@ export default function NavBar(): JSX.Element {
 
   // Other nav links
   const navLinks = [
-    { to: "/kontakt", label: "Kontakt" },
+    { to: "/", label: "Start" },
   ];
 
   // Animate NavBar show/hide on main page scroll (after hero, hide with CTA)
@@ -204,6 +204,13 @@ export default function NavBar(): JSX.Element {
     }
   }, [mobileMenuOpen, burgerVisible]);
 
+  // Ensure burgerVisible is always true on non-home pages
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setBurgerVisible(true);
+    }
+  }, [location.pathname]);
+
   // Responsive: show floating burger on mobile, full nav on desktop
 
   return (
@@ -290,27 +297,43 @@ export default function NavBar(): JSX.Element {
           <div className="fixed inset-0 z-[1099] bg-black/10" onClick={() => setMobileMenuOpen(false)}>
             <nav
               ref={mobileMenuRef}
-              className="fixed top-4 left-4 min-w-[160px] max-w-[80vw] bg-neutral-900/60 rounded-2xl shadow-xl border border-[#d6ba6d]/60 p-3 pt-12 flex flex-col gap-2 backdrop-blur-xl"
+              className="fixed top-4 left-4 min-w-[160px] max-w-[80vw] bg-neutral-900/60 rounded-2xl shadow-xl border-r-1 border-b-1  border-[#d6ba6d]/60 p-3 pt-12 flex flex-col gap-2 backdrop-blur-xl"
               aria-label="Mobile Navigation"
               style={{ backdropFilter: "blur(16px)" }}
               onClick={(e) => e.stopPropagation()}
             >
               {sectionLinks.map((link) => (
-                <a
-                  key={link.id}
-                  href={`#${link.id}`}
-                  onClick={(e) => {
-                    handleSectionClick(link.id)(e);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
-                  aria-current={activeSection === link.id ? "page" : undefined}
-                >
-                  {link.label}
-                </a>
+                link.to && link.to.startsWith("/") ? (
+                  // If the link has a 'to' property starting with '/', use <Link> for navigation
+                  <Link
+                    key={link.id}
+                    to={link.to}
+                    className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                    aria-current={location.pathname === link.to ? "page" : undefined}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  // Otherwise, use anchor for section scroll
+                  <a
+                    key={link.id}
+                    href={`#${link.id}`}
+                    onClick={(e) => {
+                      handleSectionClick(link.id)(e);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                    aria-current={activeSection === link.id ? "page" : undefined}
+                  >
+                    {link.label}
+                  </a>
+                )
               ))}
-              <hr className="my-1 border-[#d6ba6d]/20" />
-              {navLinks.map((link) => (
+              {location.pathname !== "/" && (
+                <hr className="my-1 border-[#d6ba6d]/20" />
+              )}
+              {location.pathname !== "/" && navLinks.map((link) => ( 
                 <Link
                   key={link.to}
                   to={link.to}
