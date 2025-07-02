@@ -6,7 +6,6 @@ import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Impressum from "./Impressum";
 import Datenschutz from "./Datenschutz";
-import Terms from "./Terms";
 import Kontakt from "./Kontakt";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -779,7 +778,6 @@ function App(): JSX.Element {
         } />
         <Route path="/impressum" element={<Impressum />} />
         <Route path="/datenschutz" element={<Datenschutz />} />
-        <Route path="/terms" element={<Terms />} />
         <Route path="/kontakt" element={<Kontakt />} />
       </Routes>
     </>
