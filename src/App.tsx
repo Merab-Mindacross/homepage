@@ -1,4 +1,4 @@
-import { useEffect, useRef, type JSX } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./App.css";
@@ -23,6 +23,7 @@ function App(): JSX.Element {
   const location = useLocation();
   const heroRef = useRef<HTMLDivElement>(null);
   const knobRef = useRef<HTMLDivElement>(null);
+  const [knobProgress, setKnobProgress] = useState<number>(0); // 0 = bottom, 1 = top
 
   // Initialize Lenis smooth scroll
   useEffect(() => {
@@ -42,39 +43,29 @@ function App(): JSX.Element {
     };
   }, []);
 
-  // Animate the knob upwards on scroll using GSAP + ScrollTrigger
+  // Animate the knob and update dot progress
   useEffect(() => {
-    /**
-     * Animate the knob upwards as the user scrolls down the hero section.
-     * Moves the knob -300px on the y-axis (upwards).
-     */
     const knob = knobRef.current;
     const hero = heroRef.current;
     if (!knob || !hero) return;
 
-    // Reset knob position before animation
     gsap.set(knob, { y: 0, rotation: 0 });
 
-    const tl: gsap.core.Timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: hero,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-        // markers: true, // Uncomment for debugging
+    // Animate knob position
+    const st = ScrollTrigger.create({
+      trigger: hero,
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+      onUpdate: (self) => {
+        // self.progress: 0 (start, knob at bottom) to 1 (end, knob at top)
+        setKnobProgress(self.progress);
+        gsap.set(knob, { y: -sliderHeight * self.progress });
       },
     });
 
-    tl.to(knob, {
-      y: -sliderHeight, // Move the knob 300px upwards
-      duration: 1, // Duration is controlled by scrollTrigger
-      ease: "power1.inOut",
-    });
-
-    // Cleanup GSAP/ScrollTrigger on unmount
     return () => {
-      tl.scrollTrigger?.kill();
-      tl.kill();
+      st.kill();
     };
   }, []);
 
@@ -86,26 +77,35 @@ function App(): JSX.Element {
         <div className={`w-[300px] h-[${sliderHeight}px] flex items-center justify-center relative`}>
           {/* Dots on left side */}
           <div className="absolute left-[120px] top-0 h-full flex flex-col justify-between z-0" style={{ width: "8px", paddingLeft: "2px" }}>
-              {Array.from({ length: 24 }).map((_, i) => (
+            {Array.from({ length: 24 }).map((_, i) => {
+              // Calculate the progress threshold for this dot (0 = bottom, 1 = top)
+              const dotThreshold = 1 - i / 23;
+              const isLit = knobProgress >= dotThreshold;
+              return (
                 <div
                   key={`dot-left-${i}`}
-                  className="w-[4px] h-[4px] rounded-full bg-gray-300 opacity-60 mb-0.5"
+                  className={`w-[4px] h-[4px] rounded-full mb-0.5 dot-left-${i} ${isLit ? "bg-white opacity-100 shadow-[0_0_8px_2px_#fff]" : "bg-gray-300 opacity-60"}`}
                   style={{ marginBottom: i === 23 ? 0 : "2px" }}
                   aria-hidden="true"
                 />
-              ))}
-            </div>
-            {/* Dots on right side */}
-            <div className="absolute right-[120px] top-0 h-full flex flex-col justify-between z-0" style={{ width: "8px", paddingRight: "2px" }}>
-              {Array.from({ length: 24 }).map((_, i) => (
+              );
+            })}
+          </div>
+          {/* Dots on right side */}
+          <div className="absolute right-[120px] top-0 h-full flex flex-col justify-between z-0" style={{ width: "8px", paddingRight: "2px" }}>
+            {Array.from({ length: 24 }).map((_, i) => {
+              const dotThreshold = 1 - i / 23;
+              const isLit = knobProgress >= dotThreshold;
+              return (
                 <div
                   key={`dot-right-${i}`}
-                  className="w-[4px] h-[4px] rounded-full bg-gray-300 opacity-60 mb-0.5"
+                  className={`w-[4px] h-[4px] rounded-full mb-0.5 dot-right-${i} ${isLit ? "bg-white opacity-100 shadow-[0_0_8px_2px_#fff]" : "bg-gray-300 opacity-60"}`}
                   style={{ marginBottom: i === 23 ? 0 : "2px" }}
                   aria-hidden="true"
                 />
-              ))}
-            </div>
+              );
+            })}
+          </div>
           {/* Track */}
           <div className="w-[30px] h-full bg-[#171717] rounded-sm overflow-hidden relative flex items-center justify-center">
             
