@@ -84,8 +84,32 @@ function App(): JSX.Element {
       <div className="h-[100vh] w-full flex items-center justify-center fixed top-0 left-0 bg-[#333333]" ref={heroRef}>
         {/* Slider */}
         <div className={`w-[300px] h-[${sliderHeight}px] flex items-center justify-center relative`}>
+          {/* Dots on left side */}
+          <div className="absolute left-[120px] top-0 h-full flex flex-col justify-between z-0" style={{ width: "8px", paddingLeft: "2px" }}>
+              {Array.from({ length: 24 }).map((_, i) => (
+                <div
+                  key={`dot-left-${i}`}
+                  className="w-[4px] h-[4px] rounded-full bg-gray-300 opacity-60 mb-0.5"
+                  style={{ marginBottom: i === 23 ? 0 : "2px" }}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
+            {/* Dots on right side */}
+            <div className="absolute right-[120px] top-0 h-full flex flex-col justify-between z-0" style={{ width: "8px", paddingRight: "2px" }}>
+              {Array.from({ length: 24 }).map((_, i) => (
+                <div
+                  key={`dot-right-${i}`}
+                  className="w-[4px] h-[4px] rounded-full bg-gray-300 opacity-60 mb-0.5"
+                  style={{ marginBottom: i === 23 ? 0 : "2px" }}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
           {/* Track */}
-          <div className="w-[30px] h-full bg-[#171717] rounded-sm overflow-hidden" >
+          <div className="w-[30px] h-full bg-[#171717] rounded-sm overflow-hidden relative flex items-center justify-center">
+            
+            {/* Track shadow */}
             <div className="w-[25px] absolute -z-0  h-full bg-[#171717] translate-x-[3px] translate-y-[2px] rounded-sm shadow-lg shadow-md shadow-black" />
           </div>
           {/*
