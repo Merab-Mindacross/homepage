@@ -1,4 +1,3 @@
-import { type ReactNode } from "react";
 
 /**
  * SchulungCardProps: Properties for the SchulungCard component.
