@@ -30,7 +30,7 @@ export function SchulungCard({
 }: SchulungCardProps): React.JSX.Element {
   return (
     <div
-      className={`flex-1 flex flex-col items-start gap-4 bg-neutral-800/90 rounded-lg w-full p-4 max-w-full transition-all duration-300 hover:scale-[1.025] hover:shadow-gold/60 relative ${className}`}
+      className={`flex-1 flex flex-col items-start gap-4 bg-neutral-800/90 rounded-lg w-full p-4 md:p-6 max-w-full transition-all duration-300 hover:scale-[1.025] hover:shadow-gold/60 relative ${className}`}
       style={{
         boxShadow: "0 6px 30px 0 rgba(214,186,109,0.05), 0 1.5px 8px 0 rgba(0,0,0,0.08)",
         ...style

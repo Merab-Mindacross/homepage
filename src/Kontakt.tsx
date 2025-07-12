@@ -95,7 +95,7 @@ export default function Kontakt(): JSX.Element {
   }, []);
 
   return (
-    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0 md:pt-24">
+    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0 md:pt-36">
       <div className="mx-auto mt-16 max-w-xl w-full flex flex-col items-start mb-12">
         <img
           src="/DSC01521.jpg"
@@ -116,6 +116,7 @@ export default function Kontakt(): JSX.Element {
             <svg width="24" height="24" fill="none" stroke="#d6ba6d" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92V19a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h2.09a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.34a2 2 0 0 1-.45 2.11l-.27.27a16 16 0 0 0 6.29 6.29l.27-.27a2 2 0 0 1 2.11-.45c.74.32 1.53.55 2.34.68A2 2 0 0 1 21 16.91z"/></svg>
             <a href="tel:+491777376989" className="text-[#d6ba6d] text-lg font-medium hover:underline">+49 177 7376989</a>
           </div>
+
         </div>
         <a
           href="?vcard=true"
