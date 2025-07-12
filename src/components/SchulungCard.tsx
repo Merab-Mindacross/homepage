@@ -37,7 +37,7 @@ export function SchulungCard({
       }}
     >
       {/* Category chip positioned in top right, with responsive margin */}
-      <div className="absolute right-3 -top-3 md:top-3">
+      <div className="absolute right-3 -top-3 md:-top-3 backdrop-blur-2xl">
         <span className="inline-block px-3 py-1 text-xs font-medium bg-[#d6ba6d]/20 text-[#d6ba6d] rounded-full border border-[#d6ba6d]/30">
           {category}
         </span>

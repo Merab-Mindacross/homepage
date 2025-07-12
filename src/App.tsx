@@ -593,7 +593,7 @@ function App(): JSX.Element {
           {/* Animated scroll-up elements with refs */}
                 <h1 ref={scrollUpRefs[0]} className="text-xl md:text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
                 <h1 ref={scrollUpRefs[1]} className="text-3xl md:text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
-                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management in der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
+                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management & Schulungen an der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
         </div>
       </section>
             {isMobileViewport && (
