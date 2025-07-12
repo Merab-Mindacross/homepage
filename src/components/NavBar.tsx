@@ -29,7 +29,7 @@ export default function NavBar(): JSX.Element {
     { id: "quality", label: "Qualitätsmanagement" },
     { id: "prozess", label: "Prozessmanagement" },
     { id: "lieferanten", label: "Lieferantenaufbau" },
-    { id: "about", label: "Über mich" },
+    { id: "schulungen", label: "Schulungen" },
     { id: "kontakt", label: "Kontakt", to: "/kontakt" },
   ];
 

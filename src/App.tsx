@@ -721,44 +721,51 @@ function App(): JSX.Element {
       </section>
       
       {/* Schulungen */}
-      <section id="schulungen" className="backdrop-blur-md flex w-full h-auto min-h-[120vh] relative z-50 flex-col md:flex-row items-center justify-center py-12 md:py-24 bg-neutral-700/70">
+      <section id="schulungen" className="backdrop-blur-md flex w-full h-auto min-h-[120vh] relative z-50 flex-col items-center justify-center py-12 md:py-32 bg-neutral-700/70">
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-3xl md:text-5xl font-bold text-[#d6ba6d] mb-12 text-center">Schulungen</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
             <SchulungCard
               title="Mitarbeiterschulungen inkl. Shopfloor-Kommunikation"
               category="Qualitätsmanagement"
               description="Reklamationsbearbeitung, 8D, Ishikawa, Kaizen, Kanban"
+              className="px-2"
             />
             <SchulungCard
               title="Workshops und Schulungen für Teams und Schulungskräfte"
               category="Prozessmanagement"
               description="Effiziente Prozessoptimierung und Teamführung"
+              className="px-2"
             />
             <SchulungCard
               title="Schulungen für Lieferanten und interne Schnittstellen"
               category="Lieferantenentwicklung"
               description="Partnerschaftliche Zusammenarbeit und Qualitätssicherung"
+              className="px-2"
             />
             <SchulungCard
               title="Mitarbeitergespräche für Teams und Führungskräfte"
               category="Generelle Schulungen"
               description="Umgang mit schwierigen Kunden/Ansprechpartnern"
+              className="px-2"
             />
             <SchulungCard
               title="Projektmanagement"
               category="Grundlagen"
               description="Strukturierte Projektplanung und -durchführung"
+              className="px-2"
             />
             <SchulungCard
               title="Lean Six Sigma"
               category="Grundlagen"
               description="Methoden zur Prozessverbesserung und Qualitätssteigerung"
+              className="px-2"
             />
             <SchulungCard
               title="NLP: Gesprächs- und Verhandlungsführung"
               category="Grundlagen"
               description="Effektive Kommunikation und Verhandlungstechniken"
+              className="px-2"
             />
           </div>
         </div>
