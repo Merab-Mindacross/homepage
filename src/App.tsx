@@ -620,14 +620,14 @@ function App(): JSX.Element {
                 <p className="text-gray-300 text-sm md:text-2xl font-medium text-left scroll-up px-4 pt-4">Klare Strukturen, sichere Prozesse, zertifizierte Ergebnisse</p>
                 <div className="flex flex-col items-start gap-4 md:gap-6 m-6">
                  <InfoCard
-                  title="8D-Reports und nachhaltige Reklamationsbearbeitung"
+                  title="Reklamationsmanagement - 8D-Reporting"
                   icon={<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="#d6ba6d" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1" d="m16 8l2 2l4-4M2 8h10m4 8l2 2l4-4M2 16h10"/></svg>}/>
                   <InfoCard
-                  title="Einführung und Zertifizierung von Quality Gates"
+                  title="Einführung / Optimierung von Quality Gates"
                   icon={<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#d6ba6d" d="M4.384 15.885q-.213 0-.356-.144t-.143-.356v-6.77q0-.212.144-.356t.356-.143t.356.143t.144.357v6.769q0 .212-.144.356t-.357.144m2.837 1.692q-.338 0-.568-.233q-.23-.234-.23-.578V9.462q0-1.266.893-2.153q.892-.886 2.146-.886h5.077q1.265 0 2.152.886q.886.887.886 2.152v7.305q0 .344-.23.578t-.568.233zm12.394-1.693q-.213 0-.356-.143t-.144-.356v-6.77q0-.212.144-.356q.144-.143.357-.143t.356.143t.144.357v6.769q0 .212-.144.356t-.357.144m-12.192.692H11.5V12.5h-1.192q-.213 0-.356-.144t-.144-.357t.144-.356t.356-.143H11.5V7.423H9.461q-.84 0-1.44.599q-.598.599-.598 1.44zm5.077 0h4.077V9.461q0-.84-.599-1.44q-.599-.598-1.44-.598H12.5V11.5h1.192q.213 0 .356.144t.144.357t-.144.356t-.356.143H12.5z"/></svg>}/>
         
           <InfoCard
-            title="Aufbau kompletter QM-Systeme"
+            title="Aufbau QM-Systeme"
                   icon={<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path fill="#d6ba6d" d="M213.293 19.46L29.691 120.34h37.375l133.489-73.346l-15.819 73.346h18.41l11.584-53.701l13.688 53.7h18.574l-19.447-76.294l202.941 76.295h51.147zM25 138.34v30h462v-30zm32 48v30h62v-30zm144 0v46h30v-46zm48 0v46h19.273L279 221.613V186.34zm190 0v141.707a24.6 24.6 0 0 1 9-1.707c3.166 0 6.2.61 9 1.707V186.34zm-238 64v242h30v-242zm247 94c-3.973 0-7 3.027-7 7s3.027 7 7 7s7-3.027 7-7s-3.027-7-7-7m-20.393 21.365l-16.421 24.635h21.63l9.743-14.613c-6.118-1.384-11.417-5.04-14.952-10.022m40.786 0c-3.535 4.981-8.834 8.638-14.952 10.022l9.743 14.613h21.63zM409 408.34v30h78v-30zm-226 24.5l-60.4 45.3l10.8 14.4l49.6-37.2zm66 0v22.5l49.6 37.2l10.8-14.4z"/></svg>}/>
                   <InfoCard
                   title="Shopfloor-Kommunikation, Q-Runden, interne Audits, FMEA"

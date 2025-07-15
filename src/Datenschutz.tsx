@@ -31,7 +31,7 @@ export default function Datenschutz(): JSX.Element {
         <p className="mb-4">Diese Informationen dienen ausschließlich der technischen Überwachung und Betriebssicherheit der Website und lassen keinen Rückschluss auf Ihre Person zu. Sie werden nicht mit anderen Datenquellen zusammengeführt oder ausgewertet.</p>
         <h2 className="text-xl font-semibold mt-6 mb-2">Verantwortlicher im Sinne der DSGVO</h2>
         <p className="mb-2">Merab Torodadze<br />Werastr. 126<br />70190 Stuttgart<br />Deutschland</p>
-        <p className="mb-2">Telefon: <a href="tel:+491777376989" className="hover:text-gray-100">+49 177 7376989</a><br />E-Mail: <a href="mailto:tedoradze.merab@web.de" className="hover:text-gray-100">tedoradze.merab@web.de</a></p>
+        <p className="mb-2">Telefon: <a href="tel:+491777376989" className="hover:text-gray-100">+49 177 7376989</a><br />E-Mail: <a href="merab.tedoradze@mindacross.de" className="hover:text-gray-100">merab.tedoradze@mindacross.de</a></p>
         <h2 className="text-xl font-semibold mt-6 mb-2">Ihre Rechte</h2>
         <p className="mb-2">Da keine personenbezogenen Daten verarbeitet werden, entstehen Ihnen keine datenschutzrechtlichen Verpflichtungen. Grundsätzlich haben Sie aber das Recht auf:</p>
         <ul className="mb-4 list-disc list-inside text-gray-100/90 pl-4">
