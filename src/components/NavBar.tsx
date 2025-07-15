@@ -78,6 +78,12 @@ export default function NavBar(): JSX.Element {
     }
   }
 
+  // Handle Kontakt navigation with page reload
+  function handleKontaktClick(e: React.MouseEvent) {
+    e.preventDefault();
+    window.location.href = "/kontakt";
+  }
+
   // Highlight active section as user scrolls
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -243,14 +249,27 @@ export default function NavBar(): JSX.Element {
           {/* Section links */}
           {sectionLinks.map((link) => (
             link.to ? (
-              <Link
-                key={link.id}
-                to={link.to}
-                className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
-                aria-current={location.pathname === link.to ? "page" : undefined}
-              >
-                {link.label}
-              </Link>
+              link.to === "/kontakt" ? (
+                // Special handling for Kontakt with page reload
+                <a
+                  key={link.id}
+                  href={link.to}
+                  onClick={handleKontaktClick}
+                  className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                  aria-current={location.pathname === link.to ? "page" : undefined}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.id}
+                  to={link.to}
+                  className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                  aria-current={location.pathname === link.to ? "page" : undefined}
+                >
+                  {link.label}
+                </Link>
+              )
             ) : (
               <a
                 key={link.id}
@@ -304,16 +323,32 @@ export default function NavBar(): JSX.Element {
             >
               {sectionLinks.map((link) => (
                 link.to && link.to.startsWith("/") ? (
-                  // If the link has a 'to' property starting with '/', use <Link> for navigation
-                  <Link
-                    key={link.id}
-                    to={link.to}
-                    className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
-                    aria-current={location.pathname === link.to ? "page" : undefined}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
+                  link.to === "/kontakt" ? (
+                    // Special handling for Kontakt with page reload
+                    <a
+                      key={link.id}
+                      href={link.to}
+                      onClick={(e) => {
+                        handleKontaktClick(e);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                      aria-current={location.pathname === link.to ? "page" : undefined}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    // If the link has a 'to' property starting with '/', use <Link> for navigation
+                    <Link
+                      key={link.id}
+                      to={link.to}
+                      className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                      aria-current={location.pathname === link.to ? "page" : undefined}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  )
                 ) : (
                   // Otherwise, use anchor for section scroll
                   <a
