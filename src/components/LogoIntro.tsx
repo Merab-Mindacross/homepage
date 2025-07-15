@@ -76,7 +76,6 @@ export const LogoIntro: React.FC = () => {
 
 
   return () => {
-    document.body.style.overflow = "";
     tl.kill();
   };
 }, []);

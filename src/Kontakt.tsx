@@ -13,11 +13,6 @@ export default function Kontakt(): JSX.Element {
   const downloadInProgress = useRef(false);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    // Scroll smoothly to the top of the page on load
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
     if (params.get("vcard") === "true" && !downloadInProgress.current) {
       downloadInProgress.current = true;
       // vCard content (iPhone compatible, with image)
