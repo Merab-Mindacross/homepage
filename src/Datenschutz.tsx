@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
  */
 export default function Datenschutz(): JSX.Element {
   return (
-    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0">
+    <main className="min-h-screen flex flex-col justify-between bg-neutral-900 text-gray-100 px-4 py-0 pt-24">
       <div className="mx-auto mt-16 max-w-2xl w-full mb-12">
         <h1 className="text-lg md:text-3xl font-bold text-[#d6ba6d] mb-6">Datenschutzerklärung</h1>
         <h2 className="text-xl font-semibold mt-6 mb-2">Allgemeine Hinweise</h2>
