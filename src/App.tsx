@@ -114,15 +114,22 @@ function App(): JSX.Element {
       quality: 400,
       prozess: 300,
       lieferanten: 300,
-      schulungen: 200,
+      schulungen: 100,
     };
     const offset = sectionOffsets["schulungen"] ?? 0;
     const scrollToSection = () => {
       const el = document.getElementById("schulungen");
       if (el) {
-        // For relative positioned sections, use offsetTop
-        const scrollTop = el.offsetTop - offset;
-        window.scrollTo({ top: scrollTop, behavior: "smooth" });
+        // For the Schulungen section, scroll to the heading specifically
+        const heading = el.querySelector("h1");
+        if (heading) {
+          const scrollTop = heading.offsetTop - offset;
+          window.scrollTo({ top: scrollTop, behavior: "smooth" });
+        } else {
+          // Fallback to section top
+          const scrollTop = el.offsetTop - offset;
+          window.scrollTo({ top: scrollTop, behavior: "smooth" });
+        }
       }
     };
     scrollToSection();
