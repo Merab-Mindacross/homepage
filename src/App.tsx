@@ -53,7 +53,6 @@ function App(): JSX.Element {
   // Scroll to section handlers for hero section links
   function handleQualitaetClick(e: React.MouseEvent) {
     e.preventDefault();
-    console.log("Qualität clicked");
     const sectionOffsets: Record<string, number> = {
       quality: 400, // After title and cards fade in
       prozess: 300, // After title and cards fade in  
@@ -62,14 +61,10 @@ function App(): JSX.Element {
     const offset = sectionOffsets["quality"] ?? 0;
     const scrollToSection = () => {
       const el = document.getElementById("quality");
-      console.log("Looking for element with id 'quality':", el);
       if (el) {
         const rect = el.getBoundingClientRect();
         const scrollTop = window.scrollY + rect.top - offset;
-        console.log("Scrolling to:", scrollTop);
         window.scrollTo({ top: scrollTop, behavior: "smooth" });
-      } else {
-        console.log("Element with id 'quality' not found");
       }
     };
     scrollToSection();
@@ -77,7 +72,6 @@ function App(): JSX.Element {
 
   function handleProzessenClick(e: React.MouseEvent) {
     e.preventDefault();
-    console.log("Prozessen clicked");
     const sectionOffsets: Record<string, number> = {
       quality: 400,
       prozess: 300,
@@ -86,14 +80,10 @@ function App(): JSX.Element {
     const offset = sectionOffsets["prozess"] ?? 0;
     const scrollToSection = () => {
       const el = document.getElementById("prozess");
-      console.log("Looking for element with id 'prozess':", el);
       if (el) {
         // For relative positioned sections, use offsetTop
         const scrollTop = el.offsetTop - offset;
-        console.log("Scrolling to:", scrollTop);
         window.scrollTo({ top: scrollTop, behavior: "smooth" });
-      } else {
-        console.log("Element with id 'prozess' not found");
       }
     };
     scrollToSection();
@@ -101,7 +91,6 @@ function App(): JSX.Element {
 
   function handleLieferantenClick(e: React.MouseEvent) {
     e.preventDefault();
-    console.log("Lieferanten clicked");
     const sectionOffsets: Record<string, number> = {
       quality: 400,
       prozess: 300,
@@ -110,14 +99,10 @@ function App(): JSX.Element {
     const offset = sectionOffsets["lieferanten"] ?? 0;
     const scrollToSection = () => {
       const el = document.getElementById("lieferanten");
-      console.log("Looking for element with id 'lieferanten':", el);
       if (el) {
         // For relative positioned sections, use offsetTop
         const scrollTop = el.offsetTop - offset;
-        console.log("Scrolling to:", scrollTop);
         window.scrollTo({ top: scrollTop, behavior: "smooth" });
-      } else {
-        console.log("Element with id 'lieferanten' not found");
       }
     };
     scrollToSection();
