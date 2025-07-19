@@ -108,6 +108,26 @@ function App(): JSX.Element {
     scrollToSection();
   }
 
+  function handleSchulungenClick(e: React.MouseEvent) {
+    e.preventDefault();
+    const sectionOffsets: Record<string, number> = {
+      quality: 400,
+      prozess: 300,
+      lieferanten: 300,
+      schulungen: 200,
+    };
+    const offset = sectionOffsets["schulungen"] ?? 0;
+    const scrollToSection = () => {
+      const el = document.getElementById("schulungen");
+      if (el) {
+        // For relative positioned sections, use offsetTop
+        const scrollTop = el.offsetTop - offset;
+        window.scrollTo({ top: scrollTop, behavior: "smooth" });
+      }
+    };
+    scrollToSection();
+  }
+
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
     if (!isMainPage) return;
@@ -651,7 +671,7 @@ function App(): JSX.Element {
           {/* Animated scroll-up elements with refs */}
                 <h1 ref={scrollUpRefs[0]} className="text-xl md:text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
                 <h1 ref={scrollUpRefs[1]} className="text-3xl md:text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
-                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management & Schulungen an der Schnittstelle von <button onClick={handleQualitaetClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Qualität</button>, <button onClick={handleProzessenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Prozessen</button> und <button onClick={handleLieferantenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Lieferanten</button>.</p>
+                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management & <button onClick={handleSchulungenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Schulungen</button> an der Schnittstelle von <button onClick={handleQualitaetClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Qualität</button>, <button onClick={handleProzessenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Prozessen</button> und <button onClick={handleLieferantenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Lieferanten</button>.</p>
                 <div className="mt-8 scroll-up" ref={scrollUpRefs[3]}>
                   <a
                     href="/kontakt"
@@ -699,7 +719,7 @@ function App(): JSX.Element {
                   <InfoCard
                   title="Shopfloor-Kommunikation, Q-Runden, interne Audits, FMEA"
                   icon={<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 21 21"><g fill="none" fill-rule="evenodd"><path stroke="#d6ba6d" stroke-linecap="round" stroke-linejoin="round" d="M11 16.517c4.418 0 8-3.026 8-6.758S15.418 3 11 3S3 6.026 3 9.759c0 1.457.546 2.807 1.475 3.91L3.5 18.25l3.916-2.447a9.2 9.2 0 0 0 3.584.714" stroke-width="1"/><path fill="#d6ba6d" d="M10.999 11c.5 0 1-.5 1-1s-.5-1-1-1S10 9.5 10 10s.499 1 .999 1m-4 0c.5 0 1-.5 1-1s-.5-1-1-1S6 9.5 6 10s.499 1 .999 1m8 0c.5 0 1.001-.5 1.001-1s-.5-1-1-1s-1 .5-1 1s.5 1 1 1"/></g></svg>}
-                   />
+                  />
                   
                 </div>
                 
@@ -735,11 +755,11 @@ function App(): JSX.Element {
                 <InfoCard
                   title="Analyse und Optimierung bestehender Prozesse"
                   icon={<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="#d6ba6d" stroke-linecap="round" stroke-width="1" d="M17 5v15m-5-9v9m-5-6v6"/></svg>}
-                   />
+                />
           <InfoCard
                   title="Schnittstellen-Kommunikation und Stärkung der Ownership"
                   icon={<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="#d6ba6d" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14 7h3a1 1 0 0 1 0 10h-3m-4 0H7A1 1 0 0 1 7 7h3m-2 5h8"/></svg>}
-                   />
+          />
         </div>
               </div>
       </section>
@@ -828,7 +848,7 @@ function App(): JSX.Element {
             />
           </div>
         </div>
-      </section>
+            </section>
 
             {/* cta section */}
             <section className="w-full min-h-[95vh] flex items-center justify-center bg-neutral-800/80 relative z-10 opacity-0" id="nos" ref={ctaRef}>

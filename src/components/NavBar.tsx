@@ -261,14 +261,14 @@ export default function NavBar(): JSX.Element {
                   {link.label}
                 </a>
               ) : (
-                <Link
-                  key={link.id}
-                  to={link.to}
-                  className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
-                  aria-current={location.pathname === link.to ? "page" : undefined}
-                >
-                  {link.label}
-                </Link>
+              <Link
+                key={link.id}
+                to={link.to}
+                className={`text-base px-3 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${location.pathname === link.to ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                aria-current={location.pathname === link.to ? "page" : undefined}
+              >
+                {link.label}
+              </Link>
               )
             ) : (
               <a
@@ -351,18 +351,18 @@ export default function NavBar(): JSX.Element {
                   )
                 ) : (
                   // Otherwise, use anchor for section scroll
-                  <a
-                    key={link.id}
-                    href={`#${link.id}`}
-                    onClick={(e) => {
-                      handleSectionClick(link.id)(e);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
-                    aria-current={activeSection === link.id ? "page" : undefined}
-                  >
-                    {link.label}
-                  </a>
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  onClick={(e) => {
+                    handleSectionClick(link.id)(e);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`text-base font-medium px-2 py-1 rounded transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ba6d] focus-visible:ring-offset-2 hover:text-[#d6ba6d] ${activeSection === link.id ? "text-[#d6ba6d]" : "text-gray-200"}`}
+                  aria-current={activeSection === link.id ? "page" : undefined}
+                >
+                  {link.label}
+                </a>
                 )
               ))}
               {location.pathname !== "/" && (
