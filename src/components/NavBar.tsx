@@ -44,6 +44,7 @@ export default function NavBar(): JSX.Element {
         quality: 400, // After title and cards fade in (title: 70%->60%, cards: 60%->50%)
         prozess: 300, // After title and cards fade in (title: 80%->70%, cards: 70%->60%)
         lieferanten: 300, // After title and cards fade in (title: 80%->70%, cards: 70%->60%)
+        schulungen: 0, // No offset for schulungen section
         about: 0 // No offset for about section
       };
       const offset = sectionOffsets[id] ?? 0;
