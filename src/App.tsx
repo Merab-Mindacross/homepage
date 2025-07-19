@@ -88,8 +88,8 @@ function App(): JSX.Element {
       const el = document.getElementById("prozess");
       console.log("Looking for element with id 'prozess':", el);
       if (el) {
-        const rect = el.getBoundingClientRect();
-        const scrollTop = window.scrollY + rect.top - offset;
+        // For relative positioned sections, use offsetTop
+        const scrollTop = el.offsetTop - offset;
         console.log("Scrolling to:", scrollTop);
         window.scrollTo({ top: scrollTop, behavior: "smooth" });
       } else {
@@ -112,8 +112,8 @@ function App(): JSX.Element {
       const el = document.getElementById("lieferanten");
       console.log("Looking for element with id 'lieferanten':", el);
       if (el) {
-        const rect = el.getBoundingClientRect();
-        const scrollTop = window.scrollY + rect.top - offset;
+        // For relative positioned sections, use offsetTop
+        const scrollTop = el.offsetTop - offset;
         console.log("Scrolling to:", scrollTop);
         window.scrollTo({ top: scrollTop, behavior: "smooth" });
       } else {
