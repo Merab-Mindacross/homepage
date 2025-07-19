@@ -651,7 +651,7 @@ function App(): JSX.Element {
           {/* Animated scroll-up elements with refs */}
                 <h1 ref={scrollUpRefs[0]} className="text-xl md:text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
                 <h1 ref={scrollUpRefs[1]} className="text-3xl md:text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
-                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management & Schulungen an der Schnittstelle von <button onClick={handleQualitaetClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline decoration-[#d6ba6d]/30 hover:decoration-[#e7c97a]/50">Qualität</button>, <button onClick={handleProzessenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline decoration-[#d6ba6d]/30 hover:decoration-[#e7c97a]/50">Prozessen</button> und <button onClick={handleLieferantenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline decoration-[#d6ba6d]/30 hover:decoration-[#e7c97a]/50">Lieferanten</button>.</p>
+                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management & Schulungen an der Schnittstelle von <button onClick={handleQualitaetClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Qualität</button>, <button onClick={handleProzessenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Prozessen</button> und <button onClick={handleLieferantenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Lieferanten</button>.</p>
         </div>
       </section>
             {isMobileViewport && (
@@ -660,7 +660,7 @@ function App(): JSX.Element {
       {/* Qualitätsmanagement */}
       <section
               id="quality"
-        className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0"
+        className="w-[60vw] min-h-[60vh] relative z-30 fixed top-0 left-0 pointer-events-none"
         ref={qualityRef}
       >
               <div className="fixed w-full top-[calc(60vw-20px)] md:top-[calc(50vh+10vw)] md:w-[calc(35vw)] flex items-center justify-center" ref={qualityTitleRef}>
@@ -823,7 +823,7 @@ function App(): JSX.Element {
 
             {/* cta section */}
             <section className="w-full min-h-[95vh] flex items-center justify-center bg-neutral-800/80 relative z-10 opacity-0" id="nos" ref={ctaRef}>
-              <div className=" fixed bottom-[30vh] md:bottom-[200px] text-center flex flex-col items-center justify-center">
+              <div className=" fixed bottom-[30vh] md:bottom-[200px] text-center flex flex-col items-center justify-center pointer-events-none">
                 <img
                   ref={logoRefStatic}
                   src="/Goldenes Dreieck mit Spiralensymbol.png"
@@ -833,7 +833,7 @@ function App(): JSX.Element {
                 <h2 className="text-3xl md:text-5xl  mb-4 drop-shadow-2xl text-shadow-gold text-[#d6ba6d]">MINDACROSS</h2>
                 <p className="text-sm md:text-m text-[#b89a5a]/90">KLARHEIT. STRUKTUR. HANDLUNGSKRAFT.</p>
                 {/* CTA Button: Jetzt Kontakt aufnehmen */}
-                <div className="mt-10">
+                <div className="mt-10 pointer-events-auto">
                   <a
                     ref={ctaRef}
                     href="/kontakt"
