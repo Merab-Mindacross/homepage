@@ -50,6 +50,64 @@ function App(): JSX.Element {
   // Only show the logo intro on the main page
   const showLogoIntro = isMainPage;
 
+  // Scroll to section handlers for hero section links
+  function handleQualitaetClick(e: React.MouseEvent) {
+    e.preventDefault();
+    const sectionOffsets: Record<string, number> = {
+      quality: 400, // After title and cards fade in
+      prozess: 300, // After title and cards fade in  
+      lieferanten: 300, // After title and cards fade in
+    };
+    const offset = sectionOffsets["quality"] ?? 0;
+    const scrollToSection = () => {
+      const el = document.getElementById("quality");
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const scrollTop = window.scrollY + rect.top - offset;
+        window.scrollTo({ top: scrollTop, behavior: "smooth" });
+      }
+    };
+    scrollToSection();
+  }
+
+  function handleProzessenClick(e: React.MouseEvent) {
+    e.preventDefault();
+    const sectionOffsets: Record<string, number> = {
+      quality: 400,
+      prozess: 300,
+      lieferanten: 300,
+    };
+    const offset = sectionOffsets["prozess"] ?? 0;
+    const scrollToSection = () => {
+      const el = document.getElementById("prozess");
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const scrollTop = window.scrollY + rect.top - offset;
+        window.scrollTo({ top: scrollTop, behavior: "smooth" });
+      }
+    };
+    scrollToSection();
+  }
+
+  function handleLieferantenClick(e: React.MouseEvent) {
+    e.preventDefault();
+    const sectionOffsets: Record<string, number> = {
+      quality: 400,
+      prozess: 300,
+      lieferanten: 300,
+    };
+    const offset = sectionOffsets["lieferanten"] ?? 0;
+    const scrollToSection = () => {
+      const el = document.getElementById("lieferanten");
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const scrollTop = window.scrollY + rect.top - offset;
+        window.scrollTo({ top: scrollTop, behavior: "smooth" });
+      }
+    };
+    scrollToSection();
+  }
+
   // (Optional) Parallax effect for hero background image
   useEffect(() => {
     if (!isMainPage) return;
@@ -593,7 +651,7 @@ function App(): JSX.Element {
           {/* Animated scroll-up elements with refs */}
                 <h1 ref={scrollUpRefs[0]} className="text-xl md:text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
                 <h1 ref={scrollUpRefs[1]} className="text-3xl md:text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
-                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management & Schulungen an der Schnittstelle von <span className="text-[#d6ba6d]">Qualität</span>, <span className="text-[#d6ba6d]">Prozessen</span> und <span className="text-[#d6ba6d]">Lieferanten</span>.</p>
+                <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management & Schulungen an der Schnittstelle von <button onClick={handleQualitaetClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline decoration-[#d6ba6d]/30 hover:decoration-[#e7c97a]/50">Qualität</button>, <button onClick={handleProzessenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline decoration-[#d6ba6d]/30 hover:decoration-[#e7c97a]/50">Prozessen</button> und <button onClick={handleLieferantenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline decoration-[#d6ba6d]/30 hover:decoration-[#e7c97a]/50">Lieferanten</button>.</p>
         </div>
       </section>
             {isMobileViewport && (
