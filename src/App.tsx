@@ -28,7 +28,7 @@ function App(): JSX.Element {
   const heroRef = useRef<HTMLElement>(null);
 
   // Refs for scroll-up elements
-  const scrollUpRefs = [useRef<HTMLHeadingElement>(null), useRef<HTMLHeadingElement>(null), useRef<HTMLParagraphElement>(null)];
+  const scrollUpRefs = [useRef<HTMLHeadingElement>(null), useRef<HTMLHeadingElement>(null), useRef<HTMLParagraphElement>(null), useRef<HTMLDivElement>(null)];
   // Ref for the logo image
   const logoRef = useRef<HTMLImageElement>(null);
   const logoRefStatic = useRef<HTMLImageElement>(null);
@@ -152,11 +152,11 @@ function App(): JSX.Element {
     // Responsive yOffsets for mobile/desktop
     const isMobile = window.innerWidth <= 768;
     // For mobile, animate in x direction (left), for desktop in y (up)
-    const yOffsets = isMobile ? [0, 0, 0] : [0,0,0]; // px, initial y offset for desktop
-    const xOffsets = isMobile ? [0, 0,0] : [0, 0, 0]; // px, initial x offset for mobile
-    const yMoveFactors = isMobile ? [-150, -80, -50] : [100, 60, 40]; 
-    const xMoveFactors = isMobile ? [0, 0, 0] : [0, 0, 0]; 
-    const scaleFactors = [1.3, 1.2, 1.1]; // scale for both
+    const yOffsets = isMobile ? [0, 0, 0, 0] : [0,0,0,0]; // px, initial y offset for desktop
+    const xOffsets = isMobile ? [0, 0, 0, 0] : [0, 0, 0, 0]; // px, initial x offset for mobile
+    const yMoveFactors = isMobile ? [-150, -80, -50, -30] : [100, 60, 40, 25]; 
+    const xMoveFactors = isMobile ? [0, 0, 0, 0] : [0, 0, 0, 0]; 
+    const scaleFactors = [1.3, 1.2, 1.1, 1.05]; // scale for both
     const fadeStart = 0; 
     const fadeEnd = isMobile ? 0.4 : 0.5; 
     const triggers: ScrollTrigger[] = [];
@@ -200,12 +200,12 @@ function App(): JSX.Element {
      * The logo remains vertically centered and pressed to the left.
      */
     const logoEl = logoRef.current;
-    if (logoEl && elements[2]) {
+    if (logoEl && elements[3]) {
       // Set initial state: vertically centered, left-aligned
       gsap.set(logoEl, { scale: 1, rotate: 0, x: 0, y: 0 });
-      // Animate after last scroll-up element
+      // Animate after last scroll-up element (the button)
       const lastScrollUpEnd = {
-        trigger: elements[2],
+        trigger: elements[3],
         start: "top 30%", // matches the end of the last scroll-up animation
         end: "+=100", // over 100px scroll
         scrub: true,
@@ -652,6 +652,15 @@ function App(): JSX.Element {
                 <h1 ref={scrollUpRefs[0]} className="text-xl md:text-4xl font-bold text-gray-100 text-left leading-tight scroll-up">KURZFRISTIGE VERSTÄRKUNG.</h1>
                 <h1 ref={scrollUpRefs[1]} className="text-3xl md:text-6xl font-bold text-gray-100 text-left leading-tight scroll-up">LANGFRISTIGER EFFEKT.</h1>
                 <p ref={scrollUpRefs[2]} className="text-lg md:text-2xl font-medium text-gray-300 text-left scroll-up">Interim Management & Schulungen an der Schnittstelle von <button onClick={handleQualitaetClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Qualität</button>, <button onClick={handleProzessenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Prozessen</button> und <button onClick={handleLieferantenClick} className="text-[#d6ba6d] hover:text-[#e7c97a] transition-colors duration-200 cursor-pointer underline">Lieferanten</button>.</p>
+                <div className="mt-8 scroll-up" ref={scrollUpRefs[3]}>
+                  <a
+                    href="/kontakt"
+                    className="inline-block px-8 py-4 rounded-full bg-[#d6ba6d] text-neutral-900 font-bold text-lg shadow-lg hover:bg-[#e7c97a] focus:outline-none focus:ring-2 focus:ring-[#d6ba6d] focus:ring-offset-2 transition-colors duration-200"
+                    aria-label="Kontaktaufnahme"
+                  >
+                    Kontaktaufnahme
+                  </a>
+                </div>
         </div>
       </section>
             {isMobileViewport && (

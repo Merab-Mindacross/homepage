@@ -19,9 +19,9 @@ export default function Kontakt(): JSX.Element {
       const vcard = [
         "BEGIN:VCARD",
         "VERSION:3.0",
-        "FN:Merab Torodadze",
-        "N:Torodadze;Merab;;;",
-        "TITLE:Interim Manager",
+        "FN:Merab Tedoradze",
+        "N:Tedoradze;Merab;;;",
+        "ORG:Mindacross",
         "EMAIL;TYPE=INTERNET;TYPE=WORK:merab.tedoradze@mindacross.de",
         "TEL;TYPE=CELL:+49 177 7376989",
         // PHOTO will be inserted below
@@ -69,7 +69,7 @@ export default function Kontakt(): JSX.Element {
                   const url = URL.createObjectURL(vcardBlob);
                   const a = document.createElement("a");
                   a.href = url;
-                  a.download = "Merab_Torodadze.vcf";
+                  a.download = "Merab_Tedoradze.vcf";
                   document.body.appendChild(a);
                   a.click();
                   setTimeout(() => {
@@ -94,12 +94,12 @@ export default function Kontakt(): JSX.Element {
       <div className="mx-auto mt-16 max-w-xl w-full flex flex-col items-start mb-12">
         <img
           src="/DSC01521.jpg"
-          alt="Merab Torodadze Portrait"
+          alt="Merab Tedoradze Portrait"
           className="w-64 h-64 object-cover object-[50%_30%] rounded-full mb-6 border-4 border-[#d6ba6d]/60 shadow-lg mx-auto"
           style={{ display: "block" }}
         />
         <h1 className="text-3xl font-bold text-[#d6ba6d] mb-2">Kontakt</h1>
-        <h2 className="text-xl font-semibold text-gray-200 mb-2">Merab Torodadze</h2>
+        <h2 className="text-xl font-semibold text-gray-200 mb-2">Merab Tedoradze</h2>
         <div className="text-base text-[#d6ba6d] font-medium mb-2">Interim Manager</div>
         <p className="mb-4 text-lg text-gray-300">Ich begleite Unternehmen als Interim Manager mit Fokus auf Qualität, Prozesse und Lieferanten. Kontaktieren Sie mich für ein unverbindliches Gespräch.</p>
         <div className="flex flex-col gap-4 items-start">
